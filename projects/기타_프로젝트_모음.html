@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기타 프로젝트 모음</title>
+<style>* { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  color:#37352f; background:#fff;
+  line-height:1.5; font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.page { max-width:900px; margin:0 auto; padding:64px 40px 30vh; }
+.page.wide { max-width:960px; }
+a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
+a:hover { text-decoration-color:rgba(55,53,47,0.8); }
+p { margin:3px 0; padding:3px 2px; }
+strong { font-weight:600; }
+em { color:#787774; font-style:italic; }
+hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
+.sp { height:16px; }
+
+/* icons */
+.icon { width:1.25em; height:1.25em; vertical-align:-0.22em; }
+.page-icon-svg { width:64px; height:64px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.page-icon-svg .icon { width:36px; height:36px; }
+.ico-blue { color:#2081a8; }
+.ico-purple { color:#7a52b3; }
+.ico-yellow { color:#c07d1a; }
+.ico-gray { color:#5f5e5b; }
+.ico-red { color:#d4574e; }
+.ico-green { color:#448361; }
+.ico-amber { color:#c07d1a; }
+.tint-blue { background:#e7f3f8; color:#2081a8; }
+.tint-purple { background:#f3eef9; color:#7a52b3; }
+.tint-yellow { background:#fbf3db; color:#c07d1a; }
+.tint-gray { background:#f1f1ef; color:#5f5e5b; }
+.bc-ic { width:1.05em; height:1.05em; }
+.ncallout-icon .icon { width:22px; height:22px; }
+.nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+/* breadcrumb */
+.breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
+.breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
+.breadcrumb a:hover { background:rgba(55,53,47,0.08); }
+.bc-sep { color:rgba(55,53,47,0.4); margin:0 4px; }
+
+/* page title */
+.page-icon { font-size:64px; line-height:1.1; margin-bottom:8px; }
+.page-title { font-size:40px; font-weight:700; line-height:1.2; margin-bottom:24px; letter-spacing:-0.01em; }
+
+/* properties */
+.props { display:flex; flex-direction:column; gap:2px; margin-bottom:8px; }
+.prop { display:flex; align-items:flex-start; min-height:32px; font-size:14px; }
+.prop-k { display:flex; align-items:center; gap:8px; width:140px; flex-shrink:0; color:rgba(55,53,47,0.65); padding:6px 8px 6px 4px; }
+.pic { width:16px; height:16px; opacity:0.7; }
+.prop-v { padding:6px 8px; flex:1; }
+.props-hr { margin:8px 0 24px; }
+
+/* headings */
+.nh1, h2.nh1 { font-size:1.6em; font-weight:700; margin:1.4em 0 4px; padding:3px 2px; line-height:1.3; }
+.nh2 { font-size:1.3em; font-weight:600; margin:1.2em 0 2px; padding:3px 2px; }
+.nh3, summary.h4 { font-size:1.1em; font-weight:600; margin:1em 0 2px; padding:3px 2px; }
+.gray, .gray-text { color:#787774; }
+
+/* callout */
+.ncallout { display:flex; gap:10px; padding:16px 16px 16px 14px; border-radius:6px; margin:8px 0 12px; }
+.ncallout-icon { font-size:20px; line-height:1.3; }
+.ncallout-body p { margin:0; padding:1px 0; }
+.ncallout-blue_bg { background:#e7f3f8; }
+.ncallout-gray_bg { background:#f1f1ef; }
+.ncallout-purple_bg { background:#f8f3fc; }
+.ncallout-green_bg { background:#edf3ec; }
+.ncallout-yellow_bg { background:#fbf3db; }
+
+/* lists */
+ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
+ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
+ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em; }
+.nnum { padding-left:4px; }
+.nnum-n { margin-right:6px; }
+
+/* tables */
+.ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
+table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; }
+table.ntable.fit { width:100%; }
+.ntable th, .ntable td { border:1px solid rgba(55,53,47,0.16); padding:7px 9px; vertical-align:top; text-align:left; }
+.ntable th { background:#f7f6f5; font-weight:600; color:#37352f; }
+.stars { white-space:nowrap; letter-spacing:1px; }
+
+/* cell / row / inline colors (Notion palette) */
+.c-red { color:#e03e3e; }
+.c-gray { color:#787774; }
+td.c-gray, th.c-gray { color:#787774; }
+.c-green_bg { background:#edf3ec; }
+.c-blue_bg { background:#e7f3f8; }
+.c-gray_bg { background:#f1f1ef; }
+.c-purple_bg { background:#f8f3fc; }
+tr.c-green_bg td { background:#edf3ec; }
+tr.c-blue_bg td { background:#e7f3f8; }
+span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
+
+/* images */
+figure.nimg { margin:6px 0 12px; }
+figure.nimg img { max-width:100%; border-radius:2px; display:block; margin:0 auto; }
+figure.nimg figcaption { font-size:13.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+
+/* columns */
+.ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
+.ncol { min-width:0; flex:1; }
+@media (max-width:640px){ .ncols { flex-direction:column; } .ncol { flex:1 1 auto !important; width:100%; } }
+.intro { align-items:center; }
+img.profile { width:100%; border-radius:4px; }
+
+/* quote */
+blockquote.nquote { border-left:3px solid #37352f; padding:4px 2px 4px 14px; margin:8px 0; }
+
+/* code */
+pre.ncode { background:#f7f6f3; border-radius:6px; padding:16px 16px; overflow-x:auto; margin:8px 0 12px; }
+pre.ncode code { font-family:"SFMono-Regular", Consolas, "D2Coding", "Nanum Gothic Coding", monospace; font-size:13px; line-height:1.55; color:#37352f; }
+code.ic { font-family:"SFMono-Regular", Consolas, monospace; font-size:85%; background:rgba(135,131,120,0.15); color:#eb5757; border-radius:3px; padding:1px 4px; }
+
+/* toggle */
+details.ntoggle { margin:8px 0; }
+details.ntoggle summary { cursor:pointer; font-weight:600; padding:3px 2px; list-style-position:outside; }
+details.ntoggle summary::marker { color:rgba(55,53,47,0.6); }
+.ntoggle-body { padding:2px 0 4px 20px; }
+
+/* file card */
+a.nfile { display:flex; align-items:center; gap:8px; border:1px solid rgba(55,53,47,0.16); border-radius:6px; padding:9px 12px; margin:6px 0; text-decoration:none; font-size:14.5px; }
+a.nfile:hover { background:rgba(55,53,47,0.04); }
+.nfile-ic { font-size:17px; }
+.nfile-name { font-weight:500; }
+
+/* chips (select colors) */
+.chip { display:inline-block; border-radius:4px; padding:1px 8px; font-size:13.5px; font-weight:500; line-height:1.5; white-space:nowrap; }
+.chip-blue { background:#d3e5ef; color:#183347; }
+.chip-purple { background:#e8deee; color:#412454; }
+.chip-yellow { background:#fdecc8; color:#402c1b; }
+.chip-gray { background:#e3e2e0; color:#32302c; }
+
+/* gallery */
+.group-sec { margin:18px 0 6px; }
+.group-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.group-count { color:rgba(55,53,47,0.5); font-size:14px; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; }
+.gcard { display:block; border:1px solid rgba(55,53,47,0.12); border-radius:8px; padding:14px 14px 12px; text-decoration:none; background:#fff; box-shadow:0 1px 2px rgba(15,15,15,0.04); transition:filter 80ms ease-in, transform 80ms ease-in; }
+.gcard.tint-blue { background:#f0f7fa; border-color:#cfe4ee; }
+.gcard.tint-purple { background:#f6f2fa; border-color:#ded1ee; }
+.gcard.tint-yellow { background:#fcf6e5; border-color:#eddfb9; }
+.gcard.tint-gray { background:#f5f5f3; border-color:#dedcd8; }
+a.gcard:hover { filter:brightness(0.97); }
+.gcard-icon { margin-bottom:8px; }
+.gcard-icon .icon { width:26px; height:26px; }
+.gcard-title { font-weight:600; font-size:14.5px; line-height:1.35; margin-bottom:4px; color:#37352f; }
+.gcard-sub { font-size:13px; color:#787774; line-height:1.4; }
+.gcard-meta { font-size:12.5px; color:rgba(55,53,47,0.5); margin-top:6px; }
+
+/* experience board (vertical columns) */
+.board { display:flex; gap:16px; align-items:flex-start; margin:12px 0; }
+.bcol { flex:1; border-radius:10px; padding:12px 12px 8px; min-width:0; }
+.bcol-red { background:#fbf1ef; }
+.bcol-blue { background:#eff5fb; }
+.bcol-green { background:#f0f7f0; }
+.bcol-head { display:flex; align-items:center; gap:8px; margin:0 2px 10px; }
+.chip-red { background:#ffe2dd; color:#5d1715; }
+.chip-green { background:#dbeddb; color:#1c3829; }
+.bcard { display:flex; align-items:center; gap:9px; background:#fff; border:1px solid rgba(55,53,47,0.1); border-radius:8px; box-shadow:0 1px 2px rgba(15,15,15,0.04); padding:10px 12px; margin-bottom:8px; font-size:14px; font-weight:500; line-height:1.4; }
+.bcard-ic { flex-shrink:0; display:flex; }
+.bcard-ic .icon { width:19px; height:19px; }
+@media (max-width:760px){ .board { flex-direction:column; } }
+
+@media print {
+  .page { padding:20px; }
+  .gcard { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb"><a href="../index.html">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> 기타 프로젝트 모음</span></div>
+<div class="page-icon-svg tint-gray"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+<h1 class="page-title">기타 프로젝트 모음</h1>
+
+<div class="props">
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M4 1v2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-1.5v2h-5V1H4zm9.5 5v7H2.5V6h11z"/></svg>기간</span><span class="prop-v">2021년 1월 1일 → 2025년 12월 31일</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM2 14a6 6 0 1 1 12 0v1H2v-1z"/></svg>기여도</span><span class="prop-v">팀/단독 다수</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" d="M7 10.5 4.8 8.3l1-1L7 8.5l3.2-3.2 1 1z"/></svg>결과</span><span class="prop-v">통계학술제 최우수상 · 빅페스타 장려상 외</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>그룹</span><span class="prop-v"><span class="chip chip-gray">기타</span></span></div>
+</div>
+<hr class="props-hr">
+<div class="content">
+<div class="ncallout ncallout-gray_bg"><div class="ncallout-icon ico-gray"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.2 18.2h5.6M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.9 10.6c.8.7 1.1 1.5 1.1 2.4h5.6c0-.9.3-1.7 1.1-2.4A6 6 0 0 0 12 3z"/></svg></div><div class="ncallout-body"><p>핵심 프로젝트 외의 수상작·공모전·기획 경험 모음.</p></div></div>
+<h2 class="nh1">수상작</h2>
+<p><span class="c-gray_bg"><strong>택시 수요 분석 기반 서비스 개선</strong> (2023.11)</span> - <strong>통계학술제 최우수상</strong> (고려대 세종)</p>
+<ul class="nlist"><li><strong>문제</strong> : 수요와 어긋난 빈 차 운행(공차)으로 인한 비효율</li><li><strong>해결</strong> : 서울시 공공 데이터 6종 통합 + 계보적 군집분석 권역 재분류, 공차율 정의·QGIS 웹 서비스 시각화</li><li><strong>결과</strong> : 공차 집중 권역 식별, 권역 기반 택시 서비스 개선안 제시</li></ul>
+<a class="nfile" href="../files/%ED%83%9D%EC%8B%9C_%EC%88%98%EC%9A%94_%EB%B6%84%EC%84%9D_%EC%84%9C%EB%B9%84%EC%8A%A4_%EA%B0%9C%EC%84%A0.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">택시_수요_분석_서비스_개선.pdf</span></a>
+<p><span class="c-gray_bg"><strong>응급 대응 분석 기반 소방서 위치 최적화</strong> (2023.11)</span> - <strong>빅페스타 장려상</strong></p>
+<ul class="nlist"><li><strong>문제</strong> : 응급 출동 수요 대비 소방서 배치 공백</li><li><strong>해결</strong> : 할당부족도 지표 자체 정의 + vglm 다항 로지스틱·군집분석으로 정량화</li><li><strong>결과</strong> : 우선 설치 후보 5개 지역 도출</li></ul>
+<a class="nfile" href="../files/%EB%B9%85%ED%8E%98%EC%8A%A4%ED%83%80_%EC%86%8C%EB%B0%A9%EC%84%9C_%EC%9C%84%EC%B9%98_%EC%B5%9C%EC%A0%81%ED%99%94.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">빅페스타_소방서_위치_최적화.pdf</span></a>
+<p><span class="c-gray_bg"><strong>수면 뇌파 기반 맞춤 알람 장치</strong> (2020.02)</span> - <strong>삼성휴먼테크 논문대상 동상</strong></p>
+<ul class="nlist"><li><strong>문제</strong> : 수면 단계를 무시한 채 울리는 일반 알람의 기상 피로</li><li><strong>해결</strong> : 아두이노 EEG 센서로 REM 구간 감지·트리거 장치 구현</li><li><strong>결과</strong> : 시제품 제작, 사전 설문·사후 사용자 검증 완료</li></ul>
+<h2 class="nh1">AI 시스템·서비스 기획</h2>
+<p><span class="c-gray_bg"><strong>GraphRAG 여행 코스 자동 생성</strong> (2025.10–11)</span> - 파주 시민 AI 혁신 아이디어 경진대회 출품</p>
+<ul class="nlist"><li><strong>문제</strong> : 흩어져 있는 지역 관광 정보로 여행 코스 계획이 번거로움</li><li><strong>해결</strong> : Neo4j 지식그래프 구조화 + Gemma-3-4B(8bit 양자화·LoRA) 결합</li><li><strong>결과</strong> : 질의 조건에 맞는 여행 코스 자동 생성 시스템 구현</li></ul>
+<p><span class="c-gray_bg"><strong>WALKATA: 한글 손글씨 폰트 변환 GAN</strong> (2023.09–12)</span></p>
+<ul class="nlist"><li><strong>문제</strong> : 소량의 손글씨만으로는 한글 폰트 제작이 어려움</li><li><strong>해결</strong> : 직접 제작한 75,000장 데이터셋 + pix2pix·AC-GAN·DTN 하이브리드</li><li><strong>결과</strong> : WLKATA 로봇팔 G-code 연동까지 end-to-end 시스템 구현</li></ul>
+<a class="nfile" href="../files/WALKATA_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">WALKATA_프로젝트.pdf</span></a>
+<h2 class="nh1">데이터 분석</h2>
+<p><span class="c-gray_bg"><strong>대학알리미 기숙사 운영 실태 분석</strong> (2025)</span></p>
+<ul class="nlist"><li><strong>문제</strong> : 대학별 기숙사 운영 격차의 원인 불명확</li><li><strong>해결</strong> : 이항 로지스틱 회귀로 운영 유형 결정 요인 규명</li><li><strong>결과</strong> : 4사분면 유형화로 유형별 개선 방향 도출</li></ul>
+<a class="nfile" href="../files/%EB%8C%80%ED%95%99%EC%95%8C%EB%A6%AC%EB%AF%B8_%EA%B8%B0%EC%88%99%EC%82%AC_%EA%B3%B5%EB%AA%A8%EC%A0%84.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">대학알리미_기숙사_공모전.pdf</span></a>
+<p><span class="c-gray_bg"><strong>EAR 졸음 감지 시스템</strong> (2022–23)</span> - BIG-PY 학회 컨퍼런스 발표</p>
+<ul class="nlist"><li><strong>문제</strong> : 운전·학습 중 졸음 상태의 실시간 감지 필요</li><li><strong>해결</strong> : 눈 종횡비(EAR) 정량화 + OpenCV DNN·ResNet SSD 실시간 영상 처리</li><li><strong>결과</strong> : 졸음 상태 실시간 감지 시스템 구현</li></ul>
+<p><span class="c-gray_bg"><strong>치안 점수 원룸 리뷰 앱 '사계절' 기획</strong> (2021)</span> - 도시재생 청년 서포터즈</p>
+<ul class="nlist"><li><strong>문제</strong> : 원룸 선택 시 치안 정보 확인 어려움</li><li><strong>해결</strong> : 세종시 공공데이터 기반 치안 점수 산정 방식 설계</li><li><strong>결과</strong> : 치안 점수 기반 원룸 리뷰 앱 '사계절' 기획안 도출</li></ul>
+<a class="nfile" href="../files/%EC%A1%B0%EC%B9%98%EC%9B%90_%EB%8F%84%EC%8B%9C%EC%9E%AC%EC%83%9D_%EC%82%AC%EA%B3%84%EC%A0%88.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">조치원_도시재생_사계절.pdf</span></a>
+</div>
+</div>
+</body>
+</html>
