@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포트폴리오</title>
+<style>* { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  color:#37352f; background:#fff;
+  line-height:1.5; font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.page { max-width:900px; margin:0 auto; padding:64px 40px 30vh; }
+.page.wide { max-width:960px; }
+a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
+a:hover { text-decoration-color:rgba(55,53,47,0.8); }
+p { margin:3px 0; padding:3px 2px; }
+strong { font-weight:600; }
+em { color:#787774; font-style:italic; }
+hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
+.sp { height:16px; }
+
+/* icons */
+.icon { width:1.25em; height:1.25em; vertical-align:-0.22em; }
+.page-icon-svg { width:64px; height:64px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.page-icon-svg .icon { width:36px; height:36px; }
+.ico-blue { color:#2081a8; }
+.ico-purple { color:#7a52b3; }
+.ico-yellow { color:#c07d1a; }
+.ico-gray { color:#5f5e5b; }
+.ico-red { color:#d4574e; }
+.ico-green { color:#448361; }
+.ico-amber { color:#c07d1a; }
+.tint-blue { background:#e7f3f8; color:#2081a8; }
+.tint-purple { background:#f3eef9; color:#7a52b3; }
+.tint-yellow { background:#fbf3db; color:#c07d1a; }
+.tint-gray { background:#f1f1ef; color:#5f5e5b; }
+.bc-ic { width:1.05em; height:1.05em; }
+.ncallout-icon .icon { width:22px; height:22px; }
+.nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+/* breadcrumb */
+.breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
+.breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
+.breadcrumb a:hover { background:rgba(55,53,47,0.08); }
+.bc-sep { color:rgba(55,53,47,0.4); margin:0 4px; }
+
+/* page title */
+.page-icon { font-size:64px; line-height:1.1; margin-bottom:8px; }
+.page-title { font-size:40px; font-weight:700; line-height:1.2; margin-bottom:24px; letter-spacing:-0.01em; }
+
+/* properties */
+.props { display:flex; flex-direction:column; gap:2px; margin-bottom:8px; }
+.prop { display:flex; align-items:flex-start; min-height:32px; font-size:14px; }
+.prop-k { display:flex; align-items:center; gap:8px; width:140px; flex-shrink:0; color:rgba(55,53,47,0.65); padding:6px 8px 6px 4px; }
+.pic { width:16px; height:16px; opacity:0.7; }
+.prop-v { padding:6px 8px; flex:1; }
+.props-hr { margin:8px 0 24px; }
+
+/* headings */
+.nh1, h2.nh1 { font-size:1.6em; font-weight:700; margin:1.4em 0 4px; padding:3px 2px; line-height:1.3; }
+.nh2 { font-size:1.3em; font-weight:600; margin:1.2em 0 2px; padding:3px 2px; }
+.nh3, summary.h4 { font-size:1.1em; font-weight:600; margin:1em 0 2px; padding:3px 2px; }
+.gray, .gray-text { color:#787774; }
+
+/* callout */
+.ncallout { display:flex; gap:10px; padding:16px 16px 16px 14px; border-radius:6px; margin:8px 0 12px; }
+.ncallout-icon { font-size:20px; line-height:1.3; }
+.ncallout-body p { margin:0; padding:1px 0; }
+.ncallout-blue_bg { background:#e7f3f8; }
+.ncallout-gray_bg { background:#f1f1ef; }
+.ncallout-purple_bg { background:#f8f3fc; }
+.ncallout-green_bg { background:#edf3ec; }
+.ncallout-yellow_bg { background:#fbf3db; }
+
+/* lists */
+ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
+ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
+ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em; }
+.nnum { padding-left:4px; }
+.nnum-n { margin-right:6px; }
+
+/* tables */
+.ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
+table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; }
+table.ntable.fit { width:100%; }
+.ntable th, .ntable td { border:1px solid rgba(55,53,47,0.16); padding:7px 9px; vertical-align:top; text-align:left; }
+.ntable th { background:#f7f6f5; font-weight:600; color:#37352f; }
+.stars { white-space:nowrap; letter-spacing:1px; }
+
+/* cell / row / inline colors (Notion palette) */
+.c-red { color:#e03e3e; }
+.c-gray { color:#787774; }
+td.c-gray, th.c-gray { color:#787774; }
+.c-green_bg { background:#edf3ec; }
+.c-blue_bg { background:#e7f3f8; }
+.c-gray_bg { background:#f1f1ef; }
+.c-purple_bg { background:#f8f3fc; }
+tr.c-green_bg td { background:#edf3ec; }
+tr.c-blue_bg td { background:#e7f3f8; }
+span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
+
+/* images */
+figure.nimg { margin:6px 0 12px; }
+figure.nimg img { max-width:100%; border-radius:2px; display:block; margin:0 auto; }
+figure.nimg figcaption { font-size:13.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+
+/* columns */
+.ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
+.ncol { min-width:0; flex:1; }
+@media (max-width:640px){ .ncols { flex-direction:column; } .ncol { flex:1 1 auto !important; width:100%; } }
+.intro { align-items:center; }
+img.profile { width:100%; border-radius:4px; }
+
+/* quote */
+blockquote.nquote { border-left:3px solid #37352f; padding:4px 2px 4px 14px; margin:8px 0; }
+
+/* code */
+pre.ncode { background:#f7f6f3; border-radius:6px; padding:16px 16px; overflow-x:auto; margin:8px 0 12px; }
+pre.ncode code { font-family:"SFMono-Regular", Consolas, "D2Coding", "Nanum Gothic Coding", monospace; font-size:13px; line-height:1.55; color:#37352f; }
+code.ic { font-family:"SFMono-Regular", Consolas, monospace; font-size:85%; background:rgba(135,131,120,0.15); color:#eb5757; border-radius:3px; padding:1px 4px; }
+
+/* toggle */
+details.ntoggle { margin:8px 0; }
+details.ntoggle summary { cursor:pointer; font-weight:600; padding:3px 2px; list-style-position:outside; }
+details.ntoggle summary::marker { color:rgba(55,53,47,0.6); }
+.ntoggle-body { padding:2px 0 4px 20px; }
+
+/* file card */
+a.nfile { display:flex; align-items:center; gap:8px; border:1px solid rgba(55,53,47,0.16); border-radius:6px; padding:9px 12px; margin:6px 0; text-decoration:none; font-size:14.5px; }
+a.nfile:hover { background:rgba(55,53,47,0.04); }
+.nfile-ic { font-size:17px; }
+.nfile-name { font-weight:500; }
+
+/* chips (select colors) */
+.chip { display:inline-block; border-radius:4px; padding:1px 8px; font-size:13.5px; font-weight:500; line-height:1.5; white-space:nowrap; }
+.chip-blue { background:#d3e5ef; color:#183347; }
+.chip-purple { background:#e8deee; color:#412454; }
+.chip-yellow { background:#fdecc8; color:#402c1b; }
+.chip-gray { background:#e3e2e0; color:#32302c; }
+
+/* gallery */
+.group-sec { margin:18px 0 6px; }
+.group-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.group-count { color:rgba(55,53,47,0.5); font-size:14px; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; }
+.gcard { display:block; border:1px solid rgba(55,53,47,0.12); border-radius:8px; padding:14px 14px 12px; text-decoration:none; background:#fff; box-shadow:0 1px 2px rgba(15,15,15,0.04); transition:filter 80ms ease-in, transform 80ms ease-in; }
+.gcard.tint-blue { background:#f0f7fa; border-color:#cfe4ee; }
+.gcard.tint-purple { background:#f6f2fa; border-color:#ded1ee; }
+.gcard.tint-yellow { background:#fcf6e5; border-color:#eddfb9; }
+.gcard.tint-gray { background:#f5f5f3; border-color:#dedcd8; }
+a.gcard:hover { filter:brightness(0.97); }
+.gcard-icon { margin-bottom:8px; }
+.gcard-icon .icon { width:26px; height:26px; }
+.gcard-title { font-weight:600; font-size:14.5px; line-height:1.35; margin-bottom:4px; color:#37352f; }
+.gcard-sub { font-size:13px; color:#787774; line-height:1.4; }
+.gcard-meta { font-size:12.5px; color:rgba(55,53,47,0.5); margin-top:6px; }
+
+/* experience board (vertical columns) */
+.board { display:flex; gap:16px; align-items:flex-start; margin:12px 0; }
+.bcol { flex:1; border-radius:10px; padding:12px 12px 8px; min-width:0; }
+.bcol-red { background:#fbf1ef; }
+.bcol-blue { background:#eff5fb; }
+.bcol-green { background:#f0f7f0; }
+.bcol-head { display:flex; align-items:center; gap:8px; margin:0 2px 10px; }
+.chip-red { background:#ffe2dd; color:#5d1715; }
+.chip-green { background:#dbeddb; color:#1c3829; }
+.bcard { display:flex; align-items:center; gap:9px; background:#fff; border:1px solid rgba(55,53,47,0.1); border-radius:8px; box-shadow:0 1px 2px rgba(15,15,15,0.04); padding:10px 12px; margin-bottom:8px; font-size:14px; font-weight:500; line-height:1.4; }
+.bcard-ic { flex-shrink:0; display:flex; }
+.bcard-ic .icon { width:19px; height:19px; }
+@media (max-width:760px){ .board { flex-direction:column; } }
+
+@media print {
+  .page { padding:20px; }
+  .gcard { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page wide">
+
+<div class="page-icon-svg tint-gray"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></div>
+<h1 class="page-title">포트폴리오</h1>
+<div class="ncols intro">
+  <div class="ncol" style="flex:0 0 24%"><img class="profile" src="assets/profile.png" alt=""></div>
+  <div class="ncol" style="flex:1">
+    <h2 class="nh1 gray">홍지윤</h2>
+    <p>안녕하세요.<br>고려대학교 빅데이터사이언스학과 석사과정 홍지윤입니다.<br>Bayesian Computation과 LLM·RAG를 연구하며, JKDAS 제1저자 논문 2편을 게재했습니다.<br>데이터의 신뢰성을 끝까지 의심하고 검증하는 분석가를 지향합니다.</p>
+  </div>
+</div>
+<hr>
+<div class="ncols">
+  <div class="ncol" style="flex:0 0 37%">
+    <h2 class="nh1 gray">연락처</h2>
+    <p>E : <a href="mailto:julie2302@korea.ac.kr">julie2302@naver.com</a><br>G : <a href="https://github.com/hjiyun" target="_blank">github.com/hjiyun</a><br>자격증 : SQLD · ADsP · SAS Base</p>
+    <p>교육<br>2025.09 - 현재 ⎜ 고려대학교 빅데이터사이언스학과 석사과정 (GPA 4.43/4.5)<br>2021.03 - 2025.08 ⎜ 고려대학교 빅데이터사이언스학부 (GPA 3.89/4.5 · 자율주행시스템 융합전공)</p>
+  </div>
+  <div class="ncol" style="flex:1">
+    <h2 class="nh1 gray">경력</h2>
+    <p><strong>2025.09 - 현재</strong><br>고려대학교 ⎜ 석사과정 연구원</p>
+    <ul class="nlist"><li>Bayesian Computation·LLM/RAG·합성데이터 기반 AI 응용 연구</li><li>NRF 과제·초격차 산업기반표준 전문인력양성사업 참여, 학부연구생 멘토링</li></ul>
+    <p><strong>2023.12 - 2025.08</strong><br>고려대학교 ⎜ 학부연구생</p>
+    <ul class="nlist"><li>약 1년 9개월 연구실 활동 후 동 연구실 석사과정 진학</li><li>JKDAS 논문 2편 제1저자 연구 기반 수행</li></ul>
+    <p>2023.11 - 2024.05 ⎜ 제레스팜(파미트리) 데이터팀 인턴 · 스마트팜 생육 예측, AWS/SQL 데이터 인프라</p>
+  </div>
+</div>
+<hr>
+<h2 class="nh1 gray">스킬</h2>
+<div class="ntable-wrap"><table class="ntable fit skills">
+<tr><th style="width:170px">이름</th><th style="width:110px">선택</th><th>역량</th></tr>
+<tr><td><strong>Python</strong></td><td class="stars">★★★★☆</td><td>NumPy·Pandas·SciPy·PyTorch·TensorFlow·Hugging Face / 딥러닝·ML·LLM 개발</td></tr>
+<tr><td><strong>R</strong></td><td class="stars">★★★★☆</td><td>dplyr·ggplot2 시각화, caret 머신러닝, 시계열 분석(VAR·VECM)</td></tr>
+<tr><td><strong>AI 활용</strong></td><td class="stars">★★★★☆</td><td>ChatGPT·Claude·Perplexity 프롬프트 설계·바이브 코딩, Excel VBA·웹스크래핑 자동화</td></tr>
+<tr><td><strong>SQL / PostgreSQL</strong></td><td class="stars">★★★☆☆</td><td>JOIN·CASE·CTE·윈도우 함수, 데이터 구조 설계·룰엔진 구현 (SQLD 보유)</td></tr>
+<tr><td><strong>AWS</strong></td><td class="stars">★★★☆☆</td><td>EC2 서버 구축·관리, 클라우드 데이터 구조 설계 (인턴 실무)</td></tr>
+<tr><td><strong>Apache Kafka</strong></td><td class="stars">★★★☆☆</td><td>Producer/Consumer 스트리밍 파이프라인 구축, 재현성 설계</td></tr>
+<tr><td><strong>Tableau</strong></td><td class="stars">★★★☆☆</td><td>트리맵·지도 시각화, 계산된 필드, 애니메이션 대시보드</td></tr>
+<tr><td><strong>RPA (UiPath)</strong></td><td class="stars">★★★☆☆</td><td>홈택스 사업자 휴폐업 조회 자동화 메인 개발 (4인팀 팀장)</td></tr>
+<tr><td><strong>SAS</strong></td><td class="stars">★★★☆☆</td><td>데이터 구조·매크로 활용 (SAS Base 보유)</td></tr>
+<tr><td><strong>Docker</strong></td><td class="stars">★★☆☆☆</td><td>PostgreSQL 컨테이너 운영, 재현 가능한 환경 구성·문서화</td></tr>
+</table></div>
+<hr>
+<h2 class="nh1 gray">프로젝트</h2>
+<p class="gray-text">그룹별로 기술 분야의 프로젝트를 모아볼 수 있습니다.<br>각 카드를 열면 상세 내용과 발표자료를 확인할 수 있습니다.</p>
+<div class="group-sec">
+  <div class="group-head"><span class="chip chip-blue">LLM·RAG</span><span class="group-count">3</span></div>
+  <div class="gallery">
+  <a class="gcard tint-blue" href="projects/금융_심사_설명력_향상_RAG_시스템.html">
+    <div class="gcard-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21v-9M9.5 21v-9M14.5 21v-9M19 21v-9M3 9.5 12 3l9 6.5z"/></svg></div>
+    <div class="gcard-title">금융 심사 설명력 향상 RAG 시스템</div>
+    <div class="gcard-sub">JKDAS 27(2) 제1저자 · BERTScore +41%</div>
+  </a>
+<a class="gcard tint-blue" href="projects/행정법령_GraphRAG_챗봇_시스템.html">
+    <div class="gcard-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16M8.5 20h7M12 6H6M12 6h6M6 6l-2.6 6a3.1 3.1 0 0 0 5.2 0L6 6zM18 6l-2.6 6a3.1 3.1 0 0 0 5.2 0L18 6z"/></svg></div>
+    <div class="gcard-title">행정법령 GraphRAG 챗봇 시스템</div>
+    <div class="gcard-sub">7종 RAG 비교 · Typed-RAG 0.861</div>
+  </a>
+<a class="gcard tint-blue" href="projects/꿈꾸는_책방_AI_인터랙티브_독서.html">
+    <div class="gcard-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5H9a3 3 0 0 1 3 3V20a3 3 0 0 0-3-3H2.5zM21.5 4.5H15a3 3 0 0 0-3 3V20a3 3 0 0 1 3-3h6.5z"/></svg></div>
+    <div class="gcard-title">꿈꾸는 책방 - AI 인터랙티브 독서</div>
+    <div class="gcard-sub">실작동 프로토타입 · AI 파이프라인 3종 · 실기기 검증</div>
+  </a>
+  </div>
+</div>
+<div class="group-sec">
+  <div class="group-head"><span class="chip chip-purple">베이지안·SGMCMC</span><span class="group-count">4</span></div>
+  <div class="gallery">
+  <a class="gcard tint-purple" href="projects/SGMCMC-KF_실시간_시계열_이상치_탐지.html">
+    <div class="gcard-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg></div>
+    <div class="gcard-title">SGMCMC-KF 실시간 시계열 이상치 탐지</div>
+    <div class="gcard-sub">JKDAS 28(2) 제1저자 · 재현율 100% · 5.5배 가속</div>
+  </a>
+<a class="gcard tint-purple" href="projects/SAMC-CBS_초고차원_베이지안_변수선택.html">
+    <div class="gcard-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div>
+    <div class="gcard-title">SAMC-CBS 초고차원 베이지안 변수선택</div>
+    <div class="gcard-sub">참 신호 검출 100% · FSR 6.9배 감소</div>
+  </a>
+<a class="gcard tint-purple" href="projects/BSS-AWSGLD_준지도_키프레이즈_추출_샘플러.html">
+    <div class="gcard-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg></div>
+    <div class="gcard-title">BSS-AWSGLD 준지도 키프레이즈 추출 샘플러</div>
+    <div class="gcard-sub">학회 포스터논문 장려상 · 6종 중 유일 수렴 샘플러</div>
+  </a>
+<a class="gcard tint-purple" href="projects/베이지안_토픽모델링_프로젝트_2종.html">
+    <div class="gcard-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+    <div class="gcard-title">베이지안 토픽모델링 프로젝트 2종</div>
+    <div class="gcard-sub">Coherence +67% · 평화지수 2017–2024 설계</div>
+  </a>
+  </div>
+</div>
+<div class="group-sec">
+  <div class="group-head"><span class="chip chip-yellow">ML·데이터 시스템</span><span class="group-count">2</span></div>
+  <div class="gallery">
+  <a class="gcard tint-yellow" href="projects/스마트팜_생육_예측_수집_체계_설계.html">
+    <div class="gcard-icon ico-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg></div>
+    <div class="gcard-title">스마트팜 생육 예측 · 수집 체계 설계</div>
+    <div class="gcard-sub">LGBM 81% · 재수집 기준 설계 (인턴)</div>
+  </a>
+<a class="gcard tint-yellow" href="projects/식품_수출_규제_대응_시스템.html">
+    <div class="gcard-icon ico-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5a3 3 0 0 1 6 0"/><path d="m8.8 13.5 2.3 2.3 4.2-4.6"/></svg></div>
+    <div class="gcard-title">식품 수출 규제 대응 시스템 (ML→SQL 룰엔진)</div>
+    <div class="gcard-sub">3국 규정 DB · Streamlit 판정 도구</div>
+  </a>
+  </div>
+</div>
+<div class="group-sec">
+  <div class="group-head"><span class="chip chip-gray">기타</span><span class="group-count">1</span></div>
+  <div class="gallery">
+  <a class="gcard tint-gray" href="projects/기타_프로젝트_모음.html">
+    <div class="gcard-icon ico-gray"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+    <div class="gcard-title">기타 프로젝트 모음</div>
+    <div class="gcard-sub">통계학술제 최우수상 · 빅페스타 장려상 외</div>
+  </a>
+  </div>
+</div>
+<hr>
+<h2 class="nh1 gray">여러가지 경험</h2>
+<div class="board">
+<div class="bcol bcol-red">
+  <div class="bcol-head"><span class="chip chip-red">수상 내역</span><span class="group-count">4</span></div>
+  <div class="bcard"><span class="bcard-ic ico-red"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.2 3.2 0 0 0 8 9M16 5.5h3.2A3.2 3.2 0 0 1 16 9"/><path d="M12 13.5v2.5M9.2 20.5h5.6M10 16h4l.9 4.5H9.1z"/></svg></span><span>한국자료분석학회 하계학술대회 포스터논문 장려상</span></div>
+<div class="bcard"><span class="bcard-ic ico-red"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.2 3.2 0 0 0 8 9M16 5.5h3.2A3.2 3.2 0 0 1 16 9"/><path d="M12 13.5v2.5M9.2 20.5h5.6M10 16h4l.9 4.5H9.1z"/></svg></span><span>빅페스타 장려상</span></div>
+<div class="bcard"><span class="bcard-ic ico-red"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.2 3.2 0 0 0 8 9M16 5.5h3.2A3.2 3.2 0 0 1 16 9"/><path d="M12 13.5v2.5M9.2 20.5h5.6M10 16h4l.9 4.5H9.1z"/></svg></span><span>통계학술제 최우수상</span></div>
+<div class="bcard"><span class="bcard-ic ico-red"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.2 3.2 0 0 0 8 9M16 5.5h3.2A3.2 3.2 0 0 1 16 9"/><path d="M12 13.5v2.5M9.2 20.5h5.6M10 16h4l.9 4.5H9.1z"/></svg></span><span>삼성휴먼테크 논문대상 동상</span></div>
+</div>
+<div class="bcol bcol-blue">
+  <div class="bcol-head"><span class="chip chip-blue">자격증</span><span class="group-count">3</span></div>
+  <div class="bcard"><span class="bcard-ic ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="m9.3 13.2-1.8 7.3 4.5-2.6 4.5 2.6-1.8-7.3"/></svg></span><span>SQLD</span></div>
+<div class="bcard"><span class="bcard-ic ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="m9.3 13.2-1.8 7.3 4.5-2.6 4.5 2.6-1.8-7.3"/></svg></span><span>SAS Base</span></div>
+<div class="bcard"><span class="bcard-ic ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="m9.3 13.2-1.8 7.3 4.5-2.6 4.5 2.6-1.8-7.3"/></svg></span><span>ADsP</span></div>
+</div>
+<div class="bcol bcol-green">
+  <div class="bcol-head"><span class="chip chip-green">기타</span><span class="group-count">8</span></div>
+  <div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.4"/><path d="M2.8 20a6.3 6.3 0 0 1 12.4 0"/><path d="M15.5 4.9a3.4 3.4 0 0 1 0 6.6M21.2 20a6.3 6.3 0 0 0-4.6-6"/></svg></span><span>고려대 세종캠퍼스 학생회 대외협력국 국장</span></div>
+<div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15v-2.5a8 8 0 0 1 16 0V15"/><rect x="3" y="14.5" width="4" height="6" rx="1.6"/><rect x="17" y="14.5" width="4" height="6" rx="1.6"/></svg></span><span>뮤지컬 동아리 KASTING 음향팀장</span></div>
+<div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.2 18.2h5.6M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.9 10.6c.8.7 1.1 1.5 1.1 2.4h5.6c0-.9.3-1.7 1.1-2.4A6 6 0 0 0 12 3z"/></svg></span><span>웅진씽크빅 AI 서비스 기획자 서포터즈 7기</span></div>
+<div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9.2 10-5 10 5-10 5z"/><path d="M6.5 11.8v4c0 1.6 2.5 3 5.5 3s5.5-1.4 5.5-3v-4"/><path d="M22 9.2v5.3"/></svg></span><span>빅데이터 분석가 양성과정 6기</span></div>
+<div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-10a2 2 0 0 1-2-2z"/><path d="M5.5 17a2 2 0 0 1 2-2h11"/></svg></span><span>저서 출간 『인공지능으로 코딩 없이 게임 만들기』</span></div>
+<div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9.2 10-5 10 5-10 5z"/><path d="M6.5 11.8v4c0 1.6 2.5 3 5.5 3s5.5-1.4 5.5-3v-4"/><path d="M22 9.2v5.3"/></svg></span><span>멀티모달 AI 서비스 개발 과정 수료</span></div>
+<div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12.5" rx="2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 12.5h18"/></svg></span><span>서비스직 약 5년 장기 근속 (학업 병행)</span></div>
+<div class="bcard"><span class="bcard-ic ico-green"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9.2 10-5 10 5-10 5z"/><path d="M6.5 11.8v4c0 1.6 2.5 3 5.5 3s5.5-1.4 5.5-3v-4"/><path d="M22 9.2v5.3"/></svg></span><span>한국통계학회 겨울학교 수료</span></div>
+</div>
+</div>
+
+</div>
+</body>
+</html>

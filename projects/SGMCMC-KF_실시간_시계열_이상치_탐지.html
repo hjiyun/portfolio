@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGMCMC-KF 실시간 시계열 이상치 탐지</title>
+<style>* { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  color:#37352f; background:#fff;
+  line-height:1.5; font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.page { max-width:900px; margin:0 auto; padding:64px 40px 30vh; }
+.page.wide { max-width:960px; }
+a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
+a:hover { text-decoration-color:rgba(55,53,47,0.8); }
+p { margin:3px 0; padding:3px 2px; }
+strong { font-weight:600; }
+em { color:#787774; font-style:italic; }
+hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
+.sp { height:16px; }
+
+/* icons */
+.icon { width:1.25em; height:1.25em; vertical-align:-0.22em; }
+.page-icon-svg { width:64px; height:64px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.page-icon-svg .icon { width:36px; height:36px; }
+.ico-blue { color:#2081a8; }
+.ico-purple { color:#7a52b3; }
+.ico-yellow { color:#c07d1a; }
+.ico-gray { color:#5f5e5b; }
+.ico-red { color:#d4574e; }
+.ico-green { color:#448361; }
+.ico-amber { color:#c07d1a; }
+.tint-blue { background:#e7f3f8; color:#2081a8; }
+.tint-purple { background:#f3eef9; color:#7a52b3; }
+.tint-yellow { background:#fbf3db; color:#c07d1a; }
+.tint-gray { background:#f1f1ef; color:#5f5e5b; }
+.bc-ic { width:1.05em; height:1.05em; }
+.ncallout-icon .icon { width:22px; height:22px; }
+.nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+/* breadcrumb */
+.breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
+.breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
+.breadcrumb a:hover { background:rgba(55,53,47,0.08); }
+.bc-sep { color:rgba(55,53,47,0.4); margin:0 4px; }
+
+/* page title */
+.page-icon { font-size:64px; line-height:1.1; margin-bottom:8px; }
+.page-title { font-size:40px; font-weight:700; line-height:1.2; margin-bottom:24px; letter-spacing:-0.01em; }
+
+/* properties */
+.props { display:flex; flex-direction:column; gap:2px; margin-bottom:8px; }
+.prop { display:flex; align-items:flex-start; min-height:32px; font-size:14px; }
+.prop-k { display:flex; align-items:center; gap:8px; width:140px; flex-shrink:0; color:rgba(55,53,47,0.65); padding:6px 8px 6px 4px; }
+.pic { width:16px; height:16px; opacity:0.7; }
+.prop-v { padding:6px 8px; flex:1; }
+.props-hr { margin:8px 0 24px; }
+
+/* headings */
+.nh1, h2.nh1 { font-size:1.6em; font-weight:700; margin:1.4em 0 4px; padding:3px 2px; line-height:1.3; }
+.nh2 { font-size:1.3em; font-weight:600; margin:1.2em 0 2px; padding:3px 2px; }
+.nh3, summary.h4 { font-size:1.1em; font-weight:600; margin:1em 0 2px; padding:3px 2px; }
+.gray, .gray-text { color:#787774; }
+
+/* callout */
+.ncallout { display:flex; gap:10px; padding:16px 16px 16px 14px; border-radius:6px; margin:8px 0 12px; }
+.ncallout-icon { font-size:20px; line-height:1.3; }
+.ncallout-body p { margin:0; padding:1px 0; }
+.ncallout-blue_bg { background:#e7f3f8; }
+.ncallout-gray_bg { background:#f1f1ef; }
+.ncallout-purple_bg { background:#f8f3fc; }
+.ncallout-green_bg { background:#edf3ec; }
+.ncallout-yellow_bg { background:#fbf3db; }
+
+/* lists */
+ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
+ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
+ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em; }
+.nnum { padding-left:4px; }
+.nnum-n { margin-right:6px; }
+
+/* tables */
+.ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
+table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; }
+table.ntable.fit { width:100%; }
+.ntable th, .ntable td { border:1px solid rgba(55,53,47,0.16); padding:7px 9px; vertical-align:top; text-align:left; }
+.ntable th { background:#f7f6f5; font-weight:600; color:#37352f; }
+.stars { white-space:nowrap; letter-spacing:1px; }
+
+/* cell / row / inline colors (Notion palette) */
+.c-red { color:#e03e3e; }
+.c-gray { color:#787774; }
+td.c-gray, th.c-gray { color:#787774; }
+.c-green_bg { background:#edf3ec; }
+.c-blue_bg { background:#e7f3f8; }
+.c-gray_bg { background:#f1f1ef; }
+.c-purple_bg { background:#f8f3fc; }
+tr.c-green_bg td { background:#edf3ec; }
+tr.c-blue_bg td { background:#e7f3f8; }
+span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
+
+/* images */
+figure.nimg { margin:6px 0 12px; }
+figure.nimg img { max-width:100%; border-radius:2px; display:block; margin:0 auto; }
+figure.nimg figcaption { font-size:13.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+
+/* columns */
+.ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
+.ncol { min-width:0; flex:1; }
+@media (max-width:640px){ .ncols { flex-direction:column; } .ncol { flex:1 1 auto !important; width:100%; } }
+.intro { align-items:center; }
+img.profile { width:100%; border-radius:4px; }
+
+/* quote */
+blockquote.nquote { border-left:3px solid #37352f; padding:4px 2px 4px 14px; margin:8px 0; }
+
+/* code */
+pre.ncode { background:#f7f6f3; border-radius:6px; padding:16px 16px; overflow-x:auto; margin:8px 0 12px; }
+pre.ncode code { font-family:"SFMono-Regular", Consolas, "D2Coding", "Nanum Gothic Coding", monospace; font-size:13px; line-height:1.55; color:#37352f; }
+code.ic { font-family:"SFMono-Regular", Consolas, monospace; font-size:85%; background:rgba(135,131,120,0.15); color:#eb5757; border-radius:3px; padding:1px 4px; }
+
+/* toggle */
+details.ntoggle { margin:8px 0; }
+details.ntoggle summary { cursor:pointer; font-weight:600; padding:3px 2px; list-style-position:outside; }
+details.ntoggle summary::marker { color:rgba(55,53,47,0.6); }
+.ntoggle-body { padding:2px 0 4px 20px; }
+
+/* file card */
+a.nfile { display:flex; align-items:center; gap:8px; border:1px solid rgba(55,53,47,0.16); border-radius:6px; padding:9px 12px; margin:6px 0; text-decoration:none; font-size:14.5px; }
+a.nfile:hover { background:rgba(55,53,47,0.04); }
+.nfile-ic { font-size:17px; }
+.nfile-name { font-weight:500; }
+
+/* chips (select colors) */
+.chip { display:inline-block; border-radius:4px; padding:1px 8px; font-size:13.5px; font-weight:500; line-height:1.5; white-space:nowrap; }
+.chip-blue { background:#d3e5ef; color:#183347; }
+.chip-purple { background:#e8deee; color:#412454; }
+.chip-yellow { background:#fdecc8; color:#402c1b; }
+.chip-gray { background:#e3e2e0; color:#32302c; }
+
+/* gallery */
+.group-sec { margin:18px 0 6px; }
+.group-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.group-count { color:rgba(55,53,47,0.5); font-size:14px; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; }
+.gcard { display:block; border:1px solid rgba(55,53,47,0.12); border-radius:8px; padding:14px 14px 12px; text-decoration:none; background:#fff; box-shadow:0 1px 2px rgba(15,15,15,0.04); transition:filter 80ms ease-in, transform 80ms ease-in; }
+.gcard.tint-blue { background:#f0f7fa; border-color:#cfe4ee; }
+.gcard.tint-purple { background:#f6f2fa; border-color:#ded1ee; }
+.gcard.tint-yellow { background:#fcf6e5; border-color:#eddfb9; }
+.gcard.tint-gray { background:#f5f5f3; border-color:#dedcd8; }
+a.gcard:hover { filter:brightness(0.97); }
+.gcard-icon { margin-bottom:8px; }
+.gcard-icon .icon { width:26px; height:26px; }
+.gcard-title { font-weight:600; font-size:14.5px; line-height:1.35; margin-bottom:4px; color:#37352f; }
+.gcard-sub { font-size:13px; color:#787774; line-height:1.4; }
+.gcard-meta { font-size:12.5px; color:rgba(55,53,47,0.5); margin-top:6px; }
+
+/* experience board (vertical columns) */
+.board { display:flex; gap:16px; align-items:flex-start; margin:12px 0; }
+.bcol { flex:1; border-radius:10px; padding:12px 12px 8px; min-width:0; }
+.bcol-red { background:#fbf1ef; }
+.bcol-blue { background:#eff5fb; }
+.bcol-green { background:#f0f7f0; }
+.bcol-head { display:flex; align-items:center; gap:8px; margin:0 2px 10px; }
+.chip-red { background:#ffe2dd; color:#5d1715; }
+.chip-green { background:#dbeddb; color:#1c3829; }
+.bcard { display:flex; align-items:center; gap:9px; background:#fff; border:1px solid rgba(55,53,47,0.1); border-radius:8px; box-shadow:0 1px 2px rgba(15,15,15,0.04); padding:10px 12px; margin-bottom:8px; font-size:14px; font-weight:500; line-height:1.4; }
+.bcard-ic { flex-shrink:0; display:flex; }
+.bcard-ic .icon { width:19px; height:19px; }
+@media (max-width:760px){ .board { flex-direction:column; } }
+
+@media print {
+  .page { padding:20px; }
+  .gcard { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb"><a href="../index.html">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg> SGMCMC-KF 실시간 시계열 이상치 탐지</span></div>
+<div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg></div>
+<h1 class="page-title">SGMCMC-KF 실시간 시계열 이상치 탐지</h1>
+
+<div class="props">
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M4 1v2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-1.5v2h-5V1H4zm9.5 5v7H2.5V6h11z"/></svg>기간</span><span class="prop-v">2024년 12월 1일 → 2026년 4월 30일</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM2 14a6 6 0 1 1 12 0v1H2v-1z"/></svg>기여도</span><span class="prop-v">단독 연구 (JKDAS 제1저자)</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" d="M7 10.5 4.8 8.3l1-1L7 8.5l3.2-3.2 1 1z"/></svg>결과</span><span class="prop-v">JKDAS 28(2) 제1저자 · 재현율 100% · 5.5배 가속</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>그룹</span><span class="prop-v"><span class="chip chip-purple">베이지안·SGMCMC</span></span></div>
+</div>
+<hr class="props-hr">
+<div class="content">
+<div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg></div><div class="ncallout-body"><p><strong>이상 신호를 하나도 놓치지 않으면서(재현율 100%) 처리 속도를 5.5배 높인 실시간 베이지안 이상탐지.</strong> <br>Kafka 스트리밍 위에서 칼만필터와 SGMCMC를 결합 · JKDAS 28(2) 제1저자 게재 · 단독 연구</p></div></div>
+<h2 class="nh1">문제 정의</h2>
+<ul class="nlist"><li>IoT·금융처럼 데이터가 계속 흘러드는 환경에서 이상 징후를 놓치면 설비 정지와 서비스 장애로 직결</li><li>널리 쓰이는 MLE 기반 SARIMA는 점추정이라 정상·이상 경계의 미세한 전조를 놓침</li><li>전통 베이지안(Gibbs)은 매 반복 전체 데이터를 재계산. 배치당 <strong>170.8초</strong>로 배치 도착 간격을 초과해 실시간 불가. 정확하면 느리고 빠르면 놓치는 트레이드오프가 출발점</li></ul>
+<h2 class="nh1">알고리즘 설계</h2>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. MLE 기반 SARIMA 유지</td><td>가장 빠르고 구현 단순</td><td class="c-red">기각. 점추정이라 파라미터 불확실성 미반영, 경계 전조 미탐</td></tr><tr><td>2안. Gibbs 샘플링 (전통 MCMC)</td><td>사후분포를 정확히 추정</td><td class="c-red">기각. 배치당 170.8초로 도착 간격 초과. 정확해도 늦으면 틀린 답</td></tr><tr class="c-green_bg"><td><strong>3안. 칼만필터 + SGMCMC 결합 (채택)</strong></td><td>배치 단위 확률적 기울기 + 랑주뱅 노이즈로 갱신</td><td><strong>채택. 전체 우도 재계산 병목을 구조적으로 제거하면서 불확실성 표현 유지</strong></td></tr></table></div>
+<ul class="nlist"><li>SARIMA 상태공간 표현 + 칼만필터 예측오차 분해로 우도·기울기 계산 설계, 코드 작성 전 수식 유도 검증 단계를 일정에 별도 배치</li><li>비교 실험은 학습률·배치 크기·임계값·파이프라인·데이터 순서를 7종에 동일 적용하고 <strong>갱신 규칙만 변인</strong>으로 통제</li></ul>
+<figure class="nimg"><img src="../assets/sgmcmc_card1.png" loading="lazy" alt=""></figure>
+<figure class="nimg"><img src="../assets/sgmcmc_card2.png" loading="lazy" alt=""></figure>
+<h2 class="nh1">파이프라인</h2>
+<figure class="nimg"><img src="../assets/sgmcmc_flow.png" loading="lazy" alt=""></figure>
+<h2 class="nh1">평가 설계</h2>
+<ul class="nlist"><li>검증 데이터는 NAB 실측 스트림 2종: NYC Taxi(10,320건 · 배치 215개 · 이상 5개), Machine Temperature(22,695건 · 배치 472개 · 이상 4개)</li><li>미탐 비용이 오탐 비용보다 큰 도메인 특성을 반영해 <strong>재현율을 1차 기준</strong>으로 걸고, 재현율이 같은 방법 사이에서만 오탐 비교</li></ul>
+<figure class="nimg"><img src="../assets/sgmcmc_card3.png" loading="lazy" alt=""></figure>
+<h2 class="nh1">결과</h2>
+<div class="ntable-wrap"><table class="ntable"><tr><th>지표</th><th>Before</th><th>After (SGLD-KF)</th></tr><tr><td>배치당 처리 시간</td><td>170.8초 (Gibbs)</td><td><strong>31초 · 5.5배 단축</strong></td></tr><tr><td>미탐 (재현율)</td><td>Gibbs 33% (이상 3건 중 2건 놓침)</td><td><strong>100% · 미탐 0건</strong></td></tr><tr><td>오탐</td><td>기준선 대비</td><td><strong>학습·테스트 4개 구간 전부 6~18% 감소</strong></td></tr><tr><td>F1 (NYC Taxi 테스트)</td><td>15.00% (MLE)</td><td><strong>17.14% · 비교 7종 중 최고</strong></td></tr></table></div>
+<h4 class="nh3">7종 방법 비교 (NYC Taxi 테스트)</h4>
+<div class="ntable-wrap"><table class="ntable"><tr><th>방법</th><th>정확도(%)</th><th>재현율(%)</th><th>F1(%)</th><th>배치당 시간(초)</th></tr><tr><td>MLE</td><td>19.05</td><td>100</td><td>15.00</td><td>9.8</td></tr><tr><td>Gibbs (전통 MCMC)</td><td>64.29</td><td>33.33</td><td>11.76</td><td><strong>83.3</strong></td></tr><tr><td>GD</td><td>21.43</td><td>100</td><td>15.38</td><td>11.1</td></tr><tr><td>SGD</td><td>19.05</td><td>100</td><td>15.00</td><td>10.9</td></tr><tr><td><strong>SGLD (제안)</strong></td><td>30.95</td><td><strong>100</strong></td><td><strong>17.14</strong></td><td>10.6</td></tr><tr><td>SGHMC</td><td>78.57</td><td>33.33</td><td>18.18</td><td>10.7</td></tr><tr><td>SGNHT</td><td>64.29</td><td>100</td><td>15.38</td><td>10.6</td></tr></table></div>
+<ul class="nlist"><li>SGHMC는 F1·정확도가 높지만 실제 이상 3건 중 2건을 놓침(재현율 33%). <strong>불균형 데이터에서 F1·정확도 상위 모델 선택이 오히려 위험</strong>함을 규명</li><li>노이즈 강도 순(GD → SGD → SGLD)으로 정밀도 단조 증가. 랑주뱅 노이즈의 확률적 탐색이 경계 이상치 판별에 기여함을 정량 확인</li><li>Machine Temperature 테스트에서도 SGLD가 7종 중 최고 F1에 재현율 100% 유지 (Gibbs는 이상 1건마저 놓쳐 재현율 0%)</li><li>놓치면 설비 정지로 이어지는 이상 신호를 전부 잡으면서 불필요한 점검 출동(오탐)만 줄인 구조. 연구 결과를 JKDAS 28(2) 제1저자로 게재</li></ul>
+<h2 class="nh1">자료</h2>
+<a class="nfile" href="../files/SGMCMC-KF_%EC%8B%9C%EA%B3%84%EC%97%B4_%EC%9D%B4%EC%83%81%EC%B9%98_%ED%83%90%EC%A7%80.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">SGMCMC-KF 알고리즘을 이용한 시계열 이상치 탐지 · JKDAS 28(2)</span></a>
+<p><a href="https://github.com/hjiyun/SGMCMC-KF" target="_blank" rel="noopener">github.com/hjiyun/SGMCMC-KF</a></p>
+</div>
+</div>
+</body>
+</html>

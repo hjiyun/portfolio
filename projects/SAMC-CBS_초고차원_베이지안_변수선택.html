@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAMC-CBS 초고차원 베이지안 변수선택</title>
+<style>* { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  color:#37352f; background:#fff;
+  line-height:1.5; font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.page { max-width:900px; margin:0 auto; padding:64px 40px 30vh; }
+.page.wide { max-width:960px; }
+a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
+a:hover { text-decoration-color:rgba(55,53,47,0.8); }
+p { margin:3px 0; padding:3px 2px; }
+strong { font-weight:600; }
+em { color:#787774; font-style:italic; }
+hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
+.sp { height:16px; }
+
+/* icons */
+.icon { width:1.25em; height:1.25em; vertical-align:-0.22em; }
+.page-icon-svg { width:64px; height:64px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.page-icon-svg .icon { width:36px; height:36px; }
+.ico-blue { color:#2081a8; }
+.ico-purple { color:#7a52b3; }
+.ico-yellow { color:#c07d1a; }
+.ico-gray { color:#5f5e5b; }
+.ico-red { color:#d4574e; }
+.ico-green { color:#448361; }
+.ico-amber { color:#c07d1a; }
+.tint-blue { background:#e7f3f8; color:#2081a8; }
+.tint-purple { background:#f3eef9; color:#7a52b3; }
+.tint-yellow { background:#fbf3db; color:#c07d1a; }
+.tint-gray { background:#f1f1ef; color:#5f5e5b; }
+.bc-ic { width:1.05em; height:1.05em; }
+.ncallout-icon .icon { width:22px; height:22px; }
+.nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+/* breadcrumb */
+.breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
+.breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
+.breadcrumb a:hover { background:rgba(55,53,47,0.08); }
+.bc-sep { color:rgba(55,53,47,0.4); margin:0 4px; }
+
+/* page title */
+.page-icon { font-size:64px; line-height:1.1; margin-bottom:8px; }
+.page-title { font-size:40px; font-weight:700; line-height:1.2; margin-bottom:24px; letter-spacing:-0.01em; }
+
+/* properties */
+.props { display:flex; flex-direction:column; gap:2px; margin-bottom:8px; }
+.prop { display:flex; align-items:flex-start; min-height:32px; font-size:14px; }
+.prop-k { display:flex; align-items:center; gap:8px; width:140px; flex-shrink:0; color:rgba(55,53,47,0.65); padding:6px 8px 6px 4px; }
+.pic { width:16px; height:16px; opacity:0.7; }
+.prop-v { padding:6px 8px; flex:1; }
+.props-hr { margin:8px 0 24px; }
+
+/* headings */
+.nh1, h2.nh1 { font-size:1.6em; font-weight:700; margin:1.4em 0 4px; padding:3px 2px; line-height:1.3; }
+.nh2 { font-size:1.3em; font-weight:600; margin:1.2em 0 2px; padding:3px 2px; }
+.nh3, summary.h4 { font-size:1.1em; font-weight:600; margin:1em 0 2px; padding:3px 2px; }
+.gray, .gray-text { color:#787774; }
+
+/* callout */
+.ncallout { display:flex; gap:10px; padding:16px 16px 16px 14px; border-radius:6px; margin:8px 0 12px; }
+.ncallout-icon { font-size:20px; line-height:1.3; }
+.ncallout-body p { margin:0; padding:1px 0; }
+.ncallout-blue_bg { background:#e7f3f8; }
+.ncallout-gray_bg { background:#f1f1ef; }
+.ncallout-purple_bg { background:#f8f3fc; }
+.ncallout-green_bg { background:#edf3ec; }
+.ncallout-yellow_bg { background:#fbf3db; }
+
+/* lists */
+ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
+ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
+ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em; }
+.nnum { padding-left:4px; }
+.nnum-n { margin-right:6px; }
+
+/* tables */
+.ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
+table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; }
+table.ntable.fit { width:100%; }
+.ntable th, .ntable td { border:1px solid rgba(55,53,47,0.16); padding:7px 9px; vertical-align:top; text-align:left; }
+.ntable th { background:#f7f6f5; font-weight:600; color:#37352f; }
+.stars { white-space:nowrap; letter-spacing:1px; }
+
+/* cell / row / inline colors (Notion palette) */
+.c-red { color:#e03e3e; }
+.c-gray { color:#787774; }
+td.c-gray, th.c-gray { color:#787774; }
+.c-green_bg { background:#edf3ec; }
+.c-blue_bg { background:#e7f3f8; }
+.c-gray_bg { background:#f1f1ef; }
+.c-purple_bg { background:#f8f3fc; }
+tr.c-green_bg td { background:#edf3ec; }
+tr.c-blue_bg td { background:#e7f3f8; }
+span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
+
+/* images */
+figure.nimg { margin:6px 0 12px; }
+figure.nimg img { max-width:100%; border-radius:2px; display:block; margin:0 auto; }
+figure.nimg figcaption { font-size:13.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+
+/* columns */
+.ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
+.ncol { min-width:0; flex:1; }
+@media (max-width:640px){ .ncols { flex-direction:column; } .ncol { flex:1 1 auto !important; width:100%; } }
+.intro { align-items:center; }
+img.profile { width:100%; border-radius:4px; }
+
+/* quote */
+blockquote.nquote { border-left:3px solid #37352f; padding:4px 2px 4px 14px; margin:8px 0; }
+
+/* code */
+pre.ncode { background:#f7f6f3; border-radius:6px; padding:16px 16px; overflow-x:auto; margin:8px 0 12px; }
+pre.ncode code { font-family:"SFMono-Regular", Consolas, "D2Coding", "Nanum Gothic Coding", monospace; font-size:13px; line-height:1.55; color:#37352f; }
+code.ic { font-family:"SFMono-Regular", Consolas, monospace; font-size:85%; background:rgba(135,131,120,0.15); color:#eb5757; border-radius:3px; padding:1px 4px; }
+
+/* toggle */
+details.ntoggle { margin:8px 0; }
+details.ntoggle summary { cursor:pointer; font-weight:600; padding:3px 2px; list-style-position:outside; }
+details.ntoggle summary::marker { color:rgba(55,53,47,0.6); }
+.ntoggle-body { padding:2px 0 4px 20px; }
+
+/* file card */
+a.nfile { display:flex; align-items:center; gap:8px; border:1px solid rgba(55,53,47,0.16); border-radius:6px; padding:9px 12px; margin:6px 0; text-decoration:none; font-size:14.5px; }
+a.nfile:hover { background:rgba(55,53,47,0.04); }
+.nfile-ic { font-size:17px; }
+.nfile-name { font-weight:500; }
+
+/* chips (select colors) */
+.chip { display:inline-block; border-radius:4px; padding:1px 8px; font-size:13.5px; font-weight:500; line-height:1.5; white-space:nowrap; }
+.chip-blue { background:#d3e5ef; color:#183347; }
+.chip-purple { background:#e8deee; color:#412454; }
+.chip-yellow { background:#fdecc8; color:#402c1b; }
+.chip-gray { background:#e3e2e0; color:#32302c; }
+
+/* gallery */
+.group-sec { margin:18px 0 6px; }
+.group-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.group-count { color:rgba(55,53,47,0.5); font-size:14px; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; }
+.gcard { display:block; border:1px solid rgba(55,53,47,0.12); border-radius:8px; padding:14px 14px 12px; text-decoration:none; background:#fff; box-shadow:0 1px 2px rgba(15,15,15,0.04); transition:filter 80ms ease-in, transform 80ms ease-in; }
+.gcard.tint-blue { background:#f0f7fa; border-color:#cfe4ee; }
+.gcard.tint-purple { background:#f6f2fa; border-color:#ded1ee; }
+.gcard.tint-yellow { background:#fcf6e5; border-color:#eddfb9; }
+.gcard.tint-gray { background:#f5f5f3; border-color:#dedcd8; }
+a.gcard:hover { filter:brightness(0.97); }
+.gcard-icon { margin-bottom:8px; }
+.gcard-icon .icon { width:26px; height:26px; }
+.gcard-title { font-weight:600; font-size:14.5px; line-height:1.35; margin-bottom:4px; color:#37352f; }
+.gcard-sub { font-size:13px; color:#787774; line-height:1.4; }
+.gcard-meta { font-size:12.5px; color:rgba(55,53,47,0.5); margin-top:6px; }
+
+/* experience board (vertical columns) */
+.board { display:flex; gap:16px; align-items:flex-start; margin:12px 0; }
+.bcol { flex:1; border-radius:10px; padding:12px 12px 8px; min-width:0; }
+.bcol-red { background:#fbf1ef; }
+.bcol-blue { background:#eff5fb; }
+.bcol-green { background:#f0f7f0; }
+.bcol-head { display:flex; align-items:center; gap:8px; margin:0 2px 10px; }
+.chip-red { background:#ffe2dd; color:#5d1715; }
+.chip-green { background:#dbeddb; color:#1c3829; }
+.bcard { display:flex; align-items:center; gap:9px; background:#fff; border:1px solid rgba(55,53,47,0.1); border-radius:8px; box-shadow:0 1px 2px rgba(15,15,15,0.04); padding:10px 12px; margin-bottom:8px; font-size:14px; font-weight:500; line-height:1.4; }
+.bcard-ic { flex-shrink:0; display:flex; }
+.bcard-ic .icon { width:19px; height:19px; }
+@media (max-width:760px){ .board { flex-direction:column; } }
+
+@media print {
+  .page { padding:20px; }
+  .gcard { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="breadcrumb"><a href="../index.html">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg> SAMC-CBS 초고차원 베이지안 변수선택</span></div>
+<div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div>
+<h1 class="page-title">SAMC-CBS 초고차원 베이지안 변수선택</h1>
+
+<div class="props">
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M4 1v2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-1.5v2h-5V1H4zm9.5 5v7H2.5V6h11z"/></svg>기간</span><span class="prop-v">2025년 6월 1일 → 2025년 11월 30일</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM2 14a6 6 0 1 1 12 0v1H2v-1z"/></svg>기여도</span><span class="prop-v">개인 연구 · 원논문 알고리즘 재현·개선</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" d="M7 10.5 4.8 8.3l1-1L7 8.5l3.2-3.2 1 1z"/></svg>결과</span><span class="prop-v">참 신호 검출 100% · FSR 6.9배 감소</span></div>
+  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>그룹</span><span class="prop-v"><span class="chip chip-purple">베이지안·SGMCMC</span></span></div>
+</div>
+<hr class="props-hr">
+<div class="content">
+<div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div><div class="ncallout-body"><p><strong>참 신호를 하나도 놓치지 않으면서(NSR 0%) 오탐을 6.9배 줄인 상관 기반 하이브리드 MCMC.</strong> <br>원논문 C 코드 8개 모듈 전면 이식 + CBS 제안분포 설계 · 시뮬레이션 10회 반복 검증 · 개인 연구</p></div></div>
+<h2 class="nh1">문제 정의</h2>
+<ul class="nlist"><li>유전체 데이터는 표본(n=100)보다 변수(p=1,000)가 수십 배 많은 <strong>n ≪ p</strong> 구조. 일반 회귀 추정이 불가능해 변수선택이 분석의 성패를 좌우</li><li>기존 대표 알고리즘인 SAMC 기반 Split-and-Merge는 실측 결과 참 신호 10개 중 <strong>평균 2.7개(NSR 73%)</strong> 만 검출</li><li>반대로 LASSO·Elastic Net 벌점 회귀는 참 신호는 찾지만 <strong>오탐이 과도</strong>(FSR 58~74%). 오탐 하나가 곧 불필요한 후속 검증 실험 하나</li><li>핵심 원인은 <strong>탐색 커널이 변수 간 상관구조를 무시</strong>한다는 점. 기능적으로 연관된 유전자들이 강하게 상관된 데이터에서 무작위 토글 방식은 상관 블록에 체인이 갇힘</li></ul>
+<figure class="nimg"><img src="../assets/samc_fig4_correlation_heatmap.png" loading="lazy" alt=""><figcaption>GSE2990 실데이터의 상관구조. 참 신호 유전자 블록은 평균 |r| 0.74로 무작위 변수(0.15)의 5배, 상관 블록에 탐색이 갇히는 난이도를 그대로 재현한 벤치마크</figcaption></figure>
+<h2 class="nh1">알고리즘 설계</h2>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 벌점 회귀 계열 채택</td><td class="c-gray">구현 간단, 검출률 높음. 오탐률 58~74%는 후속 검증 비용 과도</td><td class="c-gray">기각</td></tr><tr><td>2안. 변수선택 모델 신규 설계</td><td class="c-gray">개선이 모델 덕분인지 탐색 덕분인지 분리 불가</td><td class="c-gray">기각</td></tr><tr><td class="c-green_bg"><strong>3안. 원 알고리즘 유지 + 상관 기반 제안분포(CBS) 결합</strong></td><td class="c-green_bg">덜 상관된 변수는 추가, 강하게 상관된 변수는 제거·교체. 변경점을 탐색 커널로 한정해 개선 효과를 커널에 귀속</td><td class="c-green_bg"><strong>채택</strong></td></tr></table></div>
+<ul class="nlist"><li>CBS 이동 규칙: <code class="ic">add</code>는 현재 선택과 <strong>가장 덜 상관된</strong> 변수를 추가해 중복 정보 회피, <code class="ic">delete</code>/<code class="ic">swap</code>은 <strong>가장 강하게 상관된</strong> 변수를 제거해 다중공선성 해소</li><li>Shrinkage 상관행렬 <code class="ic">R = (1-λ)R₀ + λI</code> 로 수치 안정성 확보, 기존 무작위 토글(SSVS)과 혼합비 φ로 결합, temperature annealing(2.0 → 1.0)으로 초기 탐색 강화</li><li>벤치마크: GEO 유방암 마이크로어레이(GSE2990)를 RMA 정규화·클러스터링해 <strong>상관이 극도로 강한 상황을 의도적으로 재현</strong>한 semi-synthetic 설계</li></ul>
+<h2 class="nh1">실행</h2>
+<div class="ncols"><div class="ncol" style="flex:0 0 calc(56.00% - 11.5px)"><figure class="nimg"><img src="../assets/samc_fig5_algorithm_diagram.png" loading="lazy" alt=""><figcaption>SAM + CBS 하이브리드 알고리즘 구조. 파티션 분할 → 커널 경쟁 → 병합 → 턴 반복 → 빈도 집계 (⑤ 빈도 집계가 본 연구의 기여)</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(44.00% - 11.5px)"><ul class="nlist"><li>파티션마다 SAM·CBS·SSVS 세 커널을 경쟁시켜 사후확률·PIP·FDR·교차검증 4개 지표의 사전식 비교로 승자를 채택하고, 턴마다 파티션 경계 jitter(±20%)와 warm start로 반복 탐색</li><li>초기 결과가 기대에 못 미쳤을 때 알고리즘을 바꾸는 대신 <strong>10,000턴 실행 로그를 전수 분석</strong>. 참 신호는 모두 탐색되고 있으나 단일 턴의 FDR 컷이 이를 탈락시키고 있음을 규명하고(턴별 선택 3~4개 vs 합집합 100% 포함), 턴 간 선택 빈도 집계로 규칙 교체</li></ul></div></div>
+<h2 class="nh1">결과</h2>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>방법</th><th>선택 변수 수</th><th>참 신호 검출</th><th>FSR (오탐률) ↓</th><th>NSR (미검출률) ↓</th></tr><tr><td>SAM 단독 (원논문)</td><td>2.7</td><td>2.7 / 10</td><td>10.0%</td><td class="c-gray">73.0%</td></tr><tr><td>CBS 단독 (MAP)</td><td>4.9</td><td>3.8 / 10</td><td>21.8%</td><td class="c-gray">62.0%</td></tr><tr><td>LASSO (10-fold CV)</td><td>29.3</td><td>9.9 / 10</td><td class="c-gray">57.9%</td><td>1.0%</td></tr><tr><td>Elastic Net (10-fold CV)</td><td>42.3</td><td>10.0 / 10</td><td class="c-gray">73.6%</td><td>0.0%</td></tr><tr class="c-green_bg"><td><strong>SAM + CBS 하이브리드 (제안)</strong></td><td><strong>11.3</strong></td><td><strong>10.0 / 10</strong></td><td><strong>10.7%</strong></td><td><strong>0.0%</strong></td></tr></table></div>
+<div class="ncols"><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/samc_fig1_tradeoff.png" loading="lazy" alt=""><figcaption>오탐률·미검출률 트레이드오프. 제안 기법만 두 지표가 모두 낮은 좌하단에 위치</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/samc_fig3_selection_frequency.png" loading="lazy" alt=""><figcaption>변수별 선택 빈도(10,000턴, 로그 스케일). 참 신호 10개가 상위를 독점하고 오탐 3개와 뚜렷이 분리</figcaption></figure></div></div>
+<ul class="nlist"><li>참 신호 검출 100%(NSR 0%)를 10회 반복 전부에서 달성. 평균 선택 변수 11.3개로 참 신호 10개에 근접</li><li>FSR 10.7%로 LASSO(57.9%) 대비 <strong>5.4배</strong>, Elastic Net(73.6%) 대비 <strong>6.9배</strong> 낮음. 기존 SAM 단독 대비 검출률 2.7개 → 10.0개</li></ul>
+<figure class="nimg"><img src="../assets/samc_fig2_threshold_sweep.png" loading="lazy" alt=""><figcaption>집계 임계값 스윕. 2.1~7.8% 전 구간에서 FSR 0% · NSR 0% 완벽 복원</figcaption></figure>
+<ul class="nlist"><li>빈도 집계 규칙은 임계값 <strong>2.1~7.8% 전 구간에서 완벽 선택(FSR 0% · NSR 0%)</strong> 을 재현. 특정 임계값을 골라 만든 결과가 아님을 스윕으로 입증, 10,000턴 중 616개 턴은 단독으로도 완벽 해</li><li>결과가 임계값 하나에 의존하지 않아 실무 적용 시 튜닝 부담이 낮고, 상관이 강한 데이터라면 유전체 외 도메인에도 같은 커널 적용 가능</li></ul>
+<details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python(NumPy·SciPy·scikit-learn) / R(glmnet·affy/RMA·caret·igraph) / C 코드 이식 / Metropolis-Hastings·SAMC·베이지안 변수선택(g-prior, PIP)·로컬 FDR</p><p><strong>성능 최적화</strong> · 비용함수를 Gram 행렬 사전계산 + Cholesky 분해로 재작성, BLAS 스레드 고정과 부분행렬 캐싱으로 10,000턴 대규모 실행 확보</p><p><strong>실데이터 파이프라인</strong> · GSE2990 CEL 원본 → RMA 정규화 → IQR 필터 → 상관 기반 중복 제거(|r| &gt; 0.5) → 계층적 클러스터링(K=20), 클러스터 내부 평균 |r| 최고 블록에 참 신호 배치</p><p><strong>재현 근거</strong> · 모든 수치는 원본 실행 로그에서 재계산. 입력 데이터 MD5 해시 대조로 방법 간 동일 조건 비교 검증</p><p><strong>검증 범위</strong> · 단일 시나리오(S1, n=100 / p=1,000 / 참 신호 10개) 10회 반복 기준. 다양한 n·p 조합 일반화와 로지스틱 확장은 후속 과제</p></div></details>
+</div>
+</div>
+</body>
+</html>
