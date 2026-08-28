@@ -72,9 +72,15 @@ html { scroll-behavior:smooth; }
 .toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
 .toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
 .toc a.on .toc-n { color:var(--acc, #18181b); }
+.toc a.on-parent { color:#18181b; border-left-color:#d5d3cf; }
+.toc a.sub { font-size:13px; font-weight:500; color:#8f8e8a; padding:4.5px 14px 4.5px 36px; }
+.toc a.sub .toc-sub-t { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.toc a.sub:hover { color:#18181b; }
+.toc a.sub.on { font-weight:600; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content h4.nh3 { scroll-margin-top:28px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
@@ -248,7 +254,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div><div class="ncallout-body"><p><strong>참 신호를 하나도 놓치지 않으면서(NSR 0%) 오탐을 6.9배 줄인 상관 기반 하이브리드 MCMC.</strong> <br>원논문 C 코드 8개 모듈 전면 이식 + CBS 제안분포 설계 · 시뮬레이션 10회 반복 검증 · 개인 연구</p></div></div>
 <h2 class="nh1" id="sec1">문제 정의</h2>
-<ul class="nlist"><li>유전체 데이터는 표본(n=100)보다 변수(p=1,000)가 수십 배 많은 <strong>n ≪ p</strong> 구조. 일반 회귀 추정이 불가능해 변수선택이 분석의 성패를 좌우</li><li>기존 대표 알고리즘인 SAMC 기반 Split-and-Merge는 실측 결과 참 신호 10개 중 <strong>평균 2.7개(NSR 73%)</strong> 만 검출</li><li>반대로 LASSO·Elastic Net 벌점 회귀는 참 신호는 찾지만 <strong>오탐이 과도</strong>(FSR 58~74%). 오탐 하나가 곧 불필요한 후속 검증 실험 하나</li><li>핵심 원인은 <strong>탐색 커널이 변수 간 상관구조를 무시</strong>한다는 점. 기능적으로 연관된 유전자들이 강하게 상관된 데이터에서 무작위 토글 방식은 상관 블록에 체인이 갇힘</li></ul>
+<ul class="nlist"><li><strong>n ≪ p 구조</strong> · 유전체 데이터는 표본(n=100)보다 변수(p=1,000)가 수십 배 많음. 일반 회귀 추정이 불가능해 변수선택이 분석의 성패를 좌우</li><li><strong>기존 알고리즘의 미탐</strong> · 대표 알고리즘인 SAMC 기반 Split-and-Merge는 실측 결과 참 신호 10개 중 <strong>평균 2.7개(NSR 73%)</strong> 만 검출</li><li><strong>벌점 회귀의 오탐</strong> · 반대로 LASSO·Elastic Net은 참 신호는 찾지만 오탐이 과도(FSR 58~74%). 오탐 하나가 곧 불필요한 후속 검증 실험 하나</li><li><strong>핵심 원인</strong> · 탐색 커널이 변수 간 상관구조를 무시. 기능적으로 연관된 유전자들이 강하게 상관된 데이터에서 무작위 토글 방식은 상관 블록에 체인이 갇힘</li></ul>
 <figure class="nimg"><img src="../assets/samc_fig4_correlation_heatmap.png" loading="lazy" alt="GSE2990 실데이터의 상관구조. 참 신호 유전자 블록은 평균 |r| 0.74로 무작위 변수(0.15)의 5배, 상관 블록에 탐색이 갇히는 난이도를 그대로 재현한 벤치마크"><figcaption>GSE2990 실데이터의 상관구조. 참 신호 유전자 블록은 평균 |r| 0.74로 무작위 변수(0.15)의 5배, 상관 블록에 탐색이 갇히는 난이도를 그대로 재현한 벤치마크</figcaption></figure>
 <h2 class="nh1" id="sec2">알고리즘 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 벌점 회귀 계열 채택</td><td class="c-gray">구현 간단, 검출률 높음. 오탐률 58~74%는 후속 검증 비용 과도</td><td class="c-gray">기각</td></tr><tr><td>2안. 변수선택 모델 신규 설계</td><td class="c-gray">개선이 모델 덕분인지 탐색 덕분인지 분리 불가</td><td class="c-gray">기각</td></tr><tr><td class="c-green_bg"><strong>3안. 원 알고리즘 유지 + 상관 기반 제안분포(CBS) 결합</strong></td><td class="c-green_bg">덜 상관된 변수는 추가, 강하게 상관된 변수는 제거·교체. 변경점을 탐색 커널로 한정해 개선 효과를 커널에 귀속</td><td class="c-green_bg"><strong>채택</strong></td></tr></table></div>
@@ -272,11 +278,16 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   var obs = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting) {
-        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+        var id = e.target.id;
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + id); });
+        var parent = id.indexOf('-') > -1 ? id.split('-')[0] : id;
+        links.forEach(function(l){
+          if (!l.classList.contains('sub')) l.classList.toggle('on-parent', l.getAttribute('href') === '#' + parent);
+        });
       }
     });
   }, { rootMargin: '-8% 0px -78% 0px' });
-  document.querySelectorAll('.content h2.nh1').forEach(function(h){ obs.observe(h); });
+  document.querySelectorAll('.content h2.nh1, .content h4.nh3').forEach(function(h){ if (h.id) obs.observe(h); });
 })();
 </script>
 </div>

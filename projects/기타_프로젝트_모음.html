@@ -72,9 +72,15 @@ html { scroll-behavior:smooth; }
 .toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
 .toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
 .toc a.on .toc-n { color:var(--acc, #18181b); }
+.toc a.on-parent { color:#18181b; border-left-color:#d5d3cf; }
+.toc a.sub { font-size:13px; font-weight:500; color:#8f8e8a; padding:4.5px 14px 4.5px 36px; }
+.toc a.sub .toc-sub-t { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.toc a.sub:hover { color:#18181b; }
+.toc a.sub.on { font-weight:600; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content h4.nh3 { scroll-margin-top:28px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
@@ -280,11 +286,16 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   var obs = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting) {
-        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+        var id = e.target.id;
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + id); });
+        var parent = id.indexOf('-') > -1 ? id.split('-')[0] : id;
+        links.forEach(function(l){
+          if (!l.classList.contains('sub')) l.classList.toggle('on-parent', l.getAttribute('href') === '#' + parent);
+        });
       }
     });
   }, { rootMargin: '-8% 0px -78% 0px' });
-  document.querySelectorAll('.content h2.nh1').forEach(function(h){ obs.observe(h); });
+  document.querySelectorAll('.content h2.nh1, .content h4.nh3').forEach(function(h){ if (h.id) obs.observe(h); });
 })();
 </script>
 </div>

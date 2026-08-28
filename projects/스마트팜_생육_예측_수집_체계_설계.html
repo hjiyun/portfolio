@@ -72,9 +72,15 @@ html { scroll-behavior:smooth; }
 .toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
 .toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
 .toc a.on .toc-n { color:var(--acc, #18181b); }
+.toc a.on-parent { color:#18181b; border-left-color:#d5d3cf; }
+.toc a.sub { font-size:13px; font-weight:500; color:#8f8e8a; padding:4.5px 14px 4.5px 36px; }
+.toc a.sub .toc-sub-t { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.toc a.sub:hover { color:#18181b; }
+.toc a.sub.on { font-weight:600; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content h4.nh3 { scroll-margin-top:28px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
@@ -245,12 +251,13 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a href="#sec3"><span class="toc-n">03</span><span>분석 설계</span></a>
 <a href="#sec4"><span class="toc-n">04</span><span>실행</span></a>
 <a href="#sec5"><span class="toc-n">05</span><span>결과</span></a>
+<a class="sub" href="#sec5-1"><span class="toc-sub-t">추천 근거의 수치화</span></a>
 <a href="#sec6"><span class="toc-n">06</span><span>자료</span></a>
   </aside>
   <article class="content">
 <div class="ncallout ncallout-yellow_bg"><div class="ncallout-icon ico-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg></div><div class="ncallout-body"><p><strong>"현 데이터로는 신뢰할 수 있는 결론이 불가능하다"를 근거와 함께 보고하고, 재수집 기준까지 역산해 설계한 데이터팀 인턴.</strong> 공공 데이터 82.7만 건으로는 작물 추천 모델(Test F1 0.81) 완성. AWS·SQL 데이터 마트 단독 운영</p></div></div>
 <h2 class="nh1" id="sec1">문제 정의</h2>
-<ul class="nlist"><li>환경 데이터는 분 단위 자동 축적, 생육은 하루 1회 수동 계측. 두 데이터의 품질 격차가 분석의 출발 조건</li><li>센서 18대가 사실상 동일한 환경을 중복 측정. 개체 간 독립성이 없고 관측치 수가 변수 수보다 적은 구조</li><li>학습 작물이 5개뿐이면 부적합 환경에도 무조건 5개 중 하나를 추천하는 모델 리스크</li></ul>
+<ul class="nlist"><li><strong>품질 격차</strong> · 환경 데이터는 분 단위 자동 축적, 생육은 하루 1회 수동 계측. 두 데이터의 품질 격차가 분석의 출발 조건</li><li><strong>독립성 없는 관측</strong> · 센서 18대가 사실상 동일한 환경을 중복 측정. 개체 간 독립성이 없고 관측치 수가 변수 수보다 적은 구조</li><li><strong>강제 추천 리스크</strong> · 학습 작물이 5개뿐이면 부적합 환경에도 무조건 5개 중 하나를 추천하는 모델이 됨</li></ul>
 <h2 class="nh1" id="sec2">데이터</h2>
 <p>농촌진흥청 스마트팜 데이터 82.7만 건. 작물마다 측정 항목이 달라 그대로는 비교 불가<br>→ 7개 작물이 공통으로 가진 환경 변수 5종만 추출.<br>품목 : 파프리카, 방울토마토, 완숙토마토, 참외, 국화, 딸기, 오이</p>
 <figure class="nimg"><img src="../assets/farm_data_raw.png" loading="lazy" alt="원본 데이터. 작물 7종에 환경 항목 10개, 82.7만 건"><figcaption>원본 데이터. 작물 7종에 환경 항목 10개, 82.7만 건</figcaption></figure>
@@ -266,7 +273,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <h2 class="nh1" id="sec5">결과</h2>
 <figure class="nimg"><img src="../assets/farm_result_table.png" loading="lazy" alt=""></figure>
 <ul class="nlist"><li><strong>선정 기준은 학습 점수가 아니라 Train-Test 격차.</strong> 재배 현장에서는 처음 보는 환경에도 작동해야 하므로, 점수가 높은 모델이 아니라 일반화되는 모델을 선정</li><li>Train 0.99대를 기록한 Decision Tree·K-NN·Random Forest는 Test에서 급락해 <strong>전부 과적합으로 배제</strong>. 격차만 보면 SVM(0.005)이 최소지만 성능 자체가 미달이고, Test 점수만 보면 Bagging(0.8178)이 근소 우위지만 격차 0.166으로 불안정</li><li>두 조건을 함께 만족하는 <strong>LGBM 채택 · Test F1 0.81, 격차 0.031.</strong> 비교 6종은 재배 현장에서 추천 근거를 설명할 수 있도록 해석 가능성을 제공하는 모델 중심으로 구성</li><li><strong>"해당 없음" 클래스 15,000건 직접 설계로 precision·recall 모두 1.00 분리.</strong> 학습 작물 5종 어디에도 맞지 않는 환경에서 무조건 하나를 추천하는 오추천을 모델 구조에서 차단</li></ul>
-<h4 class="nh3">추천 근거의 수치화</h4>
+<h4 class="nh3" id="sec5-1">추천 근거의 수치화</h4>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_fi.png" loading="lazy" alt="보고서 원문 · Feature Importance (gain). <br>온도가 압도적 1순위, 풍속이 최하위"><figcaption>보고서 원문 · Feature Importance (gain). <br>온도가 압도적 1순위, 풍속이 최하위</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_pdp.png" loading="lazy" alt="보고서 원문 · Partial Dependence Plots (딸기).<br>온도 10도 부근에서 예측 확률 급등, 습도 30%에서 정점"><figcaption>보고서 원문 · Partial Dependence Plots (딸기).<br>온도 10도 부근에서 예측 확률 급등, 습도 30%에서 정점</figcaption></figure></div></div>
 <ul class="nlist"><li>모델이 왜 그 작물을 추천했는지를 변수 기여도(FI)와 변수별 반응 곡선(PDP)으로 설명. "딸기는 온도 10도·습도 30%, 방울토마토는 15도·CO2 400ppm" 같은 재배 가이드 수치로 번역</li><li>분석 불가 판단은 숨기지 않고 근거와 함께 보고. 현장이 바로 실행할 수 있는 재수집 기준(측정 주기·센서 배치·표본 설계)으로 전달해, 다음 분석이 가능한 데이터가 쌓이는 구조를 만듦</li></ul>
 <details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python·R·scikit-learn·statsmodels·LightGBM / 시계열 분석 (VAR·VECM·그레인저 인과검정) / AWS EC2·SQL</p><p><strong>온실 실데이터 · 분석 불가 규명과 재수집 설계</strong> (쪽파 29변수 × 18개체)</p><ul class="nlist"><li>반복 연산 오류를 다중공선성 진단까지 추적. 코드가 아니라 <strong>센서 18대가 사실상 동일 환경을 중복 측정해 개체 간 독립성이 없는 데이터 설계 문제</strong>(관측치 수가 변수 수보다 적음)로 확인. 군집 축약·리샘플링·변수 제거로도 해소 불가</li><li>재수집 기준 역산: 센서 12구역×3개체 + 검증 10주 표본 설계</li><li>생육조사 20항목(초장·관부직경·엽장·착과수·당도 등) 정의·단위·측정방법·조사주기 표준화 문서 작성</li><li>예측 대상(수확량)이 임의 생성값임을 시각화 중 발견. 임시 VAR 결과에 "모델 해석 불가"를 명시해 오인용 차단</li></ul><p><strong>작물별 최적 환경 정량 비교</strong> · 요구 온도(참외 24.0도 최고, 딸기 16.5도 최저) · CO2(참외 716.8ppm, 방울토마토 439.2ppm)</p><p><strong>전처리 효과</strong> · 전처리 전 Decision Tree F1 0.614 → 전처리 후 Train 0.9999/Test 0.75로 과적합 노출. 점수 상승이 아니라 과적합 판별이 전처리 검증의 목적</p></div></details>
@@ -282,11 +289,16 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   var obs = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting) {
-        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+        var id = e.target.id;
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + id); });
+        var parent = id.indexOf('-') > -1 ? id.split('-')[0] : id;
+        links.forEach(function(l){
+          if (!l.classList.contains('sub')) l.classList.toggle('on-parent', l.getAttribute('href') === '#' + parent);
+        });
       }
     });
   }, { rootMargin: '-8% 0px -78% 0px' });
-  document.querySelectorAll('.content h2.nh1').forEach(function(h){ obs.observe(h); });
+  document.querySelectorAll('.content h2.nh1, .content h4.nh3').forEach(function(h){ if (h.id) obs.observe(h); });
 })();
 </script>
 </div>
