@@ -43,10 +43,13 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 
 
 /* meta summary grid (website-style) */
-.meta { display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:20px 26px; margin:6px 0 30px; }
-.meta-k { font-size:12.5px; font-weight:700; color:#9b9a97; letter-spacing:0.03em; margin-bottom:5px; }
-.meta-v { font-size:14.5px; font-weight:600; line-height:1.45; }
-@media (max-width:800px){ .meta { grid-template-columns:1fr 1fr; } }
+.meta { display:flex; align-items:flex-start; border-top:1px solid #e6e5e3; border-bottom:1px solid #e6e5e3; padding:20px 2px; margin:14px 0 38px; }
+.meta-item { padding:0 34px; border-left:1px solid #ececea; min-width:0; }
+.meta-item:first-child { padding-left:2px; border-left:none; }
+.meta-item:last-child { padding-right:2px; }
+.meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
+.meta-v { font-size:15px; font-weight:600; line-height:1.5; }
+@media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
 
 
 /* accents per group */
@@ -73,12 +76,7 @@ html { scroll-behavior:smooth; }
 .page-head { margin-bottom:4px; }
 
 
-/* highlight stats strip */
-.hstats { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin:0 0 26px; }
-.hstat { background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:18px 22px; }
-.hstat-n { font-size:26px; font-weight:800; color:var(--acc, #18181b); letter-spacing:-0.01em; margin-bottom:4px; line-height:1.15; }
-.hstat-l { font-size:13px; color:#71717a; font-weight:600; line-height:1.4; }
-@media (max-width:800px){ .hstats { grid-template-columns:1fr; } }
+
 
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
@@ -227,12 +225,11 @@ a.gcard:hover { filter:brightness(0.97); }
 </div>
 
 <div class="meta">
-  <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2025년 6월 1일 → 2025년 11월 30일</div></div>
+  <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2025.06 – 2025.11</div></div>
   <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">개인 연구 · 원논문 알고리즘 재현·개선</div></div>
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">참 신호 검출 100% · FSR 6.9배 감소</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-purple">베이지안·SGMCMC</span></div></div>
 </div>
-<div class="hstats"><div class="hstat"><div class="hstat-n">10/10</div><div class="hstat-l">참 신호 검출 (NSR 0%)</div></div><div class="hstat"><div class="hstat-n">6.9배</div><div class="hstat-l">오탐 감소 · Elastic Net 대비</div></div><div class="hstat"><div class="hstat-n">0%</div><div class="hstat-l">임계값 2.1~7.8% 전 구간 FSR·NSR</div></div></div>
 <div class="layout">
   <aside class="toc"><div class="toc-t">목차</div>
 <a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
