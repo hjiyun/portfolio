@@ -80,6 +80,7 @@ html { scroll-behavior:smooth; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
 .content h4.nh3 { scroll-margin-top:28px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
@@ -262,14 +263,14 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   </aside>
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg></div><div class="ncallout-body"><p><strong>다봉 사후분포의 로컬 트랩을 깨는 그래프 preconditioned 적응형 샘플러.</strong> <br>BSS 키프레이즈 추출의 θ 샘플링 스텝만 AWSGLD로 교체 · 동일 데이터·동일 초기화 샘플러 6종 통제 비교 · 시뮬레이션 실험 4종 + Hulth 실데이터·실문서 트랩 검증 · 한국자료분석학회 포스터논문 장려상</p></div></div>
-<h2 class="nh1" id="sec1">문제 정의</h2>
+<h2 class="nh1" id="sec1"><span class="sec-no">01</span>문제 정의</h2>
 <ul class="nlist"><li><strong>LDA 계열의 두 가지 한계</strong> · 결과가 낱개 단어 목록으로 나오지만 사람이 문서를 대표하는 단위로 쓰는 것은 구(phrase), 그리고 완전 비지도라 현실에 일부만 존재하는 정답 라벨을 버림</li><li><strong>BSS의 병목은 추론</strong> · 이를 해결한 BSS(그래프 기반 준지도 키프레이즈 추출)도 나쁜 초기값에서 출발하면 <strong>샘플러가 로컬 모드에 갇혀</strong> 신호가 있는 영역에 끝까지 도달하지 못하고, 결과가 초기값에 좌우됨</li><li><strong>다봉성은 확인된 사실</strong> · 가정이 아니라 직접 구성해 확인. 실문서 10편을 병합한 사후분포 지형에서 에너지 장벽 3.3~22.5로 분리된 <strong>10개 모드</strong>를 확인</li></ul>
-<h2 class="nh1" id="sec2">알고리즘 설계</h2>
+<h2 class="nh1" id="sec2"><span class="sec-no">02</span>알고리즘 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 키프레이즈 추출 모델 신규 설계</td><td class="c-gray">구절 단위 처리와 부분 라벨 활용을 전부 재구현. 성능 개선이 샘플러 덕분인지 모델 덕분인지 분리 불가</td><td class="c-gray">기각</td></tr><tr><td class="c-green_bg"><strong>2안. BSS 유지 + θ 샘플링 스텝만 AWSGLD로 교체</strong></td><td class="c-green_bg">그래프 구조·PU Learning 등 모델은 그대로 두고 변경점을 샘플러 하나로 최소화해 개선 효과를 샘플러에 귀속</td><td class="c-green_bg"><strong>채택</strong></td></tr></table></div>
 <ul class="nlist"><li><strong>그래프 preconditioning P = (BᵀB)⁻¹</strong> · 단어 공출현 그래프의 기하를 기울기에 반영. 에너지 장벽을 넘는 <strong>탈출의 1차 요인</strong></li><li><strong>에너지 파티션 적응 가중(flat-histogram)</strong> · 자주 방문한 저에너지 구간을 점진적으로 up-weight해 샘플러가 보는 지형 자체를 평탄화. <strong>탈출 이후 혼합 효율의 2차 요인</strong>이며, 파티션이 1차원 에너지 축에 걸리므로 모드 수가 차원과 함께 폭증해도 비용이 늘지 않는 구조</li></ul>
 <h4 class="nh3" id="sec2-1">비교 샘플러 6종 · 동일 데이터·동일 초기화 통제</h4>
 <div class="ntable-wrap"><table class="ntable fit"><colgroup><col><col style="width:466px"></colgroup><tr><th>샘플러</th><th>전략</th></tr><tr><td>acMH-within-Gibbs</td><td>원논문(Wang et al. 2023) 기본. (BᵀB)⁻¹·σ² 제안 + MH 수락</td></tr><tr><td>SGLD</td><td>바닐라 확률적 경사 랑주뱅</td></tr><tr><td>qSGLD</td><td>(BᵀB)⁻¹ preconditioning + 상관 노이즈</td></tr><tr><td>cycSGLD</td><td>주기적 학습률 + 2단계 온도</td></tr><tr><td>SGHMC</td><td>보조 운동량 + 마찰항으로 미니배치 노이즈 상쇄</td></tr><tr class="c-green_bg"><td><strong>AWSGLD (제안)</strong></td><td><strong>그래프 preconditioning + 에너지 파티션별 적응 가중으로 모드 간 장벽 평탄화</strong></td></tr></table></div>
-<h2 class="nh1" id="sec3">실험 설계</h2>
+<h2 class="nh1" id="sec3"><span class="sec-no">03</span>실험 설계</h2>
 <p><strong>실험 1 · 원본 BSS 사후분포 비교</strong></p>
 <p>아무 조작 없는 실제 목표 분포에서 6종을 데이터 기반 에너지 컷오프(U ≤ 312) 도달 여부·수렴·효율로 비교</p>
 <p><strong>실험 2 · 다봉 트랩 탈출과 메커니즘 진단</strong></p>
@@ -283,7 +284,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <p><strong>실험 6 · 실문서 병합 트랩</strong></p>
 <p>어휘 겹침이 낮은 Hulth 실문서 3편·10편을 병합해 다봉 지형을 실데이터로 직접 구성하고, 시뮬레이션의 탈출 능력이 재현되는지 확인</p>
 <ul class="nlist"><li>지표는 복원(MSE·Spearman·NDCG)과 수렴·효율(R̂·ESS·Cost/ESS), 선택 품질(F@k·실현 FDR)을 분리해 측정</li></ul>
-<h2 class="nh1" id="sec4">결과</h2>
+<h2 class="nh1" id="sec4"><span class="sec-no">04</span>결과</h2>
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-amber"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.2 3.2 0 0 0 8 9M16 5.5h3.2A3.2 3.2 0 0 1 16 9"/><path d="M12 13.5v2.5M9.2 20.5h5.6M10 16h4l.9 4.5H9.1z"/></svg></div><div class="ncallout-body"><p><strong>원본 사후분포에서 6종 중 유일하게 전 성분 수렴(R̂ &lt; 1.2)하며 ESS 26.4로 차선의 2배 · 10문서 실데이터 트랩에서 10개 모드 중 평균 7.4개 방문(차선 1.8) · 한국자료분석학회 포스터논문 장려상 (2026.06)</strong></p></div></div>
 <h4 class="nh3" id="sec4-1">실험 1 · 모형 성능 지표 설정 : 최저 에너지, 효율성</h4>
 <figure class="nimg"><img src="../assets/bss_fig1_traces.png" loading="lazy" alt="원본 BSS 사후분포 성분 trace (논문 Figure 1). AWSGLD(왼쪽)는 강·약 신호 그룹이 초반에 참값 수준에 도달해 혼합되지만, SGLD(오른쪽)는 5,000회 내내 참값 아래 좁은 띠에 눌려 신호 영역에 도달하지 못함"><figcaption>원본 BSS 사후분포 성분 trace (논문 Figure 1). AWSGLD(왼쪽)는 강·약 신호 그룹이 초반에 참값 수준에 도달해 혼합되지만, SGLD(오른쪽)는 5,000회 내내 참값 아래 좁은 띠에 눌려 신호 영역에 도달하지 못함</figcaption></figure>
@@ -313,7 +314,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>실험</th><th>확인 항목</th><th>AWSGLD (제안)</th><th>비교군 최선</th></tr><tr><td>1 · 원본 BSS 사후분포</td><td>에너지 컷오프 도달 · 수렴 · 효율</td><td class="c-green_bg"><strong>컷오프 5/5 · R̂ &lt; 1.2 · ESS 26.4</strong></td><td>qSGLD 4/5 · ESS 13.1</td></tr><tr><td>2 · 3모드 트랩 (null basin 출발)</td><td>장벽 탈출 · 순위 복원</td><td class="c-green_bg"><strong>R̂ max 1.15 · Spearman 0.697</strong></td><td>qSGLD R̂ 1.37 · Spearman 0.648</td></tr><tr><td>3 · 난이도 4시나리오</td><td>난이도별 복원 품질 · 비용</td><td class="c-green_bg"><strong>Difficult Spearman 0.553 · NDCG 0.822 · 16.3초</strong></td><td>qSGLD 0.327 · acMH 707.3초</td></tr><tr><td>4 · 규모 확장 (n=10,000)</td><td>규모에 따른 안정성</td><td class="c-green_bg"><strong>MSE 1.251 · R̂ 1.09 · ESS 63.1</strong></td><td>cycSGLD MSE 1.784 · ESS 40.4</td></tr><tr><td>5 · Hulth 초록 500편</td><td>FDR 컷오프 선택 품질</td><td class="c-green_bg"><strong>γ=0.25 pooled F 0.694 · 실현 FDR 준수</strong></td><td>qSGLD 0.639</td></tr><tr><td>6 · 실문서 병합 트랩</td><td>실데이터 다봉 지형 탈출</td><td class="c-green_bg"><strong>10문서 basin 7.4/10 · P@20 0.945</strong></td><td>qSGLD basin 1.8 · SGHMC P@20 0.875</td></tr></table></div>
 <ul class="nlist"><li>시뮬레이션(실험 1~4)에서 확인한 탈출 능력이 실데이터(실험 5~6)에서도 재현. 단봉에 가까운 단일 문서에서는 넓은 탐색에 따른 재현율 개선으로, 다봉 병합 지형에서는 모드 방문 수 자체의 격차로 우위가 드러남</li><li>여섯 실험 전부에서 복원 정확도와 수렴·효율을 동시에 만족한 샘플러는 AWSGLD뿐. 다만 3문서 트랩의 낮은 γ(0.10)처럼 한 basin에 갇힌 체인이 컷오프 F에서 앞서는 구간이 있어, 우위가 성립하는 범위를 구분해 기록</li></ul>
 <details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python(NumPy·Numba)·R / SGMCMC(AWSGLD·SGLD·qSGLD·cycSGLD·SGHMC) / 그래프 기반 NLP · PU Learning / Hulth 벤치마크 전처리(POS 필터·window-2 공출현 그래프)</p><p><strong>공정 비교</strong> · 기준선 acMH를 Numba + O(n) 증분 계산으로 가속해 동일 조건 비교. 모든 실험은 동일 데이터·동일 초기화·동일 온도로 통제</p><p><strong>검증 태도</strong> · cycSGLD의 single-chain lucky(R̂ 5.09인데 MSE 1위) 같은 이상 사례를 3체인 pooled 추정으로 교정하니 정상 경쟁자로 복귀, 이전 우위가 추정기 인공물이었음을 규명. n=10,000은 단일 시드(1체인 약 1시간) 한계도 명시</p></div></details>
-<h2 class="nh1" id="sec5">자료</h2>
+<h2 class="nh1" id="sec5"><span class="sec-no">05</span>자료</h2>
 <a class="nfile" href="../files/BSS_AWSGLD_%ED%8F%AC%EC%8A%A4%ED%84%B0_A1.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">BSS-AWSGLD 키프레이즈 추출 · 학회 포스터 (장려상)</span></a>
 <p><a href="https://github.com/hjiyun/BSS-Keyphrase-Extraction" target="_blank" rel="noopener">https://github.com/hjiyun/BSS-Keyphrase-Extraction</a></p>
   </article>
