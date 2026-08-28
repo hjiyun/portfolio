@@ -12,8 +12,8 @@ body {
   line-height:1.5; font-size:16px;
   -webkit-font-smoothing:antialiased;
 }
-.page { max-width:900px; margin:0 auto; padding:64px 40px 30vh; }
-.page.wide { max-width:960px; }
+.page { max-width:1400px; margin:0 auto; padding:56px 48px 18vh; }
+.page.wide { max-width:1400px; }
 a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
 a:hover { text-decoration-color:rgba(55,53,47,0.8); }
 p { margin:3px 0; padding:3px 2px; }
@@ -40,6 +40,13 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .bc-ic { width:1.05em; height:1.05em; }
 .ncallout-icon .icon { width:22px; height:22px; }
 .nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+
+/* meta summary grid (website-style) */
+.meta { display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:20px 26px; margin:6px 0 30px; }
+.meta-k { font-size:12.5px; font-weight:700; color:#9b9a97; letter-spacing:0.03em; margin-bottom:5px; }
+.meta-v { font-size:14.5px; font-weight:600; line-height:1.45; }
+@media (max-width:800px){ .meta { grid-template-columns:1fr 1fr; } }
 
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
@@ -185,13 +192,12 @@ a.gcard:hover { filter:brightness(0.97); }
 <div class="page-icon-svg tint-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg></div>
 <h1 class="page-title">스마트팜 생육 예측 · 수집 체계 설계</h1>
 
-<div class="props">
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M4 1v2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-1.5v2h-5V1H4zm9.5 5v7H2.5V6h11z"/></svg>기간</span><span class="prop-v">2023년 11월 1일 → 2024년 5월 31일</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM2 14a6 6 0 1 1 12 0v1H2v-1z"/></svg>기여도</span><span class="prop-v">데이터팀 인턴 (제레스팜)</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" d="M7 10.5 4.8 8.3l1-1L7 8.5l3.2-3.2 1 1z"/></svg>결과</span><span class="prop-v">LGBM 81% · 재수집 기준 설계 (인턴)</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>그룹</span><span class="prop-v"><span class="chip chip-yellow">ML·데이터 시스템</span></span></div>
+<div class="meta">
+  <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2023년 11월 1일 → 2024년 5월 31일</div></div>
+  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">데이터팀 인턴 (제레스팜)</div></div>
+  <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">LGBM 81% · 재수집 기준 설계 (인턴)</div></div>
+  <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-yellow">ML·데이터 시스템</span></div></div>
 </div>
-<hr class="props-hr">
 <div class="content">
 <div class="ncallout ncallout-yellow_bg"><div class="ncallout-icon ico-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg></div><div class="ncallout-body"><p><strong>"현 데이터로는 신뢰할 수 있는 결론이 불가능하다"를 근거와 함께 보고하고, 재수집 기준까지 역산해 설계한 데이터팀 인턴.</strong> 공공 데이터 82.7만 건으로는 작물 추천 모델(Test F1 0.81) 완성. AWS·SQL 데이터 마트 단독 운영</p></div></div>
 <h2 class="nh1">문제 정의</h2>

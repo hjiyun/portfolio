@@ -12,8 +12,8 @@ body {
   line-height:1.5; font-size:16px;
   -webkit-font-smoothing:antialiased;
 }
-.page { max-width:900px; margin:0 auto; padding:64px 40px 30vh; }
-.page.wide { max-width:960px; }
+.page { max-width:1400px; margin:0 auto; padding:56px 48px 18vh; }
+.page.wide { max-width:1400px; }
 a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
 a:hover { text-decoration-color:rgba(55,53,47,0.8); }
 p { margin:3px 0; padding:3px 2px; }
@@ -40,6 +40,13 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .bc-ic { width:1.05em; height:1.05em; }
 .ncallout-icon .icon { width:22px; height:22px; }
 .nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+
+/* meta summary grid (website-style) */
+.meta { display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:20px 26px; margin:6px 0 30px; }
+.meta-k { font-size:12.5px; font-weight:700; color:#9b9a97; letter-spacing:0.03em; margin-bottom:5px; }
+.meta-v { font-size:14.5px; font-weight:600; line-height:1.45; }
+@media (max-width:800px){ .meta { grid-template-columns:1fr 1fr; } }
 
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
@@ -185,13 +192,12 @@ a.gcard:hover { filter:brightness(0.97); }
 <div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div>
 <h1 class="page-title">베이지안 토픽모델링 프로젝트 2종</h1>
 
-<div class="props">
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M4 1v2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-1.5v2h-5V1H4zm9.5 5v7H2.5V6h11z"/></svg>기간</span><span class="prop-v">2025년 4월 1일 → 2025년 11월 30일</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM2 14a6 6 0 1 1 12 0v1H2v-1z"/></svg>기여도</span><span class="prop-v">첫 번째 단독 수행 · 두 번째 학제간 팀 정량 분석 전담</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" d="M7 10.5 4.8 8.3l1-1L7 8.5l3.2-3.2 1 1z"/></svg>결과</span><span class="prop-v">Coherence +67% · 평화지수 2017–2024 설계</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>그룹</span><span class="prop-v"><span class="chip chip-purple">베이지안·SGMCMC</span></span></div>
+<div class="meta">
+  <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2025년 4월 1일 → 2025년 11월 30일</div></div>
+  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">첫 번째 단독 수행 · 두 번째 학제간 팀 정량 분석 전담</div></div>
+  <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">Coherence +67% · 평화지수 2017–2024 설계</div></div>
+  <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-purple">베이지안·SGMCMC</span></div></div>
 </div>
-<hr class="props-hr">
 <div class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div><div class="ncallout-body"><p><strong>베이지안 토픽모델링을 주제로 한 프로젝트 2개.</strong> <br>첫 번째는 LDA에 SGLD를 결합해 속도와 주제 해석력을 함께 확보한 알고리즘 연구, 두 번째는 토픽모델링을 한반도 평화지수 검증에 적용한 학제간 데이터 분석</p></div></div>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>프로젝트</th><th>무엇을</th><th>핵심 성과</th></tr><tr><td><strong>첫 번째 · LDA + SGLD 하이브리드</strong></td><td>토픽모델링의 속도-품질 딜레마를 이산(Gibbs)·연속(SGLD) 분리 하이브리드로 해결</td><td>Coherence 0.421 → <strong>0.705 (+67%)</strong></td></tr><tr><td><strong>두 번째 · 한반도 평화지수</strong></td><td>학제간 3인 팀의 유일한 데이터 전공자로 4영역 14지표 지수 설계 + LDA 담론 교차 검증</td><td>AHP 일관성 <strong>CR≈0.00001</strong> · 부트스트랩 95% CI · "외교 단절이 병목" 정량 입증</td></tr></table></div>
