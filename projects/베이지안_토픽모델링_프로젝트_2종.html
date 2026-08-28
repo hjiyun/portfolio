@@ -59,18 +59,26 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 html { scroll-behavior:smooth; }
 .layout { display:flex; gap:60px; align-items:flex-start; }
 .content { flex:1; min-width:0; max-width:920px; }
-.toc { position:sticky; top:36px; width:250px; flex-shrink:0; border-left:1px solid #ececea; padding-left:22px; font-size:13.5px; }
-.toc-t { font-weight:800; font-size:11.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; }
-.toc a { display:flex; gap:9px; padding:6.5px 0; color:#71717a; text-decoration:none; font-weight:600; line-height:1.4; }
-.toc a:hover { color:#18181b; }
-.toc a.on { color:var(--acc, #18181b); }
-.toc-n { color:#c9c8c5; font-size:11px; padding-top:2.5px; font-weight:700; }
+.toc { position:sticky; top:36px; width:260px; flex-shrink:0; font-size:15.5px; }
+.toc-t { font-weight:800; font-size:12.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; padding-left:16px; }
+.toc a { display:flex; gap:10px; padding:9px 14px 9px 13px; color:#5f5e5b; text-decoration:none; font-weight:600; line-height:1.4; border-left:3px solid #ececea; }
+.toc a:hover { color:#18181b; background:#fafaf9; }
+.toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
+.toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
 .toc a.on .toc-n { color:var(--acc, #18181b); }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
-.content > .ncallout:first-child { margin-top:4px; }
+.content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
+
+
+/* highlight stats strip */
+.hstats { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin:0 0 26px; }
+.hstat { background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:18px 22px; }
+.hstat-n { font-size:26px; font-weight:800; color:var(--acc, #18181b); letter-spacing:-0.01em; margin-bottom:4px; line-height:1.15; }
+.hstat-l { font-size:13px; color:#71717a; font-weight:600; line-height:1.4; }
+@media (max-width:800px){ .hstats { grid-template-columns:1fr; } }
 
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
@@ -224,7 +232,17 @@ a.gcard:hover { filter:brightness(0.97); }
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">Coherence +67% · 평화지수 2017–2024 설계</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-purple">베이지안·SGMCMC</span></div></div>
 </div>
+<div class="hstats"><div class="hstat"><div class="hstat-n">+67%</div><div class="hstat-l">Coherence 0.421 → 0.705</div></div><div class="hstat"><div class="hstat-n">14지표</div><div class="hstat-l">4영역 한반도 평화지수 설계</div></div><div class="hstat"><div class="hstat-n">CR≈0.00001</div><div class="hstat-l">AHP 가중치 일관성 검증</div></div></div>
 <div class="layout">
+  <aside class="toc"><div class="toc-t">목차</div>
+<a href="#sec1"><span class="toc-n">01</span><span>개요</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>사용 기술</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>문제 정의</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>역할</span></a>
+<a href="#sec5"><span class="toc-n">05</span><span>수행 내용</span></a>
+<a href="#sec6"><span class="toc-n">06</span><span>산출물</span></a>
+<a href="#sec7"><span class="toc-n">07</span><span>결과 요약</span></a>
+  </aside>
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div><div class="ncallout-body"><p><strong>베이지안 토픽모델링을 주제로 한 프로젝트 2개.</strong> <br>첫 번째는 LDA에 SGLD를 결합해 속도와 주제 해석력을 함께 확보한 알고리즘 연구, 두 번째는 토픽모델링을 한반도 평화지수 검증에 적용한 학제간 데이터 분석</p></div></div>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>프로젝트</th><th>무엇을</th><th>핵심 성과</th></tr><tr><td><strong>첫 번째 · LDA + SGLD 하이브리드</strong></td><td>토픽모델링의 속도-품질 딜레마를 이산(Gibbs)·연속(SGLD) 분리 하이브리드로 해결</td><td>Coherence 0.421 → <strong>0.705 (+67%)</strong></td></tr><tr><td><strong>두 번째 · 한반도 평화지수</strong></td><td>학제간 3인 팀의 유일한 데이터 전공자로 4영역 14지표 지수 설계 + LDA 담론 교차 검증</td><td>AHP 일관성 <strong>CR≈0.00001</strong> · 부트스트랩 95% CI · "외교 단절이 병목" 정량 입증</td></tr></table></div>
@@ -257,15 +275,6 @@ a.gcard:hover { filter:brightness(0.97); }
 <ul class="nlist"><li>분석 결과: 2018년 4영역 동시 정점(100) → 하노이 회담 결렬 후 외교 영역 0으로 고착, 2023년 군사 영역 일부 회복에도 종합지수 미반등 → <strong>외교 채널 단절이 다른 모든 교류를 막는 병목</strong>임을 정량 입증</li><li>통일부 2018년 언론 기사 전량 크롤링, K=8 선정(Coherence·Perplexity·Diversity·Stability 4지표 비교) 후 월별 토픽 비중으로 "평창 참가→남북정상회담→북미정상회담→평양회담→실무협상" 담론 흐름 복원 — 지수 변동과 언론 의제의 연동을 교차 검증</li></ul>
 <figure class="nimg"><img src="../assets/topic_lda_trend.png" loading="lazy" alt=""></figure>
   </article>
-  <aside class="toc"><div class="toc-t">목차</div>
-<a href="#sec1"><span class="toc-n">01</span><span>개요</span></a>
-<a href="#sec2"><span class="toc-n">02</span><span>사용 기술</span></a>
-<a href="#sec3"><span class="toc-n">03</span><span>문제 정의</span></a>
-<a href="#sec4"><span class="toc-n">04</span><span>역할</span></a>
-<a href="#sec5"><span class="toc-n">05</span><span>수행 내용</span></a>
-<a href="#sec6"><span class="toc-n">06</span><span>산출물</span></a>
-<a href="#sec7"><span class="toc-n">07</span><span>결과 요약</span></a>
-  </aside>
 </div>
 
 <script>

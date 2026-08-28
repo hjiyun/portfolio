@@ -59,18 +59,26 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 html { scroll-behavior:smooth; }
 .layout { display:flex; gap:60px; align-items:flex-start; }
 .content { flex:1; min-width:0; max-width:920px; }
-.toc { position:sticky; top:36px; width:250px; flex-shrink:0; border-left:1px solid #ececea; padding-left:22px; font-size:13.5px; }
-.toc-t { font-weight:800; font-size:11.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; }
-.toc a { display:flex; gap:9px; padding:6.5px 0; color:#71717a; text-decoration:none; font-weight:600; line-height:1.4; }
-.toc a:hover { color:#18181b; }
-.toc a.on { color:var(--acc, #18181b); }
-.toc-n { color:#c9c8c5; font-size:11px; padding-top:2.5px; font-weight:700; }
+.toc { position:sticky; top:36px; width:260px; flex-shrink:0; font-size:15.5px; }
+.toc-t { font-weight:800; font-size:12.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; padding-left:16px; }
+.toc a { display:flex; gap:10px; padding:9px 14px 9px 13px; color:#5f5e5b; text-decoration:none; font-weight:600; line-height:1.4; border-left:3px solid #ececea; }
+.toc a:hover { color:#18181b; background:#fafaf9; }
+.toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
+.toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
 .toc a.on .toc-n { color:var(--acc, #18181b); }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
-.content > .ncallout:first-child { margin-top:4px; }
+.content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
+
+
+/* highlight stats strip */
+.hstats { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin:0 0 26px; }
+.hstat { background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:18px 22px; }
+.hstat-n { font-size:26px; font-weight:800; color:var(--acc, #18181b); letter-spacing:-0.01em; margin-bottom:4px; line-height:1.15; }
+.hstat-l { font-size:13px; color:#71717a; font-weight:600; line-height:1.4; }
+@media (max-width:800px){ .hstats { grid-template-columns:1fr; } }
 
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
@@ -224,7 +232,14 @@ a.gcard:hover { filter:brightness(0.97); }
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">참 신호 검출 100% · FSR 6.9배 감소</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-purple">베이지안·SGMCMC</span></div></div>
 </div>
+<div class="hstats"><div class="hstat"><div class="hstat-n">10/10</div><div class="hstat-l">참 신호 검출 (NSR 0%)</div></div><div class="hstat"><div class="hstat-n">6.9배</div><div class="hstat-l">오탐 감소 · Elastic Net 대비</div></div><div class="hstat"><div class="hstat-n">0%</div><div class="hstat-l">임계값 2.1~7.8% 전 구간 FSR·NSR</div></div></div>
 <div class="layout">
+  <aside class="toc"><div class="toc-t">목차</div>
+<a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>알고리즘 설계</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>실행</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>결과</span></a>
+  </aside>
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div><div class="ncallout-body"><p><strong>참 신호를 하나도 놓치지 않으면서(NSR 0%) 오탐을 6.9배 줄인 상관 기반 하이브리드 MCMC.</strong> <br>원논문 C 코드 8개 모듈 전면 이식 + CBS 제안분포 설계 · 시뮬레이션 10회 반복 검증 · 개인 연구</p></div></div>
 <h2 class="nh1" id="sec1">문제 정의</h2>
@@ -243,12 +258,6 @@ a.gcard:hover { filter:brightness(0.97); }
 <ul class="nlist"><li>빈도 집계 규칙은 임계값 <strong>2.1~7.8% 전 구간에서 완벽 선택(FSR 0% · NSR 0%)</strong> 을 재현. 특정 임계값을 골라 만든 결과가 아님을 스윕으로 입증, 10,000턴 중 616개 턴은 단독으로도 완벽 해</li><li>결과가 임계값 하나에 의존하지 않아 실무 적용 시 튜닝 부담이 낮고, 상관이 강한 데이터라면 유전체 외 도메인에도 같은 커널 적용 가능</li></ul>
 <details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python(NumPy·SciPy·scikit-learn) / R(glmnet·affy/RMA·caret·igraph) / C 코드 이식 / Metropolis-Hastings·SAMC·베이지안 변수선택(g-prior, PIP)·로컬 FDR</p><p><strong>성능 최적화</strong> · 비용함수를 Gram 행렬 사전계산 + Cholesky 분해로 재작성, BLAS 스레드 고정과 부분행렬 캐싱으로 10,000턴 대규모 실행 확보</p><p><strong>실데이터 파이프라인</strong> · GSE2990 CEL 원본 → RMA 정규화 → IQR 필터 → 상관 기반 중복 제거(|r| &gt; 0.5) → 계층적 클러스터링(K=20), 클러스터 내부 평균 |r| 최고 블록에 참 신호 배치</p><p><strong>재현 근거</strong> · 모든 수치는 원본 실행 로그에서 재계산. 입력 데이터 MD5 해시 대조로 방법 간 동일 조건 비교 검증</p><p><strong>검증 범위</strong> · 단일 시나리오(S1, n=100 / p=1,000 / 참 신호 10개) 10회 반복 기준. 다양한 n·p 조합 일반화와 로지스틱 확장은 후속 과제</p></div></details>
   </article>
-  <aside class="toc"><div class="toc-t">목차</div>
-<a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
-<a href="#sec2"><span class="toc-n">02</span><span>알고리즘 설계</span></a>
-<a href="#sec3"><span class="toc-n">03</span><span>실행</span></a>
-<a href="#sec4"><span class="toc-n">04</span><span>결과</span></a>
-  </aside>
 </div>
 
 <script>

@@ -59,18 +59,26 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 html { scroll-behavior:smooth; }
 .layout { display:flex; gap:60px; align-items:flex-start; }
 .content { flex:1; min-width:0; max-width:920px; }
-.toc { position:sticky; top:36px; width:250px; flex-shrink:0; border-left:1px solid #ececea; padding-left:22px; font-size:13.5px; }
-.toc-t { font-weight:800; font-size:11.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; }
-.toc a { display:flex; gap:9px; padding:6.5px 0; color:#71717a; text-decoration:none; font-weight:600; line-height:1.4; }
-.toc a:hover { color:#18181b; }
-.toc a.on { color:var(--acc, #18181b); }
-.toc-n { color:#c9c8c5; font-size:11px; padding-top:2.5px; font-weight:700; }
+.toc { position:sticky; top:36px; width:260px; flex-shrink:0; font-size:15.5px; }
+.toc-t { font-weight:800; font-size:12.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; padding-left:16px; }
+.toc a { display:flex; gap:10px; padding:9px 14px 9px 13px; color:#5f5e5b; text-decoration:none; font-weight:600; line-height:1.4; border-left:3px solid #ececea; }
+.toc a:hover { color:#18181b; background:#fafaf9; }
+.toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
+.toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
 .toc a.on .toc-n { color:var(--acc, #18181b); }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
-.content > .ncallout:first-child { margin-top:4px; }
+.content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
+
+
+/* highlight stats strip */
+.hstats { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin:0 0 26px; }
+.hstat { background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:18px 22px; }
+.hstat-n { font-size:26px; font-weight:800; color:var(--acc, #18181b); letter-spacing:-0.01em; margin-bottom:4px; line-height:1.15; }
+.hstat-l { font-size:13px; color:#71717a; font-weight:600; line-height:1.4; }
+@media (max-width:800px){ .hstats { grid-template-columns:1fr; } }
 
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
@@ -224,7 +232,16 @@ a.gcard:hover { filter:brightness(0.97); }
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">JKDAS 27(2) 제1저자 · BERTScore +41%</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-blue">LLM·RAG</span></div></div>
 </div>
+<div class="hstats"><div class="hstat"><div class="hstat-n">+41%</div><div class="hstat-l">BERTScore 향상 · 규칙 기반 대비</div></div><div class="hstat"><div class="hstat-n">139만 건</div><div class="hstat-l">신한금융 실고객 데이터 검증</div></div><div class="hstat"><div class="hstat-n">JKDAS 27(2)</div><div class="hstat-l">제1저자 게재</div></div></div>
 <div class="layout">
+  <aside class="toc"><div class="toc-t">목차</div>
+<a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>시스템 설계</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>시스템 구조</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>평가 설계</span></a>
+<a href="#sec5"><span class="toc-n">05</span><span>결과</span></a>
+<a href="#sec6"><span class="toc-n">06</span><span>자료</span></a>
+  </aside>
   <article class="content">
 <div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21v-9M9.5 21v-9M14.5 21v-9M19 21v-9M3 9.5 12 3l9 6.5z"/></svg></div><div class="ncallout-body"><p><strong>"신용점수가 낮습니다" 한 줄 안내를, 고객 본인의 수치와 심사 기준 문서를 근거로 한 맞춤 설명으로 바꾼 자체 호스팅 RAG.</strong> <br>신한금융 실고객 139만 건 · JKDAS 27(2) 제1저자 게재 · 단독 연구</p></div></div>
 <h2 class="nh1" id="sec1">문제 정의</h2>
@@ -249,14 +266,6 @@ a.gcard:hover { filter:brightness(0.97); }
 <h2 class="nh1" id="sec6">자료</h2>
 <a class="nfile" href="../files/RAG%EC%99%80_LLM%EC%9D%84_%ED%99%9C%EC%9A%A9%ED%95%9C_%EA%B8%88%EC%9C%B5_%EC%8B%AC%EC%82%AC_%EC%84%A4%EB%AA%85%EB%A0%A5_%ED%96%A5%EC%83%81_%EB%B0%A9%EC%95%88.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">RAG와 LLM을 활용한 금융 심사 설명력 향상 방안 · JKDAS 27(2), 465-476</span></a>
   </article>
-  <aside class="toc"><div class="toc-t">목차</div>
-<a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
-<a href="#sec2"><span class="toc-n">02</span><span>시스템 설계</span></a>
-<a href="#sec3"><span class="toc-n">03</span><span>시스템 구조</span></a>
-<a href="#sec4"><span class="toc-n">04</span><span>평가 설계</span></a>
-<a href="#sec5"><span class="toc-n">05</span><span>결과</span></a>
-<a href="#sec6"><span class="toc-n">06</span><span>자료</span></a>
-  </aside>
 </div>
 
 <script>
