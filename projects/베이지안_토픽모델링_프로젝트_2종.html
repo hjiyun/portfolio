@@ -80,6 +80,7 @@ html { scroll-behavior:smooth; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
 .content h4.nh3 { scroll-margin-top:28px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
@@ -257,26 +258,26 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div><div class="ncallout-body"><p><strong>베이지안 토픽모델링을 주제로 한 프로젝트 2개.</strong> <br>첫 번째는 LDA에 SGLD를 결합해 속도와 주제 해석력을 함께 확보한 알고리즘 연구, 두 번째는 토픽모델링을 한반도 평화지수 검증에 적용한 학제간 데이터 분석</p></div></div>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>프로젝트</th><th>무엇을</th><th>핵심 성과</th></tr><tr><td><strong>첫 번째 · LDA + SGLD 하이브리드</strong></td><td>토픽모델링의 속도-품질 딜레마를 이산(Gibbs)·연속(SGLD) 분리 하이브리드로 해결</td><td>Coherence 0.421 → <strong>0.705 (+67%)</strong></td></tr><tr><td><strong>두 번째 · 한반도 평화지수</strong></td><td>학제간 3인 팀의 유일한 데이터 전공자로 4영역 14지표 지수 설계 + LDA 담론 교차 검증</td><td>AHP 일관성 <strong>CR≈0.00001</strong> · 부트스트랩 95% CI · "외교 단절이 병목" 정량 입증</td></tr></table></div>
-<h2 class="nh1" id="sec1">개요</h2>
+<h2 class="nh1" id="sec1"><span class="sec-no">01</span>개요</h2>
 <p>베이지안 토픽모델링을 주제로 진행한 별개의 프로젝트 2개. 첫 번째 프로젝트는 토픽모델링(LDA)에 확률적 샘플러(SGLD)를 결합해 계산 속도와 주제 해석력을 함께 확보한 알고리즘 연구. 두 번째 프로젝트는 한반도 평화지수를 설계하고 LDA 담론 분석으로 교차 검증한 학제간 데이터 분석.</p>
-<h2 class="nh1" id="sec2">사용 기술</h2>
+<h2 class="nh1" id="sec2"><span class="sec-no">02</span>사용 기술</h2>
 <ul class="nlist"><li>Python, LDA, Gibbs Sampling, SGLD(Stochastic Gradient Langevin Dynamics)</li><li>AHP (쌍대비교), Bootstrap, 한국어 전처리·크롤링</li></ul>
-<h2 class="nh1" id="sec3">문제 정의</h2>
+<h2 class="nh1" id="sec3"><span class="sec-no">03</span>문제 정의</h2>
 <ul class="nlist"><li><strong>첫 번째 프로젝트</strong> · Gibbs 기반 LDA의 전체 데이터 재계산 → 대규모 문서 처리 한계</li><li><strong>두 번째 프로젝트</strong> · 전문가 주관 의존 한반도 평화지수의 재현성 부족 (2016년 이후 조사 중단)</li></ul>
-<h2 class="nh1" id="sec4">역할</h2>
+<h2 class="nh1" id="sec4"><span class="sec-no">04</span>역할</h2>
 <ul class="nlist"><li>첫 번째 프로젝트: 주연구원 단독 수행</li><li>두 번째 프로젝트: 학제간 3인 팀 (통일외교안보·북한학) 내 유일 데이터 전공자로 정량 분석 전담</li></ul>
-<h2 class="nh1" id="sec5">수행 내용</h2>
+<h2 class="nh1" id="sec5"><span class="sec-no">05</span>수행 내용</h2>
 <p><strong>첫 번째 프로젝트 · LDA + SGLD 하이브리드 (2025.04–07)</strong></p>
 <ul class="nlist"><li>미니배치 비편향 기울기 수식 직접 유도·검수 후 구현</li><li>이산 할당(Gibbs)·연속 파라미터(SGLD) 분리 하이브리드 순환 구조 설계</li><li>20 Newsgroups 18,000 문서 대상 3지표(Perplexity·Coherence·Silhouette) 통제 평가</li></ul>
 <p><strong>두 번째 프로젝트 · 종합적 한반도 평화 지표 개발과 적용 (2025.11)</strong></p>
 <ul class="nlist"><li>4영역 14지표 평화지수 체계 설계 (z-표준화·방향성 정렬·AHP 가중치 CR≈0.00001)</li><li>부트스트랩 1,000회 95% 신뢰구간 산출 및 결측-0 구분 정책 수립</li><li>통일부 2018년 언론 기사 전체 크롤링 및 LDA(K=8) 담론-지수 교차 검증</li></ul>
-<h2 class="nh1" id="sec6">산출물</h2>
+<h2 class="nh1" id="sec6"><span class="sec-no">06</span>산출물</h2>
 <ul class="nlist"><li>하이브리드 토픽모델링 알고리즘 (Coherence 0.421→0.705, +67%)</li><li>한반도 평화지수(2017–2024) 및 담론 교차 검증 결과 (통일 준비 세미나 발표)</li></ul>
 <p class="nnum"><span class="nnum-n">1.</span> <strong>LDA + SGLD 하이브리드</strong></p>
 <a class="nfile" href="../files/LDA_SGLD_%ED%95%98%EC%9D%B4%EB%B8%8C%EB%A6%AC%EB%93%9C.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">SGLD 결합 하이브리드 토픽모델링</span></a>
 <p class="nnum"><span class="nnum-n">2.</span> <strong>종합적 한반도 평화 지표 개발과 적용</strong></p>
 <a class="nfile" href="../files/%EC%A2%85%ED%95%A9%EC%A0%81_%ED%95%9C%EB%B0%98%EB%8F%84_%ED%8F%89%ED%99%94%EC%A7%80%ED%91%9C_%EC%84%B8%EB%AF%B8%EB%82%98.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">종합적 한반도 평화 지표 개발과 적용 · 통일 준비 세미나</span></a>
-<h2 class="nh1" id="sec7">결과 요약</h2>
+<h2 class="nh1" id="sec7"><span class="sec-no">07</span>결과 요약</h2>
 <p><strong>첫 번째 프로젝트 · LDA+SGLD 하이브리드 성능</strong> (20 Newsgroups 18,000 문서, 토픽 수 3~20 전 구간 비교)</p>
 <div class="ntable-wrap"><table class="ntable"><tr><th>지표</th><th>표준 LDA (gensim/sklearn)</th><th>SGLD-Gibbs-LDA (제안)</th></tr><tr><td>Coherence (주제 해석력, K=5)</td><td>0.421</td><td><strong>0.705 (+67%)</strong></td></tr><tr><td>Perplexity (생성 품질)</td><td>Gibbs 우수</td><td>열세</td></tr><tr><td>Silhouette (군집 명확성)</td><td>패키지 우수</td><td>열세</td></tr></table></div>
 <ul class="nlist"><li>지표마다 승자가 다름 → 사람이 결과를 읽는 도메인에서는 "이 주제가 말이 되는가(Coherence)"가 우선이라는 기준으로 실용적 균형점 선정. "무엇을 위한 모델인가에 따라 평가 기준부터 달라져야 한다"는 이후 전 프로젝트의 판단 원칙 획득</li><li>미니배치 비편향 기울기 수식을 손으로 유도·검수("파라미터 미분 검수"를 연구 일정의 별도 단계로 설정)한 뒤 구현</li></ul>

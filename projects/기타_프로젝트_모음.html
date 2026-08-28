@@ -80,6 +80,7 @@ html { scroll-behavior:smooth; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
 .content h4.nh3 { scroll-margin-top:28px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
@@ -252,7 +253,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   </aside>
   <article class="content">
 <div class="ncallout ncallout-gray_bg"><div class="ncallout-icon ico-gray"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.2 18.2h5.6M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.9 10.6c.8.7 1.1 1.5 1.1 2.4h5.6c0-.9.3-1.7 1.1-2.4A6 6 0 0 0 12 3z"/></svg></div><div class="ncallout-body"><p>핵심 프로젝트 외의 수상작·공모전·기획 경험 모음.</p></div></div>
-<h2 class="nh1" id="sec1">수상작</h2>
+<h2 class="nh1" id="sec1"><span class="sec-no">01</span>수상작</h2>
 <p><span class="c-gray_bg"><strong>택시 수요 분석 기반 서비스 개선</strong> (2023.11)</span> - <strong>통계학술제 최우수상</strong> (고려대 세종)</p>
 <ul class="nlist"><li><strong>문제</strong> : 수요와 어긋난 빈 차 운행(공차)으로 인한 비효율</li><li><strong>해결</strong> : 서울시 공공 데이터 6종 통합 + 계보적 군집분석 권역 재분류, 공차율 정의·QGIS 웹 서비스 시각화</li><li><strong>결과</strong> : 공차 집중 권역 식별, 권역 기반 택시 서비스 개선안 제시</li></ul>
 <a class="nfile" href="../files/%ED%83%9D%EC%8B%9C_%EC%88%98%EC%9A%94_%EB%B6%84%EC%84%9D_%EC%84%9C%EB%B9%84%EC%8A%A4_%EA%B0%9C%EC%84%A0.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">택시_수요_분석_서비스_개선.pdf</span></a>
@@ -261,13 +262,13 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a class="nfile" href="../files/%EB%B9%85%ED%8E%98%EC%8A%A4%ED%83%80_%EC%86%8C%EB%B0%A9%EC%84%9C_%EC%9C%84%EC%B9%98_%EC%B5%9C%EC%A0%81%ED%99%94.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">빅페스타_소방서_위치_최적화.pdf</span></a>
 <p><span class="c-gray_bg"><strong>수면 뇌파 기반 맞춤 알람 장치</strong> (2020.02)</span> - <strong>삼성휴먼테크 논문대상 동상</strong></p>
 <ul class="nlist"><li><strong>문제</strong> : 수면 단계를 무시한 채 울리는 일반 알람의 기상 피로</li><li><strong>해결</strong> : 아두이노 EEG 센서로 REM 구간 감지·트리거 장치 구현</li><li><strong>결과</strong> : 시제품 제작, 사전 설문·사후 사용자 검증 완료</li></ul>
-<h2 class="nh1" id="sec2">AI 시스템·서비스 기획</h2>
+<h2 class="nh1" id="sec2"><span class="sec-no">02</span>AI 시스템·서비스 기획</h2>
 <p><span class="c-gray_bg"><strong>GraphRAG 여행 코스 자동 생성</strong> (2025.10–11)</span> - 파주 시민 AI 혁신 아이디어 경진대회 출품</p>
 <ul class="nlist"><li><strong>문제</strong> : 흩어져 있는 지역 관광 정보로 여행 코스 계획이 번거로움</li><li><strong>해결</strong> : Neo4j 지식그래프 구조화 + Gemma-3-4B(8bit 양자화·LoRA) 결합</li><li><strong>결과</strong> : 질의 조건에 맞는 여행 코스 자동 생성 시스템 구현</li></ul>
 <p><span class="c-gray_bg"><strong>WALKATA: 한글 손글씨 폰트 변환 GAN</strong> (2023.09–12)</span></p>
 <ul class="nlist"><li><strong>문제</strong> : 소량의 손글씨만으로는 한글 폰트 제작이 어려움</li><li><strong>해결</strong> : 직접 제작한 75,000장 데이터셋 + pix2pix·AC-GAN·DTN 하이브리드</li><li><strong>결과</strong> : WLKATA 로봇팔 G-code 연동까지 end-to-end 시스템 구현</li></ul>
 <a class="nfile" href="../files/WALKATA_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">WALKATA_프로젝트.pdf</span></a>
-<h2 class="nh1" id="sec3">데이터 분석</h2>
+<h2 class="nh1" id="sec3"><span class="sec-no">03</span>데이터 분석</h2>
 <p><span class="c-gray_bg"><strong>대학알리미 기숙사 운영 실태 분석</strong> (2025)</span></p>
 <ul class="nlist"><li><strong>문제</strong> : 대학별 기숙사 운영 격차의 원인 불명확</li><li><strong>해결</strong> : 이항 로지스틱 회귀로 운영 유형 결정 요인 규명</li><li><strong>결과</strong> : 4사분면 유형화로 유형별 개선 방향 도출</li></ul>
 <a class="nfile" href="../files/%EB%8C%80%ED%95%99%EC%95%8C%EB%A6%AC%EB%AF%B8_%EA%B8%B0%EC%88%99%EC%82%AC_%EA%B3%B5%EB%AA%A8%EC%A0%84.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">대학알리미_기숙사_공모전.pdf</span></a>
