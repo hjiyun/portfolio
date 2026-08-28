@@ -72,9 +72,15 @@ html { scroll-behavior:smooth; }
 .toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
 .toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
 .toc a.on .toc-n { color:var(--acc, #18181b); }
+.toc a.on-parent { color:#18181b; border-left-color:#d5d3cf; }
+.toc a.sub { font-size:13px; font-weight:500; color:#8f8e8a; padding:4.5px 14px 4.5px 36px; }
+.toc a.sub .toc-sub-t { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.toc a.sub:hover { color:#18181b; }
+.toc a.sub.on { font-weight:600; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
 .content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content h4.nh3 { scroll-margin-top:28px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
@@ -247,6 +253,8 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a href="#sec5"><span class="toc-n">05</span><span>프롬프트 설계</span></a>
 <a href="#sec6"><span class="toc-n">06</span><span>트러블 슈팅</span></a>
 <a href="#sec7"><span class="toc-n">07</span><span>결과</span></a>
+<a class="sub" href="#sec7-1"><span class="toc-sub-t">구현이 서비스에서 갖는 의미</span></a>
+<a class="sub" href="#sec7-2"><span class="toc-sub-t">얻은 원칙</span></a>
 <a href="#sec8"><span class="toc-n">08</span><span>자료</span></a>
   </aside>
   <article class="content">
@@ -302,9 +310,9 @@ await openai.chat.completions.create({
 <h2 class="nh1" id="sec7">결과</h2>
 <pre class="ncode"><code>시장 조사 → 서비스 컨셉 → AI 파이프라인 설계 → React·Express 구현 → 기능 연결 → 오류 추적·수정 → Android 태블릿 실기기 테스트 → 최종 프로토타입</code></pre>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_splash.png" loading="lazy" alt="스플래시"><figcaption>스플래시</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_voicereg.png" loading="lazy" alt="부모님 목소리 등록"><figcaption>부모님 목소리 등록</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(34.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_tablet.png" loading="lazy" alt="태블릿 구동 검증 · 멘토링 2회 · 최종 발표"><figcaption>태블릿 구동 검증 · 멘토링 2회 · 최종 발표</figcaption></figure></div></div>
-<h4 class="nh3">구현이 서비스에서 갖는 의미</h4>
+<h4 class="nh3" id="sec7-1">구현이 서비스에서 갖는 의미</h4>
 <ul class="nlist"><li><strong>부모님 목소리 복제</strong> · 부모님이 읽어주지 못하는 시간에도 부모님 목소리로 독서 경험 유지</li><li><strong>구조화된 캐릭터 대화</strong> · 유아 대상 생성형 AI의 최대 리스크(부적절 발화)를 설계 단계에서 차단</li><li><strong>그림 기반 동화 생성</strong> · 글을 못 쓰는 어린이의 입력 수단 확보</li><li><strong>실제 프로토타입</strong> · 분석·추천 중심이던 기존 AI에 참여 기반 차별화 축 추가</li></ul>
-<h4 class="nh3">얻은 원칙</h4>
+<h4 class="nh3" id="sec7-2">얻은 원칙</h4>
 <ul class="nlist"><li>이상적 설계와 검증 범위의 분리 · 초기엔 브라우저 내장 음성·템플릿으로 빠르게 검증, 최종안에서 ElevenLabs·GPT로 단계적 상향</li><li>AI 코딩 도구를 쓰되 검증의 책임은 사람에게 · 데모 화면이 아니라 파이프라인 각 단계의 실제 입·출력 기준으로 확인</li></ul>
 <h2 class="nh1" id="sec8">자료</h2>
 <a class="nfile" href="../files/%EA%BF%88%EA%BE%B8%EB%8A%94%EC%B1%85%EB%B0%A9_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">꿈꾸는 책방 최종 발표자료</span></a>
@@ -318,11 +326,16 @@ await openai.chat.completions.create({
   var obs = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting) {
-        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+        var id = e.target.id;
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + id); });
+        var parent = id.indexOf('-') > -1 ? id.split('-')[0] : id;
+        links.forEach(function(l){
+          if (!l.classList.contains('sub')) l.classList.toggle('on-parent', l.getAttribute('href') === '#' + parent);
+        });
       }
     });
   }, { rootMargin: '-8% 0px -78% 0px' });
-  document.querySelectorAll('.content h2.nh1').forEach(function(h){ obs.observe(h); });
+  document.querySelectorAll('.content h2.nh1, .content h4.nh3').forEach(function(h){ if (h.id) obs.observe(h); });
 })();
 </script>
 </div>
