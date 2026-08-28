@@ -48,6 +48,30 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-v { font-size:14.5px; font-weight:600; line-height:1.45; }
 @media (max-width:800px){ .meta { grid-template-columns:1fr 1fr; } }
 
+
+/* accents per group */
+.accent-blue { --acc:#2081a8; }
+.accent-purple { --acc:#7a52b3; }
+.accent-yellow { --acc:#c07d1a; }
+.accent-gray { --acc:#5f5e5b; }
+
+/* detail layout: content + sticky toc */
+html { scroll-behavior:smooth; }
+.layout { display:flex; gap:60px; align-items:flex-start; }
+.content { flex:1; min-width:0; max-width:920px; }
+.toc { position:sticky; top:36px; width:250px; flex-shrink:0; border-left:1px solid #ececea; padding-left:22px; font-size:13.5px; }
+.toc-t { font-weight:800; font-size:11.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; }
+.toc a { display:flex; gap:9px; padding:6.5px 0; color:#71717a; text-decoration:none; font-weight:600; line-height:1.4; }
+.toc a:hover { color:#18181b; }
+.toc a.on { color:var(--acc, #18181b); }
+.toc-n { color:#c9c8c5; font-size:11px; padding-top:2.5px; font-weight:700; }
+.toc a.on .toc-n { color:var(--acc, #18181b); }
+@media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
+
+.content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content > .ncallout:first-child { margin-top:4px; }
+.page-head { margin-bottom:4px; }
+
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
 .breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
@@ -186,11 +210,13 @@ a.gcard:hover { filter:brightness(0.97); }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page accent-blue">
 
 <div class="breadcrumb"><a href="../index.html">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5H9a3 3 0 0 1 3 3V20a3 3 0 0 0-3-3H2.5zM21.5 4.5H15a3 3 0 0 0-3 3V20a3 3 0 0 1 3-3h6.5z"/></svg> 꿈꾸는 책방 - AI 인터랙티브 독서</span></div>
-<div class="page-icon-svg tint-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5H9a3 3 0 0 1 3 3V20a3 3 0 0 0-3-3H2.5zM21.5 4.5H15a3 3 0 0 0-3 3V20a3 3 0 0 1 3-3h6.5z"/></svg></div>
-<h1 class="page-title">꿈꾸는 책방 - AI 인터랙티브 독서</h1>
+<div class="page-head">
+  <div class="page-icon-svg tint-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5H9a3 3 0 0 1 3 3V20a3 3 0 0 0-3-3H2.5zM21.5 4.5H15a3 3 0 0 0-3 3V20a3 3 0 0 1 3-3h6.5z"/></svg></div>
+  <h1 class="page-title">꿈꾸는 책방 - AI 인터랙티브 독서</h1>
+</div>
 
 <div class="meta">
   <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2025년 12월 1일 → 2026년 1월 31일</div></div>
@@ -198,23 +224,24 @@ a.gcard:hover { filter:brightness(0.97); }
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">실작동 프로토타입 · AI 파이프라인 3종 · 실기기 검증</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-blue">LLM·RAG</span></div></div>
 </div>
-<div class="content">
+<div class="layout">
+  <article class="content">
 <div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5H9a3 3 0 0 1 3 3V20a3 3 0 0 0-3-3H2.5zM21.5 4.5H15a3 3 0 0 0-3 3V20a3 3 0 0 1 3-3h6.5z"/></svg></div><div class="ncallout-body"><p><strong>부모 목소리로 읽어주고, 아이와 대화하고, 아이 그림으로 동화를 만드는 AI 인터랙티브 독서 앱.</strong> <br>기획부터 Android 태블릿 실기기 검증까지 완주한 3인 팀 프로젝트 · 담당: AI 파이프라인 설계 · 백엔드 · 프론트엔드 구현</p></div></div>
-<h2 class="nh1">문제 정의</h2>
+<h2 class="nh1" id="sec1">문제 정의</h2>
 <p>부모님이 책을 읽어주는 시간은 1회 5~10분, 유아의 스마트기기 노출은 하루 3시간. 아이는 수동적 미디어에 홀로 남고, 기존 AI 독서 서비스는 분석·추천 중심이라 읽는 시간 자체는 여전히 아이 혼자의 몫. 1~6세는 글을 쓸 수 없어 자기 이야기를 만들 방법도 없음.</p>
 <div class="ntable-wrap"><table class="ntable"><colgroup><col><col style="width:260px"><col></colgroup><tr><td><strong>58.5%</strong></td><td>18세 미만 자녀 가구 중 맞벌이</td><td>통계청, 2024 하반기 지역별고용조사</td></tr><tr><td><strong>하루 3시간</strong></td><td>만 3~4세 유아의 일평균 스마트기기 노출</td><td>학습자중심교과교육연구, 2022</td></tr><tr><td><strong>1회 5~10분</strong></td><td>부모님이 책을 읽어주는 평균 시간</td><td>KISDI, 2023 어린이 미디어 이용 조사</td></tr></table></div>
 <blockquote class="nquote"><strong>"전자책도 결국 스크린타임 아닌가?"</strong><br>WHO·AAP 가이드라인과 29개 연구 메타분석에서 도출한 설계 기준선: <strong>부모가 개입하고 자극을 절제한 인터랙티브 독서는 종이책과 동등하거나 더 높은 발달 효과</strong>. 이후 모든 기능 판단의 근거.</blockquote>
-<h2 class="nh1">서비스 설계</h2>
+<h2 class="nh1" id="sec2">서비스 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 콘텐츠 라이브러리·추천 강화</td><td>기존 방식의 연장</td><td class="c-red">기각. 소비량만 늘 뿐, 수동적 시청이라는 본질은 그대로</td></tr><tr><td>2안. LLM 캐릭터와 완전 자유 대화</td><td>몰입감 최대</td><td class="c-red">기각. 유아 상대 환각·부적절 발화 통제 불가</td></tr><tr class="c-green_bg"><td><strong>3안. 통제된 하이브리드 (채택)</strong></td><td>부모님 목소리 복제 + 구조화 스크립트에 LLM 공감 응답만</td><td><strong>채택. 스크린타임 반론을 문헌으로 방어, 아동 안전을 스크립트 수준에서 통제, 2개월 내 구현 가능</strong></td></tr></table></div>
 <ul class="nlist"><li><strong>① 부모님 목소리 복제</strong> · 부모님이 없는 시간에도 '부모님 개입'을 기술로 유지</li><li><strong>② 구조화 스크립트 + LLM 공감 응답</strong> · 질문·힌트·무응답 폴백까지 사전 저작, LLM은 공감만 담당</li><li><strong>③ 그림·음성 입력</strong> · 글을 못 쓰는 1~6세를 위한 창작 입구</li><li><strong>④ 갤럭시 탭 기준 1280×800 (16:10)</strong> · 국내 아동 교육용 태블릿 표준에 맞춘 화면 설계</li></ul>
-<h2 class="nh1">프로토타입</h2>
+<h2 class="nh1" id="sec3">프로토타입</h2>
 <p>목업이 아닌 React 구현 화면.</p>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(58.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_viewer.png" loading="lazy" alt=""><figcaption>동화 감상 · 부모님이 녹음한 5문장으로 학습된 목소리로 재생</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(42.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_home.png" loading="lazy" alt=""><figcaption>홈 · 이어서 읽기와 세 가지 활동 진입</figcaption></figure>
 <figure class="nimg"><img src="../assets/kkum_dialog.png" loading="lazy" alt=""><figcaption>캐릭터 대화 · 질문에 아이가 마이크로 답변</figcaption></figure>
 <figure class="nimg"><img src="../assets/kkum_sticker.png" loading="lazy" alt=""><figcaption>아이가 만든 동화 · 4페이지 동화책 뷰어</figcaption></figure></div></div>
-<h2 class="nh1">AI 파이프라인</h2>
+<h2 class="nh1" id="sec4">AI 파이프라인</h2>
 <figure class="nimg"><img src="../assets/kkum_pipeline.png" loading="lazy" alt=""></figure>
-<h2 class="nh1">프롬프트 설계</h2>
+<h2 class="nh1" id="sec5">프롬프트 설계</h2>
 <p>발달 연구의 원칙(평가 없는 상호작용, 자극 절제)을 시스템 프롬프트 규칙으로 번역. 원칙이 문서가 아니라 코드에서 동작.</p>
 <pre class="ncode"><code>const systemPrompt = `너는 유아 인터랙티브 독서 앱의 캐릭터 '토토'야.
 교사나 설명자가 아니라 아이와 같은 위치에서 느끼고 고민하는 친구야.
@@ -237,7 +264,7 @@ await openai.chat.completions.create({
 <p class="nnum"><span class="nnum-n">3.</span> <strong>무응답 폴백</strong> · 침묵과 "몰라"도 실패가 되지 않는 대체 흐름</p>
 <p class="nnum"><span class="nnum-n">4.</span> <strong>JSON 출력 고정</strong> · 말풍선 UI와 TTS가 항상 같은 형태로 동작</p>
 <p class="nnum"><span class="nnum-n">5.</span> <strong>gpt-4o-mini + max_tokens 150</strong> · 응답 지연과 비용을 함께 관리</p>
-<h2 class="nh1">트러블 슈팅</h2>
+<h2 class="nh1" id="sec6">트러블 슈팅</h2>
 <p>바이브코딩으로 빠르게 만들되 생성된 코드를 신뢰하지 않고, 기능 단위 E2E로 단계별 입·출력을 직접 추적. 그렇게 발견하고 해결한 결함 3건.</p>
 <h3 class="nh2">오류 1 · voice_id 파이프라인 단절</h3>
 <figure class="nimg"><img src="../assets/kkum_err_voiceid.png" loading="lazy" alt=""></figure>
@@ -248,16 +275,42 @@ await openai.chat.completions.create({
 <h3 class="nh2">오류 3 · 환경변수(API 키) 노출</h3>
 <figure class="nimg"><img src="../assets/kkum_err_env.png" loading="lazy" alt=""></figure>
 <p>조치: 서빙 범위를 public 폴더로 제한 · 노출 키 재발급 · .gitignore 추가.</p>
-<h2 class="nh1">결과</h2>
+<h2 class="nh1" id="sec7">결과</h2>
 <pre class="ncode"><code>시장 조사 → 서비스 컨셉 → AI 파이프라인 설계 → React·Express 구현 → 기능 연결 → 오류 추적·수정 → Android 태블릿 실기기 테스트 → 최종 프로토타입</code></pre>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_splash.png" loading="lazy" alt=""><figcaption>스플래시</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_voicereg.png" loading="lazy" alt=""><figcaption>부모님 목소리 등록</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(34.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_tablet.png" loading="lazy" alt=""><figcaption>태블릿 구동 검증 · 멘토링 2회 · 최종 발표</figcaption></figure></div></div>
 <h4 class="nh3">구현이 서비스에서 갖는 의미</h4>
 <ul class="nlist"><li><strong>부모님 목소리 복제</strong> · 부모님이 읽어주지 못하는 시간에도 부모님 목소리로 독서 경험 유지</li><li><strong>구조화된 캐릭터 대화</strong> · 유아 대상 생성형 AI의 최대 리스크(부적절 발화)를 설계 단계에서 차단</li><li><strong>그림 기반 동화 생성</strong> · 글을 못 쓰는 어린이의 입력 수단 확보</li><li><strong>실제 프로토타입</strong> · 분석·추천 중심이던 기존 AI에 참여 기반 차별화 축 추가</li></ul>
 <h4 class="nh3">얻은 원칙</h4>
 <ul class="nlist"><li>이상적 설계와 검증 범위의 분리 · 초기엔 브라우저 내장 음성·템플릿으로 빠르게 검증, 최종안에서 ElevenLabs·GPT로 단계적 상향</li><li>AI 코딩 도구를 쓰되 검증의 책임은 사람에게 · 데모 화면이 아니라 파이프라인 각 단계의 실제 입·출력 기준으로 확인</li></ul>
-<h2 class="nh1">자료</h2>
+<h2 class="nh1" id="sec8">자료</h2>
 <a class="nfile" href="../files/%EA%BF%88%EA%BE%B8%EB%8A%94%EC%B1%85%EB%B0%A9_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">꿈꾸는 책방 최종 발표자료</span></a>
+  </article>
+  <aside class="toc"><div class="toc-t">목차</div>
+<a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>서비스 설계</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>프로토타입</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>AI 파이프라인</span></a>
+<a href="#sec5"><span class="toc-n">05</span><span>프롬프트 설계</span></a>
+<a href="#sec6"><span class="toc-n">06</span><span>트러블 슈팅</span></a>
+<a href="#sec7"><span class="toc-n">07</span><span>결과</span></a>
+<a href="#sec8"><span class="toc-n">08</span><span>자료</span></a>
+  </aside>
 </div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  if (!links.length) return;
+  var obs = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, { rootMargin: '-8% 0px -78% 0px' });
+  document.querySelectorAll('.content h2.nh1').forEach(function(h){ obs.observe(h); });
+})();
+</script>
 </div>
 </body>
 </html>

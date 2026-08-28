@@ -48,6 +48,30 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-v { font-size:14.5px; font-weight:600; line-height:1.45; }
 @media (max-width:800px){ .meta { grid-template-columns:1fr 1fr; } }
 
+
+/* accents per group */
+.accent-blue { --acc:#2081a8; }
+.accent-purple { --acc:#7a52b3; }
+.accent-yellow { --acc:#c07d1a; }
+.accent-gray { --acc:#5f5e5b; }
+
+/* detail layout: content + sticky toc */
+html { scroll-behavior:smooth; }
+.layout { display:flex; gap:60px; align-items:flex-start; }
+.content { flex:1; min-width:0; max-width:920px; }
+.toc { position:sticky; top:36px; width:250px; flex-shrink:0; border-left:1px solid #ececea; padding-left:22px; font-size:13.5px; }
+.toc-t { font-weight:800; font-size:11.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; }
+.toc a { display:flex; gap:9px; padding:6.5px 0; color:#71717a; text-decoration:none; font-weight:600; line-height:1.4; }
+.toc a:hover { color:#18181b; }
+.toc a.on { color:var(--acc, #18181b); }
+.toc-n { color:#c9c8c5; font-size:11px; padding-top:2.5px; font-weight:700; }
+.toc a.on .toc-n { color:var(--acc, #18181b); }
+@media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
+
+.content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content > .ncallout:first-child { margin-top:4px; }
+.page-head { margin-bottom:4px; }
+
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
 .breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
@@ -186,11 +210,13 @@ a.gcard:hover { filter:brightness(0.97); }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page accent-yellow">
 
 <div class="breadcrumb"><a href="../index.html">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg> 스마트팜 생육 예측 · 수집 체계 설계</span></div>
-<div class="page-icon-svg tint-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg></div>
-<h1 class="page-title">스마트팜 생육 예측 · 수집 체계 설계</h1>
+<div class="page-head">
+  <div class="page-icon-svg tint-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg></div>
+  <h1 class="page-title">스마트팜 생육 예측 · 수집 체계 설계</h1>
+</div>
 
 <div class="meta">
   <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2023년 11월 1일 → 2024년 5월 31일</div></div>
@@ -198,32 +224,57 @@ a.gcard:hover { filter:brightness(0.97); }
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">LGBM 81% · 재수집 기준 설계 (인턴)</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-yellow">ML·데이터 시스템</span></div></div>
 </div>
-<div class="content">
+<div class="layout">
+  <article class="content">
 <div class="ncallout ncallout-yellow_bg"><div class="ncallout-icon ico-yellow"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4.2 3.2-7 8-7 0 5-3.2 8-8 7z"/><path d="M12 13c0-3-2.3-5-6-5 0 3.8 2.3 5.8 6 5z"/></svg></div><div class="ncallout-body"><p><strong>"현 데이터로는 신뢰할 수 있는 결론이 불가능하다"를 근거와 함께 보고하고, 재수집 기준까지 역산해 설계한 데이터팀 인턴.</strong> 공공 데이터 82.7만 건으로는 작물 추천 모델(Test F1 0.81) 완성. AWS·SQL 데이터 마트 단독 운영</p></div></div>
-<h2 class="nh1">문제 정의</h2>
+<h2 class="nh1" id="sec1">문제 정의</h2>
 <ul class="nlist"><li>환경 데이터는 분 단위 자동 축적, 생육은 하루 1회 수동 계측. 두 데이터의 품질 격차가 분석의 출발 조건</li><li>센서 18대가 사실상 동일한 환경을 중복 측정. 개체 간 독립성이 없고 관측치 수가 변수 수보다 적은 구조</li><li>학습 작물이 5개뿐이면 부적합 환경에도 무조건 5개 중 하나를 추천하는 모델 리스크</li></ul>
-<h2 class="nh1">데이터</h2>
+<h2 class="nh1" id="sec2">데이터</h2>
 <p>농촌진흥청 스마트팜 데이터 82.7만 건. 작물마다 측정 항목이 달라 그대로는 비교 불가<br>→ 7개 작물이 공통으로 가진 환경 변수 5종만 추출.<br>품목 : 파프리카, 방울토마토, 완숙토마토, 참외, 국화, 딸기, 오이</p>
 <figure class="nimg"><img src="../assets/farm_data_raw.png" loading="lazy" alt=""><figcaption>원본 데이터. 작물 7종에 환경 항목 10개, 82.7만 건</figcaption></figure>
 <ul class="nlist"><li><strong>제외</strong> · 국화(결측 과다), 완숙토마토(환경 특성 불분명)</li><li><strong>추가</strong> · 5개 작물 어디에도 맞지 않는 환경을 판별할 "해당 없음" 클래스 직접 생성</li><li><strong>불균형</strong> · 작물별 건수 5배 이상 격차, 소수 클래스 기준 언더샘플링(클래스당 15,000건)</li><li><strong>분할</strong> · 학습 대 검증 0.75 : 0.25</li></ul>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(60.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_data_prep.png" loading="lazy" alt=""><figcaption>제외 기준과 클래스 구성. "해당 없음" 15,000건을 추가해 최종 23.9만 건</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(40.00% - 11.5px)"><div class="ntable-wrap"><table class="ntable"><colgroup><col style="width:87px"><col style="width:98px"></colgroup><tr><th>품목</th><th>데이터 수</th></tr><tr><td>딸기</td><td>46952</td></tr><tr><td>파프리카</td><td>63646</td></tr><tr><td>방울토마토</td><td>79295</td></tr><tr><td>참외</td><td>15695</td></tr><tr><td>오이</td><td>18604</td></tr><tr><td>해당없음</td><td>15000</td></tr></table></div></div></div>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(46.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_eda_corr.png" loading="lazy" alt=""><figcaption>변수 간 상관행렬. 온도와 일사량만 0.58로 중간 수준이고 나머지는 낮아, 변수를 줄이지 않고 5종을 모두 유지</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(54.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_eda_pairplot.png" loading="lazy" alt=""><figcaption>작물별 환경 변수 pairplot. 작물마다 분포 영역이 구분되어 분류 가능성을 사전 확인</figcaption></figure></div></div>
 <ul class="nlist"><li><strong>목적</strong> · 모델을 돌리기 전, 작물별로 구분할 만한 차이가 실제로 있는지 확인</li></ul>
-<h2 class="nh1">분석 설계</h2>
+<h2 class="nh1" id="sec3">분석 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><colgroup><col><col style="width:256px"><col style="width:289px"></colgroup><tr><th>판단 지점</th><th>기각한 안</th><th>채택한 안</th></tr><tr><td>온실 분석 방법</td><td class="c-gray">단변량 개별 분석. 환경 요인 간 상호 영향 반영 불가</td><td class="c-green_bg"><strong>다변량 VAR·VECM</strong> · 여러 시계열의 상호 영향을 함께 추정</td></tr><tr><td>생육 결측 보간</td><td class="c-gray">평균·직전값 등 임의 대치. 없는 사실을 만들어냄</td><td class="c-green_bg"><strong>S자 생장곡선 근거 보간</strong> · 선행연구 확보 후 선형·스플라인 비교</td></tr><tr><td>검정 오류 대응</td><td class="c-gray">조건을 바꿔가며 결과가 나올 때까지 강행. 억지 숫자는 신뢰 불가</td><td class="c-green_bg"><strong>중단 보고 + 재수집 제안</strong> · 원인을 데이터 구조로 규명하고 근거와 함께 보고</td></tr><tr><td>추천 모델 선정</td><td class="c-gray">RF·Decision Tree. Train 0.99+지만 Test 급락, 과적합</td><td class="c-green_bg"><strong>LGBM</strong> · Train-Test 격차 최소, 점수보다 일반화 기준</td></tr><tr><td>추천 불가 상황</td><td class="c-gray">5개 중 강제 추천. 틀린 답을 확신하게 됨</td><td class="c-green_bg"><strong>"해당 없음" 클래스 15,000건 직접 설계</strong> · 모델에게 "모르겠다"는 선택지 부여</td></tr></table></div>
-<h2 class="nh1">실행</h2>
+<h2 class="nh1" id="sec4">실행</h2>
 <figure class="nimg"><img src="../assets/farm_flowchart.png" loading="lazy" alt=""></figure>
 <ul class="nlist"><li>온실 실데이터 분석은 결과를 만들지 못한 것이 아니라 <strong>분석 불가라는 결론을 만든 것</strong>. 반복 연산 오류를 다중공선성 진단까지 추적해 코드가 아닌 데이터 설계 문제로 규명하고, VAR 최소 관측수 (p+1)×변수 수 ≈ 90포인트를 역산해 "측정기간 1개월이면 1일 3회"라는 즉시 실행형 재수집 기준으로 전달</li><li>공공 데이터 모델링은 끝까지 완주. 정제한 23.9만 건으로 6종 모델을 같은 조건에서 비교하고, 과적합 배제 기준으로 LGBM 선정</li></ul>
-<h2 class="nh1">결과</h2>
+<h2 class="nh1" id="sec5">결과</h2>
 <figure class="nimg"><img src="../assets/farm_result_table.png" loading="lazy" alt=""></figure>
 <ul class="nlist"><li><strong>선정 기준은 학습 점수가 아니라 Train-Test 격차.</strong> 재배 현장에서는 처음 보는 환경에도 작동해야 하므로, 점수가 높은 모델이 아니라 일반화되는 모델을 선정</li><li>Train 0.99대를 기록한 Decision Tree·K-NN·Random Forest는 Test에서 급락해 <strong>전부 과적합으로 배제</strong>. 격차만 보면 SVM(0.005)이 최소지만 성능 자체가 미달이고, Test 점수만 보면 Bagging(0.8178)이 근소 우위지만 격차 0.166으로 불안정</li><li>두 조건을 함께 만족하는 <strong>LGBM 채택 · Test F1 0.81, 격차 0.031.</strong> 비교 6종은 재배 현장에서 추천 근거를 설명할 수 있도록 해석 가능성을 제공하는 모델 중심으로 구성</li><li><strong>"해당 없음" 클래스 15,000건 직접 설계로 precision·recall 모두 1.00 분리.</strong> 학습 작물 5종 어디에도 맞지 않는 환경에서 무조건 하나를 추천하는 오추천을 모델 구조에서 차단</li></ul>
 <h4 class="nh3">추천 근거의 수치화</h4>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_fi.png" loading="lazy" alt=""><figcaption>보고서 원문 · Feature Importance (gain). <br>온도가 압도적 1순위, 풍속이 최하위</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_pdp.png" loading="lazy" alt=""><figcaption>보고서 원문 · Partial Dependence Plots (딸기).<br>온도 10도 부근에서 예측 확률 급등, 습도 30%에서 정점</figcaption></figure></div></div>
 <ul class="nlist"><li>모델이 왜 그 작물을 추천했는지를 변수 기여도(FI)와 변수별 반응 곡선(PDP)으로 설명. "딸기는 온도 10도·습도 30%, 방울토마토는 15도·CO2 400ppm" 같은 재배 가이드 수치로 번역</li><li>분석 불가 판단은 숨기지 않고 근거와 함께 보고. 현장이 바로 실행할 수 있는 재수집 기준(측정 주기·센서 배치·표본 설계)으로 전달해, 다음 분석이 가능한 데이터가 쌓이는 구조를 만듦</li></ul>
 <details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python·R·scikit-learn·statsmodels·LightGBM / 시계열 분석 (VAR·VECM·그레인저 인과검정) / AWS EC2·SQL</p><p><strong>온실 실데이터 · 분석 불가 규명과 재수집 설계</strong> (쪽파 29변수 × 18개체)</p><ul class="nlist"><li>반복 연산 오류를 다중공선성 진단까지 추적. 코드가 아니라 <strong>센서 18대가 사실상 동일 환경을 중복 측정해 개체 간 독립성이 없는 데이터 설계 문제</strong>(관측치 수가 변수 수보다 적음)로 확인. 군집 축약·리샘플링·변수 제거로도 해소 불가</li><li>재수집 기준 역산: 센서 12구역×3개체 + 검증 10주 표본 설계</li><li>생육조사 20항목(초장·관부직경·엽장·착과수·당도 등) 정의·단위·측정방법·조사주기 표준화 문서 작성</li><li>예측 대상(수확량)이 임의 생성값임을 시각화 중 발견. 임시 VAR 결과에 "모델 해석 불가"를 명시해 오인용 차단</li></ul><p><strong>작물별 최적 환경 정량 비교</strong> · 요구 온도(참외 24.0도 최고, 딸기 16.5도 최저) · CO2(참외 716.8ppm, 방울토마토 439.2ppm)</p><p><strong>전처리 효과</strong> · 전처리 전 Decision Tree F1 0.614 → 전처리 후 Train 0.9999/Test 0.75로 과적합 노출. 점수 상승이 아니라 과적합 판별이 전처리 검증의 목적</p></div></details>
-<h2 class="nh1">자료</h2>
+<h2 class="nh1" id="sec6">자료</h2>
 <a class="nfile" href="../files/%EC%A0%9C%EB%A0%88%EC%8A%A4%ED%8C%9C_%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8C%9C_%EC%83%9D%EC%9C%A1_%EC%98%88%EC%B8%A1.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">제레스팜 스마트팜 생육 예측 · 인턴 산출물 발표자료</span></a>
+  </article>
+  <aside class="toc"><div class="toc-t">목차</div>
+<a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>데이터</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>분석 설계</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>실행</span></a>
+<a href="#sec5"><span class="toc-n">05</span><span>결과</span></a>
+<a href="#sec6"><span class="toc-n">06</span><span>자료</span></a>
+  </aside>
 </div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  if (!links.length) return;
+  var obs = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, { rootMargin: '-8% 0px -78% 0px' });
+  document.querySelectorAll('.content h2.nh1').forEach(function(h){ obs.observe(h); });
+})();
+</script>
 </div>
 </body>
 </html>

@@ -48,6 +48,30 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-v { font-size:14.5px; font-weight:600; line-height:1.45; }
 @media (max-width:800px){ .meta { grid-template-columns:1fr 1fr; } }
 
+
+/* accents per group */
+.accent-blue { --acc:#2081a8; }
+.accent-purple { --acc:#7a52b3; }
+.accent-yellow { --acc:#c07d1a; }
+.accent-gray { --acc:#5f5e5b; }
+
+/* detail layout: content + sticky toc */
+html { scroll-behavior:smooth; }
+.layout { display:flex; gap:60px; align-items:flex-start; }
+.content { flex:1; min-width:0; max-width:920px; }
+.toc { position:sticky; top:36px; width:250px; flex-shrink:0; border-left:1px solid #ececea; padding-left:22px; font-size:13.5px; }
+.toc-t { font-weight:800; font-size:11.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; }
+.toc a { display:flex; gap:9px; padding:6.5px 0; color:#71717a; text-decoration:none; font-weight:600; line-height:1.4; }
+.toc a:hover { color:#18181b; }
+.toc a.on { color:var(--acc, #18181b); }
+.toc-n { color:#c9c8c5; font-size:11px; padding-top:2.5px; font-weight:700; }
+.toc a.on .toc-n { color:var(--acc, #18181b); }
+@media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
+
+.content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:2.5em; font-size:1.55em; scroll-margin-top:28px; }
+.content > .ncallout:first-child { margin-top:4px; }
+.page-head { margin-bottom:4px; }
+
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
 .breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
@@ -186,11 +210,13 @@ a.gcard:hover { filter:brightness(0.97); }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page accent-purple">
 
 <div class="breadcrumb"><a href="../index.html">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg> SAMC-CBS 초고차원 베이지안 변수선택</span></div>
-<div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div>
-<h1 class="page-title">SAMC-CBS 초고차원 베이지안 변수선택</h1>
+<div class="page-head">
+  <div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div>
+  <h1 class="page-title">SAMC-CBS 초고차원 베이지안 변수선택</h1>
+</div>
 
 <div class="meta">
   <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2025년 6월 1일 → 2025년 11월 30일</div></div>
@@ -198,24 +224,47 @@ a.gcard:hover { filter:brightness(0.97); }
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">참 신호 검출 100% · FSR 6.9배 감소</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-purple">베이지안·SGMCMC</span></div></div>
 </div>
-<div class="content">
+<div class="layout">
+  <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div><div class="ncallout-body"><p><strong>참 신호를 하나도 놓치지 않으면서(NSR 0%) 오탐을 6.9배 줄인 상관 기반 하이브리드 MCMC.</strong> <br>원논문 C 코드 8개 모듈 전면 이식 + CBS 제안분포 설계 · 시뮬레이션 10회 반복 검증 · 개인 연구</p></div></div>
-<h2 class="nh1">문제 정의</h2>
+<h2 class="nh1" id="sec1">문제 정의</h2>
 <ul class="nlist"><li>유전체 데이터는 표본(n=100)보다 변수(p=1,000)가 수십 배 많은 <strong>n ≪ p</strong> 구조. 일반 회귀 추정이 불가능해 변수선택이 분석의 성패를 좌우</li><li>기존 대표 알고리즘인 SAMC 기반 Split-and-Merge는 실측 결과 참 신호 10개 중 <strong>평균 2.7개(NSR 73%)</strong> 만 검출</li><li>반대로 LASSO·Elastic Net 벌점 회귀는 참 신호는 찾지만 <strong>오탐이 과도</strong>(FSR 58~74%). 오탐 하나가 곧 불필요한 후속 검증 실험 하나</li><li>핵심 원인은 <strong>탐색 커널이 변수 간 상관구조를 무시</strong>한다는 점. 기능적으로 연관된 유전자들이 강하게 상관된 데이터에서 무작위 토글 방식은 상관 블록에 체인이 갇힘</li></ul>
 <figure class="nimg"><img src="../assets/samc_fig4_correlation_heatmap.png" loading="lazy" alt=""><figcaption>GSE2990 실데이터의 상관구조. 참 신호 유전자 블록은 평균 |r| 0.74로 무작위 변수(0.15)의 5배, 상관 블록에 탐색이 갇히는 난이도를 그대로 재현한 벤치마크</figcaption></figure>
-<h2 class="nh1">알고리즘 설계</h2>
+<h2 class="nh1" id="sec2">알고리즘 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 벌점 회귀 계열 채택</td><td class="c-gray">구현 간단, 검출률 높음. 오탐률 58~74%는 후속 검증 비용 과도</td><td class="c-gray">기각</td></tr><tr><td>2안. 변수선택 모델 신규 설계</td><td class="c-gray">개선이 모델 덕분인지 탐색 덕분인지 분리 불가</td><td class="c-gray">기각</td></tr><tr><td class="c-green_bg"><strong>3안. 원 알고리즘 유지 + 상관 기반 제안분포(CBS) 결합</strong></td><td class="c-green_bg">덜 상관된 변수는 추가, 강하게 상관된 변수는 제거·교체. 변경점을 탐색 커널로 한정해 개선 효과를 커널에 귀속</td><td class="c-green_bg"><strong>채택</strong></td></tr></table></div>
 <ul class="nlist"><li>CBS 이동 규칙: <code class="ic">add</code>는 현재 선택과 <strong>가장 덜 상관된</strong> 변수를 추가해 중복 정보 회피, <code class="ic">delete</code>/<code class="ic">swap</code>은 <strong>가장 강하게 상관된</strong> 변수를 제거해 다중공선성 해소</li><li>Shrinkage 상관행렬 <code class="ic">R = (1-λ)R₀ + λI</code> 로 수치 안정성 확보, 기존 무작위 토글(SSVS)과 혼합비 φ로 결합, temperature annealing(2.0 → 1.0)으로 초기 탐색 강화</li><li>벤치마크: GEO 유방암 마이크로어레이(GSE2990)를 RMA 정규화·클러스터링해 <strong>상관이 극도로 강한 상황을 의도적으로 재현</strong>한 semi-synthetic 설계</li></ul>
-<h2 class="nh1">실행</h2>
+<h2 class="nh1" id="sec3">실행</h2>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(56.00% - 11.5px)"><figure class="nimg"><img src="../assets/samc_fig5_algorithm_diagram.png" loading="lazy" alt=""><figcaption>SAM + CBS 하이브리드 알고리즘 구조. 파티션 분할 → 커널 경쟁 → 병합 → 턴 반복 → 빈도 집계 (⑤ 빈도 집계가 본 연구의 기여)</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(44.00% - 11.5px)"><ul class="nlist"><li>파티션마다 SAM·CBS·SSVS 세 커널을 경쟁시켜 사후확률·PIP·FDR·교차검증 4개 지표의 사전식 비교로 승자를 채택하고, 턴마다 파티션 경계 jitter(±20%)와 warm start로 반복 탐색</li><li>초기 결과가 기대에 못 미쳤을 때 알고리즘을 바꾸는 대신 <strong>10,000턴 실행 로그를 전수 분석</strong>. 참 신호는 모두 탐색되고 있으나 단일 턴의 FDR 컷이 이를 탈락시키고 있음을 규명하고(턴별 선택 3~4개 vs 합집합 100% 포함), 턴 간 선택 빈도 집계로 규칙 교체</li></ul></div></div>
-<h2 class="nh1">결과</h2>
+<h2 class="nh1" id="sec4">결과</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>방법</th><th>선택 변수 수</th><th>참 신호 검출</th><th>FSR (오탐률) ↓</th><th>NSR (미검출률) ↓</th></tr><tr><td>SAM 단독 (원논문)</td><td>2.7</td><td>2.7 / 10</td><td>10.0%</td><td class="c-gray">73.0%</td></tr><tr><td>CBS 단독 (MAP)</td><td>4.9</td><td>3.8 / 10</td><td>21.8%</td><td class="c-gray">62.0%</td></tr><tr><td>LASSO (10-fold CV)</td><td>29.3</td><td>9.9 / 10</td><td class="c-gray">57.9%</td><td>1.0%</td></tr><tr><td>Elastic Net (10-fold CV)</td><td>42.3</td><td>10.0 / 10</td><td class="c-gray">73.6%</td><td>0.0%</td></tr><tr class="c-green_bg"><td><strong>SAM + CBS 하이브리드 (제안)</strong></td><td><strong>11.3</strong></td><td><strong>10.0 / 10</strong></td><td><strong>10.7%</strong></td><td><strong>0.0%</strong></td></tr></table></div>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/samc_fig1_tradeoff.png" loading="lazy" alt=""><figcaption>오탐률·미검출률 트레이드오프. 제안 기법만 두 지표가 모두 낮은 좌하단에 위치</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/samc_fig3_selection_frequency.png" loading="lazy" alt=""><figcaption>변수별 선택 빈도(10,000턴, 로그 스케일). 참 신호 10개가 상위를 독점하고 오탐 3개와 뚜렷이 분리</figcaption></figure></div></div>
 <ul class="nlist"><li>참 신호 검출 100%(NSR 0%)를 10회 반복 전부에서 달성. 평균 선택 변수 11.3개로 참 신호 10개에 근접</li><li>FSR 10.7%로 LASSO(57.9%) 대비 <strong>5.4배</strong>, Elastic Net(73.6%) 대비 <strong>6.9배</strong> 낮음. 기존 SAM 단독 대비 검출률 2.7개 → 10.0개</li></ul>
 <figure class="nimg"><img src="../assets/samc_fig2_threshold_sweep.png" loading="lazy" alt=""><figcaption>집계 임계값 스윕. 2.1~7.8% 전 구간에서 FSR 0% · NSR 0% 완벽 복원</figcaption></figure>
 <ul class="nlist"><li>빈도 집계 규칙은 임계값 <strong>2.1~7.8% 전 구간에서 완벽 선택(FSR 0% · NSR 0%)</strong> 을 재현. 특정 임계값을 골라 만든 결과가 아님을 스윕으로 입증, 10,000턴 중 616개 턴은 단독으로도 완벽 해</li><li>결과가 임계값 하나에 의존하지 않아 실무 적용 시 튜닝 부담이 낮고, 상관이 강한 데이터라면 유전체 외 도메인에도 같은 커널 적용 가능</li></ul>
 <details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python(NumPy·SciPy·scikit-learn) / R(glmnet·affy/RMA·caret·igraph) / C 코드 이식 / Metropolis-Hastings·SAMC·베이지안 변수선택(g-prior, PIP)·로컬 FDR</p><p><strong>성능 최적화</strong> · 비용함수를 Gram 행렬 사전계산 + Cholesky 분해로 재작성, BLAS 스레드 고정과 부분행렬 캐싱으로 10,000턴 대규모 실행 확보</p><p><strong>실데이터 파이프라인</strong> · GSE2990 CEL 원본 → RMA 정규화 → IQR 필터 → 상관 기반 중복 제거(|r| &gt; 0.5) → 계층적 클러스터링(K=20), 클러스터 내부 평균 |r| 최고 블록에 참 신호 배치</p><p><strong>재현 근거</strong> · 모든 수치는 원본 실행 로그에서 재계산. 입력 데이터 MD5 해시 대조로 방법 간 동일 조건 비교 검증</p><p><strong>검증 범위</strong> · 단일 시나리오(S1, n=100 / p=1,000 / 참 신호 10개) 10회 반복 기준. 다양한 n·p 조합 일반화와 로지스틱 확장은 후속 과제</p></div></details>
+  </article>
+  <aside class="toc"><div class="toc-t">목차</div>
+<a href="#sec1"><span class="toc-n">01</span><span>문제 정의</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>알고리즘 설계</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>실행</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>결과</span></a>
+  </aside>
 </div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  if (!links.length) return;
+  var obs = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, { rootMargin: '-8% 0px -78% 0px' });
+  document.querySelectorAll('.content h2.nh1').forEach(function(h){ obs.observe(h); });
+})();
+</script>
 </div>
 </body>
 </html>
