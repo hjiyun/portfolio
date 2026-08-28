@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="고려대학교 빅데이터사이언스학과 석사과정 홍지윤의 포트폴리오. Bayesian Computation과 LLM·RAG 연구, JKDAS 제1저자 논문 2편.">
 <title>꿈꾸는 책방 - AI 인터랙티브 독서</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2318181b'/%3E%3Ctext x='32' y='43' font-family='sans-serif' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3E%ED%99%8D%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>* { margin:0; padding:0; box-sizing:border-box; }
 html { -webkit-text-size-adjust:100%; }
 body {
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  font-family: "Pretendard", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
   color:#37352f; background:#fff;
   line-height:1.5; font-size:16px;
   -webkit-font-smoothing:antialiased;
@@ -48,7 +51,7 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-item:first-child { padding-left:2px; border-left:none; }
 .meta-item:last-child { padding-right:2px; }
 .meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
-.meta-v { font-size:15px; font-weight:600; line-height:1.5; }
+.meta-v { font-size:15px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
 @media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
 
 
@@ -121,7 +124,7 @@ ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em;
 
 /* tables */
 .ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
-table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; }
+table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
 table.ntable.fit { width:100%; }
 .ntable th, .ntable td { border:1px solid rgba(55,53,47,0.16); padding:7px 9px; vertical-align:top; text-align:left; }
 .ntable th { background:#f7f6f5; font-weight:600; color:#37352f; }
@@ -209,6 +212,11 @@ a.gcard:hover { filter:brightness(0.97); }
 .bcard-ic .icon { width:19px; height:19px; }
 @media (max-width:760px){ .board { flex-direction:column; } }
 
+/* keyboard focus */
+a:focus-visible, summary:focus-visible { outline:2px solid var(--acc, #2081a8); outline-offset:2px; border-radius:4px; }
+a:focus { outline:none; }
+a:focus-visible { outline:2px solid var(--acc, #2081a8); }
+
 @media print {
   .page { padding:20px; }
   .gcard { break-inside:avoid; }
@@ -252,9 +260,9 @@ a.gcard:hover { filter:brightness(0.97); }
 <ul class="nlist"><li><strong>① 부모님 목소리 복제</strong> · 부모님이 없는 시간에도 '부모님 개입'을 기술로 유지</li><li><strong>② 구조화 스크립트 + LLM 공감 응답</strong> · 질문·힌트·무응답 폴백까지 사전 저작, LLM은 공감만 담당</li><li><strong>③ 그림·음성 입력</strong> · 글을 못 쓰는 1~6세를 위한 창작 입구</li><li><strong>④ 갤럭시 탭 기준 1280×800 (16:10)</strong> · 국내 아동 교육용 태블릿 표준에 맞춘 화면 설계</li></ul>
 <h2 class="nh1" id="sec3">프로토타입</h2>
 <p>목업이 아닌 React 구현 화면.</p>
-<div class="ncols"><div class="ncol" style="flex:0 0 calc(58.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_viewer.png" loading="lazy" alt=""><figcaption>동화 감상 · 부모님이 녹음한 5문장으로 학습된 목소리로 재생</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(42.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_home.png" loading="lazy" alt=""><figcaption>홈 · 이어서 읽기와 세 가지 활동 진입</figcaption></figure>
-<figure class="nimg"><img src="../assets/kkum_dialog.png" loading="lazy" alt=""><figcaption>캐릭터 대화 · 질문에 아이가 마이크로 답변</figcaption></figure>
-<figure class="nimg"><img src="../assets/kkum_sticker.png" loading="lazy" alt=""><figcaption>아이가 만든 동화 · 4페이지 동화책 뷰어</figcaption></figure></div></div>
+<div class="ncols"><div class="ncol" style="flex:0 0 calc(58.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_viewer.png" loading="lazy" alt="동화 감상 · 부모님이 녹음한 5문장으로 학습된 목소리로 재생"><figcaption>동화 감상 · 부모님이 녹음한 5문장으로 학습된 목소리로 재생</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(42.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_home.png" loading="lazy" alt="홈 · 이어서 읽기와 세 가지 활동 진입"><figcaption>홈 · 이어서 읽기와 세 가지 활동 진입</figcaption></figure>
+<figure class="nimg"><img src="../assets/kkum_dialog.png" loading="lazy" alt="캐릭터 대화 · 질문에 아이가 마이크로 답변"><figcaption>캐릭터 대화 · 질문에 아이가 마이크로 답변</figcaption></figure>
+<figure class="nimg"><img src="../assets/kkum_sticker.png" loading="lazy" alt="아이가 만든 동화 · 4페이지 동화책 뷰어"><figcaption>아이가 만든 동화 · 4페이지 동화책 뷰어</figcaption></figure></div></div>
 <h2 class="nh1" id="sec4">AI 파이프라인</h2>
 <figure class="nimg"><img src="../assets/kkum_pipeline.png" loading="lazy" alt=""></figure>
 <h2 class="nh1" id="sec5">프롬프트 설계</h2>
@@ -293,7 +301,7 @@ await openai.chat.completions.create({
 <p>조치: 서빙 범위를 public 폴더로 제한 · 노출 키 재발급 · .gitignore 추가.</p>
 <h2 class="nh1" id="sec7">결과</h2>
 <pre class="ncode"><code>시장 조사 → 서비스 컨셉 → AI 파이프라인 설계 → React·Express 구현 → 기능 연결 → 오류 추적·수정 → Android 태블릿 실기기 테스트 → 최종 프로토타입</code></pre>
-<div class="ncols"><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_splash.png" loading="lazy" alt=""><figcaption>스플래시</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_voicereg.png" loading="lazy" alt=""><figcaption>부모님 목소리 등록</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(34.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_tablet.png" loading="lazy" alt=""><figcaption>태블릿 구동 검증 · 멘토링 2회 · 최종 발표</figcaption></figure></div></div>
+<div class="ncols"><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_splash.png" loading="lazy" alt="스플래시"><figcaption>스플래시</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_voicereg.png" loading="lazy" alt="부모님 목소리 등록"><figcaption>부모님 목소리 등록</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(34.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_tablet.png" loading="lazy" alt="태블릿 구동 검증 · 멘토링 2회 · 최종 발표"><figcaption>태블릿 구동 검증 · 멘토링 2회 · 최종 발표</figcaption></figure></div></div>
 <h4 class="nh3">구현이 서비스에서 갖는 의미</h4>
 <ul class="nlist"><li><strong>부모님 목소리 복제</strong> · 부모님이 읽어주지 못하는 시간에도 부모님 목소리로 독서 경험 유지</li><li><strong>구조화된 캐릭터 대화</strong> · 유아 대상 생성형 AI의 최대 리스크(부적절 발화)를 설계 단계에서 차단</li><li><strong>그림 기반 동화 생성</strong> · 글을 못 쓰는 어린이의 입력 수단 확보</li><li><strong>실제 프로토타입</strong> · 분석·추천 중심이던 기존 AI에 참여 기반 차별화 축 추가</li></ul>
 <h4 class="nh3">얻은 원칙</h4>

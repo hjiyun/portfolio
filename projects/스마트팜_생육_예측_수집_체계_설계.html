@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="고려대학교 빅데이터사이언스학과 석사과정 홍지윤의 포트폴리오. Bayesian Computation과 LLM·RAG 연구, JKDAS 제1저자 논문 2편.">
 <title>스마트팜 생육 예측 · 수집 체계 설계</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2318181b'/%3E%3Ctext x='32' y='43' font-family='sans-serif' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3E%ED%99%8D%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>* { margin:0; padding:0; box-sizing:border-box; }
 html { -webkit-text-size-adjust:100%; }
 body {
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  font-family: "Pretendard", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
   color:#37352f; background:#fff;
   line-height:1.5; font-size:16px;
   -webkit-font-smoothing:antialiased;
@@ -48,7 +51,7 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-item:first-child { padding-left:2px; border-left:none; }
 .meta-item:last-child { padding-right:2px; }
 .meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
-.meta-v { font-size:15px; font-weight:600; line-height:1.5; }
+.meta-v { font-size:15px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
 @media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
 
 
@@ -121,7 +124,7 @@ ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em;
 
 /* tables */
 .ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
-table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; }
+table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
 table.ntable.fit { width:100%; }
 .ntable th, .ntable td { border:1px solid rgba(55,53,47,0.16); padding:7px 9px; vertical-align:top; text-align:left; }
 .ntable th { background:#f7f6f5; font-weight:600; color:#37352f; }
@@ -209,6 +212,11 @@ a.gcard:hover { filter:brightness(0.97); }
 .bcard-ic .icon { width:19px; height:19px; }
 @media (max-width:760px){ .board { flex-direction:column; } }
 
+/* keyboard focus */
+a:focus-visible, summary:focus-visible { outline:2px solid var(--acc, #2081a8); outline-offset:2px; border-radius:4px; }
+a:focus { outline:none; }
+a:focus-visible { outline:2px solid var(--acc, #2081a8); }
+
 @media print {
   .page { padding:20px; }
   .gcard { break-inside:avoid; }
@@ -245,10 +253,10 @@ a.gcard:hover { filter:brightness(0.97); }
 <ul class="nlist"><li>환경 데이터는 분 단위 자동 축적, 생육은 하루 1회 수동 계측. 두 데이터의 품질 격차가 분석의 출발 조건</li><li>센서 18대가 사실상 동일한 환경을 중복 측정. 개체 간 독립성이 없고 관측치 수가 변수 수보다 적은 구조</li><li>학습 작물이 5개뿐이면 부적합 환경에도 무조건 5개 중 하나를 추천하는 모델 리스크</li></ul>
 <h2 class="nh1" id="sec2">데이터</h2>
 <p>농촌진흥청 스마트팜 데이터 82.7만 건. 작물마다 측정 항목이 달라 그대로는 비교 불가<br>→ 7개 작물이 공통으로 가진 환경 변수 5종만 추출.<br>품목 : 파프리카, 방울토마토, 완숙토마토, 참외, 국화, 딸기, 오이</p>
-<figure class="nimg"><img src="../assets/farm_data_raw.png" loading="lazy" alt=""><figcaption>원본 데이터. 작물 7종에 환경 항목 10개, 82.7만 건</figcaption></figure>
+<figure class="nimg"><img src="../assets/farm_data_raw.png" loading="lazy" alt="원본 데이터. 작물 7종에 환경 항목 10개, 82.7만 건"><figcaption>원본 데이터. 작물 7종에 환경 항목 10개, 82.7만 건</figcaption></figure>
 <ul class="nlist"><li><strong>제외</strong> · 국화(결측 과다), 완숙토마토(환경 특성 불분명)</li><li><strong>추가</strong> · 5개 작물 어디에도 맞지 않는 환경을 판별할 "해당 없음" 클래스 직접 생성</li><li><strong>불균형</strong> · 작물별 건수 5배 이상 격차, 소수 클래스 기준 언더샘플링(클래스당 15,000건)</li><li><strong>분할</strong> · 학습 대 검증 0.75 : 0.25</li></ul>
-<div class="ncols"><div class="ncol" style="flex:0 0 calc(60.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_data_prep.png" loading="lazy" alt=""><figcaption>제외 기준과 클래스 구성. "해당 없음" 15,000건을 추가해 최종 23.9만 건</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(40.00% - 11.5px)"><div class="ntable-wrap"><table class="ntable"><colgroup><col style="width:87px"><col style="width:98px"></colgroup><tr><th>품목</th><th>데이터 수</th></tr><tr><td>딸기</td><td>46952</td></tr><tr><td>파프리카</td><td>63646</td></tr><tr><td>방울토마토</td><td>79295</td></tr><tr><td>참외</td><td>15695</td></tr><tr><td>오이</td><td>18604</td></tr><tr><td>해당없음</td><td>15000</td></tr></table></div></div></div>
-<div class="ncols"><div class="ncol" style="flex:0 0 calc(46.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_eda_corr.png" loading="lazy" alt=""><figcaption>변수 간 상관행렬. 온도와 일사량만 0.58로 중간 수준이고 나머지는 낮아, 변수를 줄이지 않고 5종을 모두 유지</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(54.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_eda_pairplot.png" loading="lazy" alt=""><figcaption>작물별 환경 변수 pairplot. 작물마다 분포 영역이 구분되어 분류 가능성을 사전 확인</figcaption></figure></div></div>
+<div class="ncols"><div class="ncol" style="flex:0 0 calc(60.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_data_prep.png" loading="lazy" alt="제외 기준과 클래스 구성. &quot;해당 없음&quot; 15,000건을 추가해 최종 23.9만 건"><figcaption>제외 기준과 클래스 구성. "해당 없음" 15,000건을 추가해 최종 23.9만 건</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(40.00% - 11.5px)"><div class="ntable-wrap"><table class="ntable"><colgroup><col style="width:87px"><col style="width:98px"></colgroup><tr><th>품목</th><th>데이터 수</th></tr><tr><td>딸기</td><td>46952</td></tr><tr><td>파프리카</td><td>63646</td></tr><tr><td>방울토마토</td><td>79295</td></tr><tr><td>참외</td><td>15695</td></tr><tr><td>오이</td><td>18604</td></tr><tr><td>해당없음</td><td>15000</td></tr></table></div></div></div>
+<div class="ncols"><div class="ncol" style="flex:0 0 calc(46.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_eda_corr.png" loading="lazy" alt="변수 간 상관행렬. 온도와 일사량만 0.58로 중간 수준이고 나머지는 낮아, 변수를 줄이지 않고 5종을 모두 유지"><figcaption>변수 간 상관행렬. 온도와 일사량만 0.58로 중간 수준이고 나머지는 낮아, 변수를 줄이지 않고 5종을 모두 유지</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(54.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_eda_pairplot.png" loading="lazy" alt="작물별 환경 변수 pairplot. 작물마다 분포 영역이 구분되어 분류 가능성을 사전 확인"><figcaption>작물별 환경 변수 pairplot. 작물마다 분포 영역이 구분되어 분류 가능성을 사전 확인</figcaption></figure></div></div>
 <ul class="nlist"><li><strong>목적</strong> · 모델을 돌리기 전, 작물별로 구분할 만한 차이가 실제로 있는지 확인</li></ul>
 <h2 class="nh1" id="sec3">분석 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><colgroup><col><col style="width:256px"><col style="width:289px"></colgroup><tr><th>판단 지점</th><th>기각한 안</th><th>채택한 안</th></tr><tr><td>온실 분석 방법</td><td class="c-gray">단변량 개별 분석. 환경 요인 간 상호 영향 반영 불가</td><td class="c-green_bg"><strong>다변량 VAR·VECM</strong> · 여러 시계열의 상호 영향을 함께 추정</td></tr><tr><td>생육 결측 보간</td><td class="c-gray">평균·직전값 등 임의 대치. 없는 사실을 만들어냄</td><td class="c-green_bg"><strong>S자 생장곡선 근거 보간</strong> · 선행연구 확보 후 선형·스플라인 비교</td></tr><tr><td>검정 오류 대응</td><td class="c-gray">조건을 바꿔가며 결과가 나올 때까지 강행. 억지 숫자는 신뢰 불가</td><td class="c-green_bg"><strong>중단 보고 + 재수집 제안</strong> · 원인을 데이터 구조로 규명하고 근거와 함께 보고</td></tr><tr><td>추천 모델 선정</td><td class="c-gray">RF·Decision Tree. Train 0.99+지만 Test 급락, 과적합</td><td class="c-green_bg"><strong>LGBM</strong> · Train-Test 격차 최소, 점수보다 일반화 기준</td></tr><tr><td>추천 불가 상황</td><td class="c-gray">5개 중 강제 추천. 틀린 답을 확신하게 됨</td><td class="c-green_bg"><strong>"해당 없음" 클래스 15,000건 직접 설계</strong> · 모델에게 "모르겠다"는 선택지 부여</td></tr></table></div>
@@ -259,7 +267,7 @@ a.gcard:hover { filter:brightness(0.97); }
 <figure class="nimg"><img src="../assets/farm_result_table.png" loading="lazy" alt=""></figure>
 <ul class="nlist"><li><strong>선정 기준은 학습 점수가 아니라 Train-Test 격차.</strong> 재배 현장에서는 처음 보는 환경에도 작동해야 하므로, 점수가 높은 모델이 아니라 일반화되는 모델을 선정</li><li>Train 0.99대를 기록한 Decision Tree·K-NN·Random Forest는 Test에서 급락해 <strong>전부 과적합으로 배제</strong>. 격차만 보면 SVM(0.005)이 최소지만 성능 자체가 미달이고, Test 점수만 보면 Bagging(0.8178)이 근소 우위지만 격차 0.166으로 불안정</li><li>두 조건을 함께 만족하는 <strong>LGBM 채택 · Test F1 0.81, 격차 0.031.</strong> 비교 6종은 재배 현장에서 추천 근거를 설명할 수 있도록 해석 가능성을 제공하는 모델 중심으로 구성</li><li><strong>"해당 없음" 클래스 15,000건 직접 설계로 precision·recall 모두 1.00 분리.</strong> 학습 작물 5종 어디에도 맞지 않는 환경에서 무조건 하나를 추천하는 오추천을 모델 구조에서 차단</li></ul>
 <h4 class="nh3">추천 근거의 수치화</h4>
-<div class="ncols"><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_fi.png" loading="lazy" alt=""><figcaption>보고서 원문 · Feature Importance (gain). <br>온도가 압도적 1순위, 풍속이 최하위</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_pdp.png" loading="lazy" alt=""><figcaption>보고서 원문 · Partial Dependence Plots (딸기).<br>온도 10도 부근에서 예측 확률 급등, 습도 30%에서 정점</figcaption></figure></div></div>
+<div class="ncols"><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_fi.png" loading="lazy" alt="보고서 원문 · Feature Importance (gain). <br>온도가 압도적 1순위, 풍속이 최하위"><figcaption>보고서 원문 · Feature Importance (gain). <br>온도가 압도적 1순위, 풍속이 최하위</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/farm_pdp.png" loading="lazy" alt="보고서 원문 · Partial Dependence Plots (딸기).<br>온도 10도 부근에서 예측 확률 급등, 습도 30%에서 정점"><figcaption>보고서 원문 · Partial Dependence Plots (딸기).<br>온도 10도 부근에서 예측 확률 급등, 습도 30%에서 정점</figcaption></figure></div></div>
 <ul class="nlist"><li>모델이 왜 그 작물을 추천했는지를 변수 기여도(FI)와 변수별 반응 곡선(PDP)으로 설명. "딸기는 온도 10도·습도 30%, 방울토마토는 15도·CO2 400ppm" 같은 재배 가이드 수치로 번역</li><li>분석 불가 판단은 숨기지 않고 근거와 함께 보고. 현장이 바로 실행할 수 있는 재수집 기준(측정 주기·센서 배치·표본 설계)으로 전달해, 다음 분석이 가능한 데이터가 쌓이는 구조를 만듦</li></ul>
 <details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python·R·scikit-learn·statsmodels·LightGBM / 시계열 분석 (VAR·VECM·그레인저 인과검정) / AWS EC2·SQL</p><p><strong>온실 실데이터 · 분석 불가 규명과 재수집 설계</strong> (쪽파 29변수 × 18개체)</p><ul class="nlist"><li>반복 연산 오류를 다중공선성 진단까지 추적. 코드가 아니라 <strong>센서 18대가 사실상 동일 환경을 중복 측정해 개체 간 독립성이 없는 데이터 설계 문제</strong>(관측치 수가 변수 수보다 적음)로 확인. 군집 축약·리샘플링·변수 제거로도 해소 불가</li><li>재수집 기준 역산: 센서 12구역×3개체 + 검증 10주 표본 설계</li><li>생육조사 20항목(초장·관부직경·엽장·착과수·당도 등) 정의·단위·측정방법·조사주기 표준화 문서 작성</li><li>예측 대상(수확량)이 임의 생성값임을 시각화 중 발견. 임시 VAR 결과에 "모델 해석 불가"를 명시해 오인용 차단</li></ul><p><strong>작물별 최적 환경 정량 비교</strong> · 요구 온도(참외 24.0도 최고, 딸기 16.5도 최저) · CO2(참외 716.8ppm, 방울토마토 439.2ppm)</p><p><strong>전처리 효과</strong> · 전처리 전 Decision Tree F1 0.614 → 전처리 후 Train 0.9999/Test 0.75로 과적합 노출. 점수 상승이 아니라 과적합 판별이 전처리 검증의 목적</p></div></details>
 <h2 class="nh1" id="sec6">자료</h2>

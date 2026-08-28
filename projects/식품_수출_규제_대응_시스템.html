@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="고려대학교 빅데이터사이언스학과 석사과정 홍지윤의 포트폴리오. Bayesian Computation과 LLM·RAG 연구, JKDAS 제1저자 논문 2편.">
 <title>식품 수출 규제 대응 시스템 (ML→SQL 룰엔진)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2318181b'/%3E%3Ctext x='32' y='43' font-family='sans-serif' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3E%ED%99%8D%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>* { margin:0; padding:0; box-sizing:border-box; }
 html { -webkit-text-size-adjust:100%; }
 body {
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  font-family: "Pretendard", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
   color:#37352f; background:#fff;
   line-height:1.5; font-size:16px;
   -webkit-font-smoothing:antialiased;
@@ -48,7 +51,7 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-item:first-child { padding-left:2px; border-left:none; }
 .meta-item:last-child { padding-right:2px; }
 .meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
-.meta-v { font-size:15px; font-weight:600; line-height:1.5; }
+.meta-v { font-size:15px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
 @media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
 
 
@@ -121,7 +124,7 @@ ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em;
 
 /* tables */
 .ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
-table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; }
+table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
 table.ntable.fit { width:100%; }
 .ntable th, .ntable td { border:1px solid rgba(55,53,47,0.16); padding:7px 9px; vertical-align:top; text-align:left; }
 .ntable th { background:#f7f6f5; font-weight:600; color:#37352f; }
@@ -209,6 +212,11 @@ a.gcard:hover { filter:brightness(0.97); }
 .bcard-ic .icon { width:19px; height:19px; }
 @media (max-width:760px){ .board { flex-direction:column; } }
 
+/* keyboard focus */
+a:focus-visible, summary:focus-visible { outline:2px solid var(--acc, #2081a8); outline-offset:2px; border-radius:4px; }
+a:focus { outline:none; }
+a:focus-visible { outline:2px solid var(--acc, #2081a8); }
+
 @media print {
   .page { padding:20px; }
   .gcard { break-inside:avoid; }
@@ -249,15 +257,15 @@ a.gcard:hover { filter:brightness(0.97); }
 <h2 class="nh1" id="sec3">1차 · 합성데이터로 탐지 모델 만들기</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>A안. 통계적 불균형 대응 (SMOTE·복제·가중치)</td><td>기존 39건을 복제·보간하거나 다수 클래스 축소</td><td class="c-red">기각. 복제는 같은 점을 여러 번 찍는 것이라 39건의 정보량은 그대로</td></tr><tr><td>B안. 생성형 AI에 규정 판정 위임</td><td>LLM이 제품 정보를 보고 위반 여부를 직접 판단</td><td class="c-red">기각. 환각 위험으로 통관이 걸린 판정 업무에 부적합</td></tr><tr class="c-green_bg"><td><strong>C안. 합성데이터 생성 AdsGAN (채택)</strong></td><td>원본의 분포·변수 간 상관구조를 학습해 새 정보량을 가진 표본 생성</td><td><strong>채택. 위험 클래스가 놓인 공간 자체를 채움</strong></td></tr></table></div>
 <ul class="nlist"><li><strong>라벨 설계</strong> · 규정 논리를 데이터로 번역. 한국어 제품 정보 대비 영문 표시 정보의 격차를 기준으로 위험 4등급을 직접 정의 (No Data 93.3% / English Only 4.5% / Gap 1.6% / Compliant 0.6%)</li><li><strong>데이터 구축</strong> · 원본 약 4GB parquet에서 한국 식품 2,493건 필터링, 영양성분 9종과 알레르겐 7종 등 18개 피처 설계</li><li><strong>라벨 자동 생성</strong> · Solar-pro LLM으로 한국어 정보를 FDA 영문 JSON으로 변환, Pillow로 Nutrition Facts 라벨 이미지 렌더링</li><li><strong>합성데이터</strong> · AdsGAN 3,000건 생성(RTX 4080, 300 epochs)으로 1:63을 1:1로 균형화</li><li><strong>품질 검증</strong> · 성능과 분리한 3중 검증. 분포(KS, Wasserstein, PSI), 구조(원본과 합성의 상관행렬 비교), 판별(분류기의 원본과 합성 구분율)</li></ul>
-<figure class="nimg"><img src="../assets/tbt1_summary.png" loading="lazy" alt=""><figcaption>1차 보고서 원문 · 핵심 결과 요약. 1:63 → 1:1, 87% → 96%, 판별 55.7%, PSI 0.25 미만</figcaption></figure>
-<figure class="nimg"><img src="../assets/tbt1_discrim.png" loading="lazy" alt=""><figcaption>1차 보고서 원문 · 판별 테스트. 분류기가 원본/합성을 55.7%로만 구분, 랜덤(50%)과 거의 동일해 통계적 구분 불가 입증</figcaption></figure>
+<figure class="nimg"><img src="../assets/tbt1_summary.png" loading="lazy" alt="1차 보고서 원문 · 핵심 결과 요약. 1:63 → 1:1, 87% → 96%, 판별 55.7%, PSI 0.25 미만"><figcaption>1차 보고서 원문 · 핵심 결과 요약. 1:63 → 1:1, 87% → 96%, 판별 55.7%, PSI 0.25 미만</figcaption></figure>
+<figure class="nimg"><img src="../assets/tbt1_discrim.png" loading="lazy" alt="1차 보고서 원문 · 판별 테스트. 분류기가 원본/합성을 55.7%로만 구분, 랜덤(50%)과 거의 동일해 통계적 구분 불가 입증"><figcaption>1차 보고서 원문 · 판별 테스트. 분류기가 원본/합성을 55.7%로만 구분, 랜덤(50%)과 거의 동일해 통계적 구분 불가 입증</figcaption></figure>
 <h4 class="nh3">96%가 실제로 잰 것</h4>
 <ul class="nlist"><li><strong>설명 불가</strong> · 왜 위반인지를 조항 단위로 제시할 수 없음</li><li><strong>유지보수</strong> · 규정이 개정되면 재학습 필요</li><li><strong>결정적 한계</strong> · 모델이 맞힌 대상은 규정 위반이 아니라 직접 만든 정보 공백 등급. 등급을 가르는 기준은 영문 표시 정보의 유무였고, 그 생성 필드가 입력 변수에도 남아 있어 96%는 예정된 결과</li><li><strong>전환 판단</strong> · 발견이라 부를 수 없다고 보고, 데이터에서 규제를 추정하는 대신 규정 조문 자체를 DB에 넣는 방식으로 전환</li></ul>
 <h2 class="nh1" id="sec4">2차 · 규정을 SQL 룰엔진으로 코드화</h2>
-<figure class="nimg"><img src="../assets/tbt2_architecture.png" loading="lazy" alt=""><figcaption>2차 시스템 아키텍처 · 규정 문서와 Open Food Facts를 PostgreSQL로 정형화하고 SQL 룰 엔진으로 3국 전수 진단</figcaption></figure>
+<figure class="nimg"><img src="../assets/tbt2_architecture.png" loading="lazy" alt="2차 시스템 아키텍처 · 규정 문서와 Open Food Facts를 PostgreSQL로 정형화하고 SQL 룰 엔진으로 3국 전수 진단"><figcaption>2차 시스템 아키텍처 · 규정 문서와 Open Food Facts를 PostgreSQL로 정형화하고 SQL 룰 엔진으로 3국 전수 진단</figcaption></figure>
 <ul class="nlist"><li><strong>DB 설계</strong> · 영양소 정체성과 국가별 기준값을 분리하고 country_code 복합키로 구성. 새 국가 표준은 행 추가만으로 확장</li><li><strong>진단 쿼리</strong> · 국가 필터 없는 JOIN으로 측정값 1건이 자동으로 3국 판정 행이 되는 VIEW 구성. JOIN과 CASE, CTE, 윈도우 함수 쿼리 10종으로 전수 진단</li><li><strong>1차 오류 재발견</strong> · 결측을 0으로 대치한 처리가 측정되지 않은 영양소를 적합으로 오판함을 확인. NULL 보존으로 전환하고 오염 셀 23.9%를 정량화, 진단 표본 34% 감소를 감수</li><li><strong>표준의 빈틈</strong> · CODEX에 없는 당류와 에너지 기준은 WHO 가이드라인으로 대체. 3국의 당류 정의 차이(US 첨가당, EU 총당, CODEX 유리당)와 EU 소금 단위는 환산 결정을 문서화하고 상한 추정으로 명시</li><li><strong>자체 규칙 검증</strong> · 제품명 키워드 매칭 오류(soup으로 인해 더덕무침이 음료로 분류)를 발견. 추론군과 메타데이터군 위반율의 통계적 동등성으로 결론이 흔들리지 않음을 별도 입증</li></ul>
-<figure class="nimg"><img src="../assets/tbt2_sodium.png" loading="lazy" alt=""><figcaption>2차 진단 결과 · 나트륨 분포와 3국 임계값. CODEX 400mg 임계선 부근 클러스터에 "미국 적합·CODEX 위반" 95건</figcaption></figure>
-<figure class="nimg"><img src="../assets/tbt2_streamlit.png" loading="lazy" alt=""><figcaption>Streamlit 사전 점검 도구 · 영양성분 입력 즉시 미국·EU·CODEX 3국 라벨 표시 의무 판정 (신라면 예시)</figcaption></figure>
+<figure class="nimg"><img src="../assets/tbt2_sodium.png" loading="lazy" alt="2차 진단 결과 · 나트륨 분포와 3국 임계값. CODEX 400mg 임계선 부근 클러스터에 &quot;미국 적합·CODEX 위반&quot; 95건"><figcaption>2차 진단 결과 · 나트륨 분포와 3국 임계값. CODEX 400mg 임계선 부근 클러스터에 "미국 적합·CODEX 위반" 95건</figcaption></figure>
+<figure class="nimg"><img src="../assets/tbt2_streamlit.png" loading="lazy" alt="Streamlit 사전 점검 도구 · 영양성분 입력 즉시 미국·EU·CODEX 3국 라벨 표시 의무 판정 (신라면 예시)"><figcaption>Streamlit 사전 점검 도구 · 영양성분 입력 즉시 미국·EU·CODEX 3국 라벨 표시 의무 판정 (신라면 예시)</figcaption></figure>
 <h2 class="nh1" id="sec5">결과</h2>
 <figure class="nimg"><img src="../assets/tbt_result_summary.png" loading="lazy" alt=""></figure>
 <ul class="nlist"><li><strong>1차 성과</strong> · 정확도 87에서 96%(F1 +33%), 판별 55.7%로 합성데이터 품질 입증. 동시에 그 수치가 재는 대상의 한계까지 스스로 규명</li><li><strong>2차 발견</strong> · FDA 적합이면서 CODEX 위반인 95건 확인. 미국 기준만 보고 만든 제품이 다른 시장에서 걸리는 구조를 정량 제시</li><li><strong>통계 검증</strong> · 나트륨에서만 메타데이터 부재군의 위반율이 유의하게 높음(+10.98%p, p=0.003). 실용적 유의 10%p, Wald 신뢰구간, 본페로니 보정의 4중 안전장치</li><li><strong>두 접근의 관계</strong> · 같은 데이터에서 1차 ML의 변수 중요도와 2차 룰엔진의 실제 위반율을 비교해 대체가 아닌 상호보완 관계임을 제시</li><li><strong>산출물</strong> · Streamlit 사전 점검 도구, PostgreSQL 다국가 규정 DB, 재현 가능한 DDL과 ETL, 쿼리 GitHub 공개(Docker 기반, 접속 정보 .env 분리)</li></ul>
