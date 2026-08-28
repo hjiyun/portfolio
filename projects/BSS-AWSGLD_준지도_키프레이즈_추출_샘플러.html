@@ -12,8 +12,8 @@ body {
   line-height:1.5; font-size:16px;
   -webkit-font-smoothing:antialiased;
 }
-.page { max-width:900px; margin:0 auto; padding:64px 40px 30vh; }
-.page.wide { max-width:960px; }
+.page { max-width:1400px; margin:0 auto; padding:56px 48px 18vh; }
+.page.wide { max-width:1400px; }
 a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
 a:hover { text-decoration-color:rgba(55,53,47,0.8); }
 p { margin:3px 0; padding:3px 2px; }
@@ -40,6 +40,13 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .bc-ic { width:1.05em; height:1.05em; }
 .ncallout-icon .icon { width:22px; height:22px; }
 .nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+
+/* meta summary grid (website-style) */
+.meta { display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; background:#fafaf9; border:1px solid #ececea; border-radius:12px; padding:20px 26px; margin:6px 0 30px; }
+.meta-k { font-size:12.5px; font-weight:700; color:#9b9a97; letter-spacing:0.03em; margin-bottom:5px; }
+.meta-v { font-size:14.5px; font-weight:600; line-height:1.45; }
+@media (max-width:800px){ .meta { grid-template-columns:1fr 1fr; } }
 
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
@@ -185,13 +192,12 @@ a.gcard:hover { filter:brightness(0.97); }
 <div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg></div>
 <h1 class="page-title">BSS-AWSGLD 준지도 키프레이즈 추출 샘플러</h1>
 
-<div class="props">
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M4 1v2H3a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-1.5v2h-5V1H4zm9.5 5v7H2.5V6h11z"/></svg>기간</span><span class="prop-v">2025년 9월 1일 →</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM2 14a6 6 0 1 1 12 0v1H2v-1z"/></svg>기여도</span><span class="prop-v">제1저자 · 정식 게재 논문 작성 중</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" d="M7 10.5 4.8 8.3l1-1L7 8.5l3.2-3.2 1 1z"/></svg>결과</span><span class="prop-v">학회 포스터논문 장려상 · 6종 중 유일 수렴 샘플러</span></div>
-  <div class="prop"><span class="prop-k"><svg class="pic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>그룹</span><span class="prop-v"><span class="chip chip-purple">베이지안·SGMCMC</span></span></div>
+<div class="meta">
+  <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2025년 9월 1일 →</div></div>
+  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">제1저자 · 정식 게재 논문 작성 중</div></div>
+  <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">학회 포스터논문 장려상 · 6종 중 유일 수렴 샘플러</div></div>
+  <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-purple">베이지안·SGMCMC</span></div></div>
 </div>
-<hr class="props-hr">
 <div class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg></div><div class="ncallout-body"><p><strong>다봉 사후분포의 로컬 트랩을 깨는 그래프 preconditioned 적응형 샘플러.</strong> <br>BSS 키프레이즈 추출의 θ 샘플링 스텝만 AWSGLD로 교체 · 동일 데이터·동일 초기화 샘플러 6종 통제 비교 · 시뮬레이션 실험 4종 + Hulth 실데이터·실문서 트랩 검증 · 한국자료분석학회 포스터논문 장려상</p></div></div>
 <h2 class="nh1">문제 정의</h2>
