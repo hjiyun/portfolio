@@ -122,6 +122,16 @@ html { scroll-behavior:smooth; }
 .ncallout-green_bg { background:#edf3ec; }
 .ncallout-yellow_bg { background:#fbf3db; }
 
+/* fact card grid (from labeled lists) */
+.fgrid { display:grid; gap:12px; margin:10px 0 18px; }
+.fgrid-2 { grid-template-columns:1fr 1fr; }
+.fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
+.fcard { background:#fafaf9; border:1px solid #ececea; border-radius:10px; padding:14px 16px; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-b strong { color:#37352f; }
+@media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
 ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
@@ -263,7 +273,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>사용 기술</h2>
 <ul class="nlist"><li>Python, LDA, Gibbs Sampling, SGLD(Stochastic Gradient Langevin Dynamics)</li><li>AHP (쌍대비교), Bootstrap, 한국어 전처리·크롤링</li></ul>
 <h2 class="nh1" id="sec3"><span class="sec-no">03</span>문제 정의</h2>
-<ul class="nlist"><li><strong>첫 번째 프로젝트</strong> · Gibbs 기반 LDA의 전체 데이터 재계산 → 대규모 문서 처리 한계</li><li><strong>두 번째 프로젝트</strong> · 전문가 주관 의존 한반도 평화지수의 재현성 부족 (2016년 이후 조사 중단)</li></ul>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">첫 번째 프로젝트</div><div class="fcard-b">Gibbs 기반 LDA의 전체 데이터 재계산 → 대규모 문서 처리 한계</div></div><div class="fcard"><div class="fcard-k">두 번째 프로젝트</div><div class="fcard-b">전문가 주관 의존 한반도 평화지수의 재현성 부족 (2016년 이후 조사 중단)</div></div></div>
 <h2 class="nh1" id="sec4"><span class="sec-no">04</span>역할</h2>
 <ul class="nlist"><li>첫 번째 프로젝트: 주연구원 단독 수행</li><li>두 번째 프로젝트: 학제간 3인 팀 (통일외교안보·북한학) 내 유일 데이터 전공자로 정량 분석 전담</li></ul>
 <h2 class="nh1" id="sec5"><span class="sec-no">05</span>수행 내용</h2>

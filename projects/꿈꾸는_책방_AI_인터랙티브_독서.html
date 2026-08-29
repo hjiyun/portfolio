@@ -122,6 +122,16 @@ html { scroll-behavior:smooth; }
 .ncallout-green_bg { background:#edf3ec; }
 .ncallout-yellow_bg { background:#fbf3db; }
 
+/* fact card grid (from labeled lists) */
+.fgrid { display:grid; gap:12px; margin:10px 0 18px; }
+.fgrid-2 { grid-template-columns:1fr 1fr; }
+.fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
+.fcard { background:#fafaf9; border:1px solid #ececea; border-radius:10px; padding:14px 16px; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-b strong { color:#37352f; }
+@media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
 ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
@@ -266,7 +276,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <blockquote class="nquote"><strong>"전자책도 결국 스크린타임 아닌가?"</strong><br>WHO·AAP 가이드라인과 29개 연구 메타분석에서 도출한 설계 기준선: <strong>부모가 개입하고 자극을 절제한 인터랙티브 독서는 종이책과 동등하거나 더 높은 발달 효과</strong>. 이후 모든 기능 판단의 근거.</blockquote>
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>서비스 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 콘텐츠 라이브러리·추천 강화</td><td>기존 방식의 연장</td><td class="c-red">기각. 소비량만 늘 뿐, 수동적 시청이라는 본질은 그대로</td></tr><tr><td>2안. LLM 캐릭터와 완전 자유 대화</td><td>몰입감 최대</td><td class="c-red">기각. 유아 상대 환각·부적절 발화 통제 불가</td></tr><tr class="c-green_bg"><td><strong>3안. 통제된 하이브리드 (채택)</strong></td><td>부모님 목소리 복제 + 구조화 스크립트에 LLM 공감 응답만</td><td><strong>채택. 스크린타임 반론을 문헌으로 방어, 아동 안전을 스크립트 수준에서 통제, 2개월 내 구현 가능</strong></td></tr></table></div>
-<ul class="nlist"><li><strong>① 부모님 목소리 복제</strong> · 부모님이 없는 시간에도 '부모님 개입'을 기술로 유지</li><li><strong>② 구조화 스크립트 + LLM 공감 응답</strong> · 질문·힌트·무응답 폴백까지 사전 저작, LLM은 공감만 담당</li><li><strong>③ 그림·음성 입력</strong> · 글을 못 쓰는 1~6세를 위한 창작 입구</li><li><strong>④ 갤럭시 탭 기준 1280×800 (16:10)</strong> · 국내 아동 교육용 태블릿 표준에 맞춘 화면 설계</li></ul>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">① 부모님 목소리 복제</div><div class="fcard-b">부모님이 없는 시간에도 '부모님 개입'을 기술로 유지</div></div><div class="fcard"><div class="fcard-k">② 구조화 스크립트 + LLM 공감 응답</div><div class="fcard-b">질문·힌트·무응답 폴백까지 사전 저작, LLM은 공감만 담당</div></div><div class="fcard"><div class="fcard-k">③ 그림·음성 입력</div><div class="fcard-b">글을 못 쓰는 1~6세를 위한 창작 입구</div></div><div class="fcard"><div class="fcard-k">④ 갤럭시 탭 기준 1280×800 (16:10)</div><div class="fcard-b">국내 아동 교육용 태블릿 표준에 맞춘 화면 설계</div></div></div>
 <h2 class="nh1" id="sec3"><span class="sec-no">03</span>프로토타입</h2>
 <p>목업이 아닌 React 구현 화면.</p>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(58.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_viewer.png" loading="lazy" alt="동화 감상 · 부모님이 녹음한 5문장으로 학습된 목소리로 재생"><figcaption>동화 감상 · 부모님이 녹음한 5문장으로 학습된 목소리로 재생</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(42.00% - 11.5px)"><figure class="nimg"><img src="../assets/kkum_home.png" loading="lazy" alt="홈 · 이어서 읽기와 세 가지 활동 진입"><figcaption>홈 · 이어서 읽기와 세 가지 활동 진입</figcaption></figure>
@@ -312,7 +322,7 @@ await openai.chat.completions.create({
 <pre class="ncode"><code>시장 조사 → 서비스 컨셉 → AI 파이프라인 설계 → React·Express 구현 → 기능 연결 → 오류 추적·수정 → Android 태블릿 실기기 테스트 → 최종 프로토타입</code></pre>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_splash.png" loading="lazy" alt="스플래시"><figcaption>스플래시</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_voicereg.png" loading="lazy" alt="부모님 목소리 등록"><figcaption>부모님 목소리 등록</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(34.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_tablet.png" loading="lazy" alt="태블릿 구동 검증 · 멘토링 2회 · 최종 발표"><figcaption>태블릿 구동 검증 · 멘토링 2회 · 최종 발표</figcaption></figure></div></div>
 <h4 class="nh3" id="sec7-1">구현이 서비스에서 갖는 의미</h4>
-<ul class="nlist"><li><strong>부모님 목소리 복제</strong> · 부모님이 읽어주지 못하는 시간에도 부모님 목소리로 독서 경험 유지</li><li><strong>구조화된 캐릭터 대화</strong> · 유아 대상 생성형 AI의 최대 리스크(부적절 발화)를 설계 단계에서 차단</li><li><strong>그림 기반 동화 생성</strong> · 글을 못 쓰는 어린이의 입력 수단 확보</li><li><strong>실제 프로토타입</strong> · 분석·추천 중심이던 기존 AI에 참여 기반 차별화 축 추가</li></ul>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">부모님 목소리 복제</div><div class="fcard-b">부모님이 읽어주지 못하는 시간에도 부모님 목소리로 독서 경험 유지</div></div><div class="fcard"><div class="fcard-k">구조화된 캐릭터 대화</div><div class="fcard-b">유아 대상 생성형 AI의 최대 리스크(부적절 발화)를 설계 단계에서 차단</div></div><div class="fcard"><div class="fcard-k">그림 기반 동화 생성</div><div class="fcard-b">글을 못 쓰는 어린이의 입력 수단 확보</div></div><div class="fcard"><div class="fcard-k">실제 프로토타입</div><div class="fcard-b">분석·추천 중심이던 기존 AI에 참여 기반 차별화 축 추가</div></div></div>
 <h4 class="nh3" id="sec7-2">얻은 원칙</h4>
 <ul class="nlist"><li>이상적 설계와 검증 범위의 분리 · 초기엔 브라우저 내장 음성·템플릿으로 빠르게 검증, 최종안에서 ElevenLabs·GPT로 단계적 상향</li><li>AI 코딩 도구를 쓰되 검증의 책임은 사람에게 · 데모 화면이 아니라 파이프라인 각 단계의 실제 입·출력 기준으로 확인</li></ul>
 <h2 class="nh1" id="sec8"><span class="sec-no">08</span>자료</h2>

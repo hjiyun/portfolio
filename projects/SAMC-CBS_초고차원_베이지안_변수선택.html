@@ -122,6 +122,16 @@ html { scroll-behavior:smooth; }
 .ncallout-green_bg { background:#edf3ec; }
 .ncallout-yellow_bg { background:#fbf3db; }
 
+/* fact card grid (from labeled lists) */
+.fgrid { display:grid; gap:12px; margin:10px 0 18px; }
+.fgrid-2 { grid-template-columns:1fr 1fr; }
+.fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
+.fcard { background:#fafaf9; border:1px solid #ececea; border-radius:10px; padding:14px 16px; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-b strong { color:#37352f; }
+@media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
 ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
@@ -255,7 +265,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.4"/><circle cx="6" cy="18.5" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M6 8v8M8.4 12h7.2"/></svg></div><div class="ncallout-body"><p><strong>참 신호를 하나도 놓치지 않으면서(NSR 0%) 오탐을 6.9배 줄인 상관 기반 하이브리드 MCMC.</strong> <br>원논문 C 코드 8개 모듈 전면 이식 + CBS 제안분포 설계 · 시뮬레이션 10회 반복 검증 · 개인 연구</p></div></div>
 <h2 class="nh1" id="sec1"><span class="sec-no">01</span>문제 정의</h2>
-<ul class="nlist"><li><strong>n ≪ p 구조</strong> · 유전체 데이터는 표본(n=100)보다 변수(p=1,000)가 수십 배 많음. 일반 회귀 추정이 불가능해 변수선택이 분석의 성패를 좌우</li><li><strong>기존 알고리즘의 미탐</strong> · 대표 알고리즘인 SAMC 기반 Split-and-Merge는 실측 결과 참 신호 10개 중 <strong>평균 2.7개(NSR 73%)</strong> 만 검출</li><li><strong>벌점 회귀의 오탐</strong> · 반대로 LASSO·Elastic Net은 참 신호는 찾지만 오탐이 과도(FSR 58~74%). 오탐 하나가 곧 불필요한 후속 검증 실험 하나</li><li><strong>핵심 원인</strong> · 탐색 커널이 변수 간 상관구조를 무시. 기능적으로 연관된 유전자들이 강하게 상관된 데이터에서 무작위 토글 방식은 상관 블록에 체인이 갇힘</li></ul>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">n ≪ p 구조</div><div class="fcard-b">유전체 데이터는 표본(n=100)보다 변수(p=1,000)가 수십 배 많음. 일반 회귀 추정이 불가능해 변수선택이 분석의 성패를 좌우</div></div><div class="fcard"><div class="fcard-k">기존 알고리즘의 미탐</div><div class="fcard-b">대표 알고리즘인 SAMC 기반 Split-and-Merge는 실측 결과 참 신호 10개 중 <strong>평균 2.7개(NSR 73%)</strong> 만 검출</div></div><div class="fcard"><div class="fcard-k">벌점 회귀의 오탐</div><div class="fcard-b">반대로 LASSO·Elastic Net은 참 신호는 찾지만 오탐이 과도(FSR 58~74%). 오탐 하나가 곧 불필요한 후속 검증 실험 하나</div></div><div class="fcard"><div class="fcard-k">핵심 원인</div><div class="fcard-b">탐색 커널이 변수 간 상관구조를 무시. 기능적으로 연관된 유전자들이 강하게 상관된 데이터에서 무작위 토글 방식은 상관 블록에 체인이 갇힘</div></div></div>
 <figure class="nimg"><img src="../assets/samc_fig4_correlation_heatmap.png" loading="lazy" alt="GSE2990 실데이터의 상관구조. 참 신호 유전자 블록은 평균 |r| 0.74로 무작위 변수(0.15)의 5배, 상관 블록에 탐색이 갇히는 난이도를 그대로 재현한 벤치마크"><figcaption>GSE2990 실데이터의 상관구조. 참 신호 유전자 블록은 평균 |r| 0.74로 무작위 변수(0.15)의 5배, 상관 블록에 탐색이 갇히는 난이도를 그대로 재현한 벤치마크</figcaption></figure>
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>알고리즘 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 벌점 회귀 계열 채택</td><td class="c-gray">구현 간단, 검출률 높음. 오탐률 58~74%는 후속 검증 비용 과도</td><td class="c-gray">기각</td></tr><tr><td>2안. 변수선택 모델 신규 설계</td><td class="c-gray">개선이 모델 덕분인지 탐색 덕분인지 분리 불가</td><td class="c-gray">기각</td></tr><tr><td class="c-green_bg"><strong>3안. 원 알고리즘 유지 + 상관 기반 제안분포(CBS) 결합</strong></td><td class="c-green_bg">덜 상관된 변수는 추가, 강하게 상관된 변수는 제거·교체. 변경점을 탐색 커널로 한정해 개선 효과를 커널에 귀속</td><td class="c-green_bg"><strong>채택</strong></td></tr></table></div>
