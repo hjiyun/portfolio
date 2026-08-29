@@ -12,7 +12,7 @@ html { -webkit-text-size-adjust:100%; }
 body {
   font-family: "Pretendard", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
   color:#37352f; background:#fff;
-  line-height:1.5; font-size:16px;
+  line-height:1.55; font-size:17px;
   -webkit-font-smoothing:antialiased;
 }
 .page { max-width:1400px; margin:0 auto; padding:56px 48px 18vh; }
@@ -51,7 +51,7 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-item:first-child { padding-left:2px; border-left:none; }
 .meta-item:last-child { padding-right:2px; }
 .meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
-.meta-v { font-size:15px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
+.meta-v { font-size:16px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
 .meta-item:nth-child(3) .meta-v { color:var(--acc, #18181b); }
 @media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
 
@@ -89,7 +89,7 @@ html { scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce) { .js .content > * { opacity:1; transform:none; transition:none; } }
 .content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
 .content h4.nh3 { scroll-margin-top:28px; }
-.content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
+.content > .ncallout:first-child { margin-top:4px; font-size:17.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
 
@@ -134,10 +134,16 @@ html { scroll-behavior:smooth; }
 .fgrid-2 { grid-template-columns:1fr 1fr; }
 .fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
 .fcard { background:#fff; border:1px solid #ecebe9; border-radius:12px; padding:15px 17px; box-shadow:0 12px 26px -24px rgba(24,24,27,0.32); }
-.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
-.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:15px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:15px; color:#4b4a47; line-height:1.55; }
 .fcard-b strong { color:#37352f; }
 @media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
+/* step flow (wrapping process chips) */
+.stepflow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 6px; margin:12px 0 16px; }
+.step { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid #ecebe9; border-radius:99px; padding:7px 14px 7px 8px; font-size:14.5px; font-weight:600; color:#37352f; box-shadow:0 8px 18px -18px rgba(24,24,27,0.35); white-space:nowrap; }
+.step-n { display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px; border-radius:50%; background:var(--acc, #37352f); color:#fff; font-size:11.5px; font-weight:700; }
+.step-arrow { color:#c9c8c5; font-size:14px; }
 
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
@@ -148,7 +154,7 @@ ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em;
 
 /* tables */
 .ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
-table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
+table.ntable { border-collapse:collapse; font-size:15px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
 table.ntable.fit { width:100%; }
 .ntable th, .ntable td { border:1px solid rgba(55,53,47,0.1); padding:8px 11px; vertical-align:top; text-align:left; }
 .ntable th { background:#fbfaf8; font-weight:600; color:#37352f; }
@@ -169,7 +175,7 @@ span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
 /* images */
 figure.nimg { margin:6px 0 12px; }
 figure.nimg img { max-width:100%; border:1px solid #eeedeb; border-radius:10px; display:block; margin:0 auto; }
-figure.nimg figcaption { font-size:13.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+figure.nimg figcaption { font-size:14.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
 
 /* columns */
 .ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
@@ -275,8 +281,8 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a class="sub" href="#sec4-4"><span class="toc-sub-t">실험 4 · 규모 확장: n=200 → 10,000</span></a>
 <a class="sub" href="#sec4-5"><span class="toc-sub-t">실험 5 · Hulth 실데이터: FDR 컷오프 선택 품질</span></a>
 <a class="sub" href="#sec4-6"><span class="toc-sub-t">실험 6 · 실문서 병합 트랩: 시뮬레이션의 재현</span></a>
-<a class="sub" href="#sec4-7"><span class="toc-sub-t">실험 결과 요약</span></a>
-<a href="#sec5"><span class="toc-n">05</span><span>자료</span></a>
+<a href="#sec5"><span class="toc-n">05</span><span>실험 결과 요약</span></a>
+<a href="#sec6"><span class="toc-n">06</span><span>자료</span></a>
   </aside>
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg></div><div class="ncallout-body"><p><strong>다봉 사후분포의 로컬 트랩을 깨는 그래프 preconditioned 적응형 샘플러.</strong> <br>BSS 키프레이즈 추출의 θ 샘플링 스텝만 AWSGLD로 교체 · 동일 데이터·동일 초기화 샘플러 6종 통제 비교 · 시뮬레이션 실험 4종 + Hulth 실데이터·실문서 트랩 검증 · 한국자료분석학회 포스터논문 장려상</p></div></div>
@@ -316,11 +322,12 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/bss_fig8_3doc.png" loading="lazy" alt="3문서 병합 지형 (논문 Figure 8). 장벽 약 29.9와 7.9로 분리된 3개 basin. 깊은 장벽 탓에 acMH·qSGLD·cycSGLD는 탈출률 0%"><figcaption>3문서 병합 지형 (논문 Figure 8). 장벽 약 29.9와 7.9로 분리된 3개 basin. 깊은 장벽 탓에 acMH·qSGLD·cycSGLD는 탈출률 0%</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(50.00% - 11.5px)"><figure class="nimg"><img src="../assets/bss_fig9_landscape.png" loading="lazy" alt="10문서 병합 지형 (논문 Figure 9). 장벽 3.3~22.5로 분리된 10개 basin, 문서별 TextRank 해가 각 basin의 중심"><figcaption>10문서 병합 지형 (논문 Figure 9). 장벽 3.3~22.5로 분리된 10개 basin, 문서별 TextRank 해가 각 basin의 중심</figcaption></figure></div></div>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>10문서 트랩</th><th>방문 basin</th><th>탈출률</th><th>P@20</th><th>NDCG@20</th></tr><tr class="c-green_bg"><td><strong>AWSGLD (제안)</strong></td><td><strong>7.4 / 10</strong></td><td><strong>100%</strong></td><td><strong>0.945</strong></td><td><strong>0.945</strong></td></tr><tr><td>SGHMC</td><td>1.5</td><td>100%</td><td>0.875</td><td>0.894</td></tr><tr><td>qSGLD</td><td>1.8</td><td>100%</td><td>0.855</td><td>0.882</td></tr><tr><td>SGLD</td><td>1.6</td><td>100%</td><td>0.810</td><td>0.827</td></tr><tr><td>cycSGLD</td><td>1.3</td><td>60%</td><td>0.800</td><td>0.849</td></tr><tr><td>acMH</td><td>1.1</td><td>20%</td><td>0.810</td><td>0.833</td></tr></table></div>
 <ul class="nlist"><li>3문서 트랩(장벽 약 30): AWSGLD만 100% 탈출 + 평균 2.2개 basin 방문으로 <strong>P@20 0.745 vs acMH 0.555</strong>, NDCG@20 0.806 vs 0.661. acMH는 γ ≥ 0.15에서 실현 FDR이 명목 수준을 초과(0.306 at γ=0.20)하는 반면 AWSGLD는 전 구간 준수</li><li>10문서 트랩: <strong>10개 basin 중 평균 7.4개 방문</strong>(차선 1.8)으로 전 지표 1위(논문 Table 12). basin이 많아질수록 격차가 커지는 방향성 확인</li><li>정직한 한계 보고: 3문서 트랩의 낮은 γ에서는 한 basin에 갇힌 acMH의 소수 정예 선택이 컷오프 F 기준으로 더 높음(0.465 vs 0.365 at γ=0.10). 상위 후보 추출·FDR 보증 관점에서만 AWSGLD 우위가 성립함을 구분해 기록</li></ul>
-<h4 class="nh3" id="sec4-7">실험 결과 요약</h4>
+<h2 class="nh1" id="sec5"><span class="sec-no">05</span>실험 결과 요약</h2>
+<div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-amber"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.2 3.2 0 0 0 8 9M16 5.5h3.2A3.2 3.2 0 0 1 16 9"/><path d="M12 13.5v2.5M9.2 20.5h5.6M10 16h4l.9 4.5H9.1z"/></svg></div><div class="ncallout-body"><p><strong>여섯 실험 전부에서 복원 정확도와 수렴·효율을 동시에 만족한 샘플러는 AWSGLD뿐</strong></p></div></div>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>실험</th><th>확인 항목</th><th>AWSGLD (제안)</th><th>비교군 최선</th></tr><tr><td>1 · 원본 BSS 사후분포</td><td>에너지 컷오프 도달 · 수렴 · 효율</td><td class="c-green_bg"><strong>컷오프 5/5 · R̂ &lt; 1.2 · ESS 26.4</strong></td><td>qSGLD 4/5 · ESS 13.1</td></tr><tr><td>2 · 3모드 트랩 (null basin 출발)</td><td>장벽 탈출 · 순위 복원</td><td class="c-green_bg"><strong>R̂ max 1.15 · Spearman 0.697</strong></td><td>qSGLD R̂ 1.37 · Spearman 0.648</td></tr><tr><td>3 · 난이도 4시나리오</td><td>난이도별 복원 품질 · 비용</td><td class="c-green_bg"><strong>Difficult Spearman 0.553 · NDCG 0.822 · 16.3초</strong></td><td>qSGLD 0.327 · acMH 707.3초</td></tr><tr><td>4 · 규모 확장 (n=10,000)</td><td>규모에 따른 안정성</td><td class="c-green_bg"><strong>MSE 1.251 · R̂ 1.09 · ESS 63.1</strong></td><td>cycSGLD MSE 1.784 · ESS 40.4</td></tr><tr><td>5 · Hulth 초록 500편</td><td>FDR 컷오프 선택 품질</td><td class="c-green_bg"><strong>γ=0.25 pooled F 0.694 · 실현 FDR 준수</strong></td><td>qSGLD 0.639</td></tr><tr><td>6 · 실문서 병합 트랩</td><td>실데이터 다봉 지형 탈출</td><td class="c-green_bg"><strong>10문서 basin 7.4/10 · P@20 0.945</strong></td><td>qSGLD basin 1.8 · SGHMC P@20 0.875</td></tr></table></div>
-<ul class="nlist"><li>시뮬레이션(실험 1~4)에서 확인한 탈출 능력이 실데이터(실험 5~6)에서도 재현. 단봉에 가까운 단일 문서에서는 넓은 탐색에 따른 재현율 개선으로, 다봉 병합 지형에서는 모드 방문 수 자체의 격차로 우위가 드러남</li><li>여섯 실험 전부에서 복원 정확도와 수렴·효율을 동시에 만족한 샘플러는 AWSGLD뿐. 다만 3문서 트랩의 낮은 γ(0.10)처럼 한 basin에 갇힌 체인이 컷오프 F에서 앞서는 구간이 있어, 우위가 성립하는 범위를 구분해 기록</li></ul>
+<ul class="nlist"><li>시뮬레이션(실험 1~4)에서 확인한 탈출 능력이 실데이터(실험 5~6)에서도 재현. 단봉에 가까운 단일 문서에서는 넓은 탐색에 따른 재현율 개선으로, 다봉 병합 지형에서는 모드 방문 수 자체의 격차로 우위가 드러남</li><li>다만 3문서 트랩의 낮은 γ(0.10)처럼 한 basin에 갇힌 체인이 컷오프 F에서 앞서는 구간이 있어, 우위가 성립하는 범위를 구분해 기록</li></ul>
 <details class="ntoggle"><summary class="h4">세부 기록</summary><div class="ntoggle-body"><p><strong>사용 기술</strong> · Python(NumPy·Numba)·R / SGMCMC(AWSGLD·SGLD·qSGLD·cycSGLD·SGHMC) / 그래프 기반 NLP · PU Learning / Hulth 벤치마크 전처리(POS 필터·window-2 공출현 그래프)</p><p><strong>공정 비교</strong> · 기준선 acMH를 Numba + O(n) 증분 계산으로 가속해 동일 조건 비교. 모든 실험은 동일 데이터·동일 초기화·동일 온도로 통제</p><p><strong>검증 태도</strong> · cycSGLD의 single-chain lucky(R̂ 5.09인데 MSE 1위) 같은 이상 사례를 3체인 pooled 추정으로 교정하니 정상 경쟁자로 복귀, 이전 우위가 추정기 인공물이었음을 규명. n=10,000은 단일 시드(1체인 약 1시간) 한계도 명시</p></div></details>
-<h2 class="nh1" id="sec5"><span class="sec-no">05</span>자료</h2>
+<h2 class="nh1" id="sec6"><span class="sec-no">06</span>자료</h2>
 <a class="nfile" href="../files/BSS_AWSGLD_%ED%8F%AC%EC%8A%A4%ED%84%B0_A1.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">BSS-AWSGLD 키프레이즈 추출 · 학회 포스터 (장려상)</span></a>
 <p><a href="https://github.com/hjiyun/BSS-Keyphrase-Extraction" target="_blank" rel="noopener">https://github.com/hjiyun/BSS-Keyphrase-Extraction</a></p>
   </article>
@@ -330,6 +337,15 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 (function(){
   var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
   if (!links.length) return;
+  links.forEach(function(l){
+    l.addEventListener('click', function(ev){
+      var t = document.querySelector(l.getAttribute('href'));
+      if (!t) return;
+      ev.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth' });
+      history.replaceState(null, '', l.getAttribute('href'));
+    });
+  });
   var obs = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting) {
