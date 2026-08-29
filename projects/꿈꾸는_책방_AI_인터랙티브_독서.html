@@ -12,7 +12,7 @@ html { -webkit-text-size-adjust:100%; }
 body {
   font-family: "Pretendard", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
   color:#37352f; background:#fff;
-  line-height:1.5; font-size:16px;
+  line-height:1.55; font-size:17px;
   -webkit-font-smoothing:antialiased;
 }
 .page { max-width:1400px; margin:0 auto; padding:56px 48px 18vh; }
@@ -51,7 +51,7 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-item:first-child { padding-left:2px; border-left:none; }
 .meta-item:last-child { padding-right:2px; }
 .meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
-.meta-v { font-size:15px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
+.meta-v { font-size:16px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
 .meta-item:nth-child(3) .meta-v { color:var(--acc, #18181b); }
 @media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
 
@@ -89,7 +89,7 @@ html { scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce) { .js .content > * { opacity:1; transform:none; transition:none; } }
 .content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
 .content h4.nh3 { scroll-margin-top:28px; }
-.content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
+.content > .ncallout:first-child { margin-top:4px; font-size:17.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
 
@@ -134,10 +134,16 @@ html { scroll-behavior:smooth; }
 .fgrid-2 { grid-template-columns:1fr 1fr; }
 .fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
 .fcard { background:#fff; border:1px solid #ecebe9; border-radius:12px; padding:15px 17px; box-shadow:0 12px 26px -24px rgba(24,24,27,0.32); }
-.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
-.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:15px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:15px; color:#4b4a47; line-height:1.55; }
 .fcard-b strong { color:#37352f; }
 @media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
+/* step flow (wrapping process chips) */
+.stepflow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 6px; margin:12px 0 16px; }
+.step { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid #ecebe9; border-radius:99px; padding:7px 14px 7px 8px; font-size:14.5px; font-weight:600; color:#37352f; box-shadow:0 8px 18px -18px rgba(24,24,27,0.35); white-space:nowrap; }
+.step-n { display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px; border-radius:50%; background:var(--acc, #37352f); color:#fff; font-size:11.5px; font-weight:700; }
+.step-arrow { color:#c9c8c5; font-size:14px; }
 
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
@@ -148,7 +154,7 @@ ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em;
 
 /* tables */
 .ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
-table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
+table.ntable { border-collapse:collapse; font-size:15px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
 table.ntable.fit { width:100%; }
 .ntable th, .ntable td { border:1px solid rgba(55,53,47,0.1); padding:8px 11px; vertical-align:top; text-align:left; }
 .ntable th { background:#fbfaf8; font-weight:600; color:#37352f; }
@@ -169,7 +175,7 @@ span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
 /* images */
 figure.nimg { margin:6px 0 12px; }
 figure.nimg img { max-width:100%; border:1px solid #eeedeb; border-radius:10px; display:block; margin:0 auto; }
-figure.nimg figcaption { font-size:13.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+figure.nimg figcaption { font-size:14.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
 
 /* columns */
 .ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
@@ -272,7 +278,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a href="#sec6"><span class="toc-n">06</span><span>트러블 슈팅</span></a>
 <a href="#sec7"><span class="toc-n">07</span><span>결과</span></a>
 <a class="sub" href="#sec7-1"><span class="toc-sub-t">구현이 서비스에서 갖는 의미</span></a>
-<a class="sub" href="#sec7-2"><span class="toc-sub-t">얻은 원칙</span></a>
+<a class="sub" href="#sec7-2"><span class="toc-sub-t">일하는 방식</span></a>
 <a href="#sec8"><span class="toc-n">08</span><span>자료</span></a>
   </aside>
   <article class="content">
@@ -326,12 +332,12 @@ await openai.chat.completions.create({
 <figure class="nimg"><img src="../assets/kkum_err_env.png" loading="lazy" alt=""></figure>
 <p>조치: 서빙 범위를 public 폴더로 제한 · 노출 키 재발급 · .gitignore 추가.</p>
 <h2 class="nh1" id="sec7"><span class="sec-no">07</span>결과</h2>
-<pre class="ncode"><code>시장 조사 → 서비스 컨셉 → AI 파이프라인 설계 → React·Express 구현 → 기능 연결 → 오류 추적·수정 → Android 태블릿 실기기 테스트 → 최종 프로토타입</code></pre>
+<div class="stepflow"><span class="step"><span class="step-n">1</span>시장 조사</span><span class="step-arrow">→</span><span class="step"><span class="step-n">2</span>서비스 컨셉</span><span class="step-arrow">→</span><span class="step"><span class="step-n">3</span>AI 파이프라인 설계</span><span class="step-arrow">→</span><span class="step"><span class="step-n">4</span>React·Express 구현</span><span class="step-arrow">→</span><span class="step"><span class="step-n">5</span>기능 연결</span><span class="step-arrow">→</span><span class="step"><span class="step-n">6</span>오류 추적·수정</span><span class="step-arrow">→</span><span class="step"><span class="step-n">7</span>태블릿 실기기 테스트</span><span class="step-arrow">→</span><span class="step"><span class="step-n">8</span>최종 프로토타입</span></div>
 <div class="ncols"><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_splash.png" loading="lazy" alt="스플래시"><figcaption>스플래시</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(33.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_voicereg.png" loading="lazy" alt="부모님 목소리 등록"><figcaption>부모님 목소리 등록</figcaption></figure></div><div class="ncol" style="flex:0 0 calc(34.00% - 15.333333333333334px)"><figure class="nimg"><img src="../assets/kkum_tablet.png" loading="lazy" alt="태블릿 구동 검증 · 멘토링 2회 · 최종 발표"><figcaption>태블릿 구동 검증 · 멘토링 2회 · 최종 발표</figcaption></figure></div></div>
 <h4 class="nh3" id="sec7-1">구현이 서비스에서 갖는 의미</h4>
 <div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">부모님 목소리 복제</div><div class="fcard-b">부모님이 읽어주지 못하는 시간에도 부모님 목소리로 독서 경험 유지</div></div><div class="fcard"><div class="fcard-k">구조화된 캐릭터 대화</div><div class="fcard-b">유아 대상 생성형 AI의 최대 리스크(부적절 발화)를 설계 단계에서 차단</div></div><div class="fcard"><div class="fcard-k">그림 기반 동화 생성</div><div class="fcard-b">글을 못 쓰는 어린이의 입력 수단 확보</div></div><div class="fcard"><div class="fcard-k">실제 프로토타입</div><div class="fcard-b">분석·추천 중심이던 기존 AI에 참여 기반 차별화 축 추가</div></div></div>
-<h4 class="nh3" id="sec7-2">얻은 원칙</h4>
-<ul class="nlist"><li>이상적 설계와 검증 범위의 분리 · 초기엔 브라우저 내장 음성·템플릿으로 빠르게 검증, 최종안에서 ElevenLabs·GPT로 단계적 상향</li><li>AI 코딩 도구를 쓰되 검증의 책임은 사람에게 · 데모 화면이 아니라 파이프라인 각 단계의 실제 입·출력 기준으로 확인</li></ul>
+<h4 class="nh3" id="sec7-2">일하는 방식</h4>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">단계적 상향</div><div class="fcard-b">초기엔 브라우저 내장 음성·템플릿으로 빠르게 검증하고, 최종안에서 ElevenLabs·GPT로 올림</div></div><div class="fcard"><div class="fcard-k">검증은 사람 몫</div><div class="fcard-b">AI 코딩 도구를 쓰되, 데모 화면이 아니라 파이프라인 각 단계의 실제 입·출력 기준으로 확인</div></div></div>
 <h2 class="nh1" id="sec8"><span class="sec-no">08</span>자료</h2>
 <a class="nfile" href="../files/%EA%BF%88%EA%BE%B8%EB%8A%94%EC%B1%85%EB%B0%A9_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">꿈꾸는 책방 최종 발표자료</span></a>
   </article>
@@ -341,6 +347,15 @@ await openai.chat.completions.create({
 (function(){
   var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
   if (!links.length) return;
+  links.forEach(function(l){
+    l.addEventListener('click', function(ev){
+      var t = document.querySelector(l.getAttribute('href'));
+      if (!t) return;
+      ev.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth' });
+      history.replaceState(null, '', l.getAttribute('href'));
+    });
+  });
   var obs = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting) {

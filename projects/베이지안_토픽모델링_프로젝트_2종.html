@@ -12,7 +12,7 @@ html { -webkit-text-size-adjust:100%; }
 body {
   font-family: "Pretendard", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
   color:#37352f; background:#fff;
-  line-height:1.5; font-size:16px;
+  line-height:1.55; font-size:17px;
   -webkit-font-smoothing:antialiased;
 }
 .page { max-width:1400px; margin:0 auto; padding:56px 48px 18vh; }
@@ -51,7 +51,7 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 .meta-item:first-child { padding-left:2px; border-left:none; }
 .meta-item:last-child { padding-right:2px; }
 .meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
-.meta-v { font-size:15px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
+.meta-v { font-size:16px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
 .meta-item:nth-child(3) .meta-v { color:var(--acc, #18181b); }
 @media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
 
@@ -89,7 +89,7 @@ html { scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce) { .js .content > * { opacity:1; transform:none; transition:none; } }
 .content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
 .content h4.nh3 { scroll-margin-top:28px; }
-.content > .ncallout:first-child { margin-top:4px; font-size:16.5px; padding:20px 20px 20px 17px; }
+.content > .ncallout:first-child { margin-top:4px; font-size:17.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
 
@@ -134,10 +134,16 @@ html { scroll-behavior:smooth; }
 .fgrid-2 { grid-template-columns:1fr 1fr; }
 .fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
 .fcard { background:#fff; border:1px solid #ecebe9; border-radius:12px; padding:15px 17px; box-shadow:0 12px 26px -24px rgba(24,24,27,0.32); }
-.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
-.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:15px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:15px; color:#4b4a47; line-height:1.55; }
 .fcard-b strong { color:#37352f; }
 @media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
+/* step flow (wrapping process chips) */
+.stepflow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 6px; margin:12px 0 16px; }
+.step { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid #ecebe9; border-radius:99px; padding:7px 14px 7px 8px; font-size:14.5px; font-weight:600; color:#37352f; box-shadow:0 8px 18px -18px rgba(24,24,27,0.35); white-space:nowrap; }
+.step-n { display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px; border-radius:50%; background:var(--acc, #37352f); color:#fff; font-size:11.5px; font-weight:700; }
+.step-arrow { color:#c9c8c5; font-size:14px; }
 
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
@@ -148,7 +154,7 @@ ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em;
 
 /* tables */
 .ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
-table.ntable { border-collapse:collapse; font-size:14px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
+table.ntable { border-collapse:collapse; font-size:15px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
 table.ntable.fit { width:100%; }
 .ntable th, .ntable td { border:1px solid rgba(55,53,47,0.1); padding:8px 11px; vertical-align:top; text-align:left; }
 .ntable th { background:#fbfaf8; font-weight:600; color:#37352f; }
@@ -169,7 +175,7 @@ span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
 /* images */
 figure.nimg { margin:6px 0 12px; }
 figure.nimg img { max-width:100%; border:1px solid #eeedeb; border-radius:10px; display:block; margin:0 auto; }
-figure.nimg figcaption { font-size:13.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+figure.nimg figcaption { font-size:14.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
 
 /* columns */
 .ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
@@ -264,45 +270,35 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 </div>
 <div class="layout">
   <aside class="toc"><div class="toc-t">목차</div>
-<a href="#sec1"><span class="toc-n">01</span><span>개요</span></a>
-<a href="#sec2"><span class="toc-n">02</span><span>사용 기술</span></a>
-<a href="#sec3"><span class="toc-n">03</span><span>문제 정의</span></a>
-<a href="#sec4"><span class="toc-n">04</span><span>역할</span></a>
-<a href="#sec5"><span class="toc-n">05</span><span>수행 내용</span></a>
-<a href="#sec6"><span class="toc-n">06</span><span>산출물</span></a>
-<a href="#sec7"><span class="toc-n">07</span><span>결과 요약</span></a>
+<a href="#sec1"><span class="toc-n">01</span><span>첫 번째 프로젝트 · LDA + SGLD 하이브리드</span></a>
+<a class="sub" href="#sec1-1"><span class="toc-sub-t">수행 내용</span></a>
+<a class="sub" href="#sec1-2"><span class="toc-sub-t">결과</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>두 번째 프로젝트 · 한반도 평화지수</span></a>
+<a class="sub" href="#sec2-1"><span class="toc-sub-t">수행 내용</span></a>
+<a class="sub" href="#sec2-2"><span class="toc-sub-t">결과</span></a>
   </aside>
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></div><div class="ncallout-body"><p><strong>베이지안 토픽모델링을 주제로 한 프로젝트 2개.</strong> <br>첫 번째는 LDA에 SGLD를 결합해 속도와 주제 해석력을 함께 확보한 알고리즘 연구, 두 번째는 토픽모델링을 한반도 평화지수 검증에 적용한 학제간 데이터 분석</p></div></div>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>프로젝트</th><th>무엇을</th><th>핵심 성과</th></tr><tr><td><strong>첫 번째 · LDA + SGLD 하이브리드</strong></td><td>토픽모델링의 속도-품질 딜레마를 이산(Gibbs)·연속(SGLD) 분리 하이브리드로 해결</td><td>Coherence 0.421 → <strong>0.705 (+67%)</strong></td></tr><tr><td><strong>두 번째 · 한반도 평화지수</strong></td><td>학제간 3인 팀의 유일한 데이터 전공자로 4영역 14지표 지수 설계 + LDA 담론 교차 검증</td><td>AHP 일관성 <strong>CR≈0.00001</strong> · 부트스트랩 95% CI · "외교 단절이 병목" 정량 입증</td></tr></table></div>
-<h2 class="nh1" id="sec1"><span class="sec-no">01</span>개요</h2>
-<p>베이지안 토픽모델링을 주제로 진행한 별개의 프로젝트 2개. 첫 번째 프로젝트는 토픽모델링(LDA)에 확률적 샘플러(SGLD)를 결합해 계산 속도와 주제 해석력을 함께 확보한 알고리즘 연구. 두 번째 프로젝트는 한반도 평화지수를 설계하고 LDA 담론 분석으로 교차 검증한 학제간 데이터 분석.</p>
-<h2 class="nh1" id="sec2"><span class="sec-no">02</span>사용 기술</h2>
-<ul class="nlist"><li>Python, LDA, Gibbs Sampling, SGLD(Stochastic Gradient Langevin Dynamics)</li><li>AHP (쌍대비교), Bootstrap, 한국어 전처리·크롤링</li></ul>
-<h2 class="nh1" id="sec3"><span class="sec-no">03</span>문제 정의</h2>
-<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">첫 번째 프로젝트</div><div class="fcard-b">Gibbs 기반 LDA의 전체 데이터 재계산 → 대규모 문서 처리 한계</div></div><div class="fcard"><div class="fcard-k">두 번째 프로젝트</div><div class="fcard-b">전문가 주관 의존 한반도 평화지수의 재현성 부족 (2016년 이후 조사 중단)</div></div></div>
-<h2 class="nh1" id="sec4"><span class="sec-no">04</span>역할</h2>
-<ul class="nlist"><li>첫 번째 프로젝트: 주연구원 단독 수행</li><li>두 번째 프로젝트: 학제간 3인 팀 (통일외교안보·북한학) 내 유일 데이터 전공자로 정량 분석 전담</li></ul>
-<h2 class="nh1" id="sec5"><span class="sec-no">05</span>수행 내용</h2>
-<p><strong>첫 번째 프로젝트 · LDA + SGLD 하이브리드 (2025.04–07)</strong></p>
+<h2 class="nh1" id="sec1"><span class="sec-no">01</span>첫 번째 프로젝트 · LDA + SGLD 하이브리드</h2>
+<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">문제</div><div class="fcard-b">Gibbs 기반 LDA는 매 반복 전체 데이터를 재계산해 대규모 문서 처리에 한계</div></div><div class="fcard"><div class="fcard-k">역할</div><div class="fcard-b">주연구원 단독 수행 (2025.04–07)</div></div><div class="fcard"><div class="fcard-k">사용 기술</div><div class="fcard-b">Python, LDA, Gibbs Sampling, SGLD</div></div></div>
+<h4 class="nh3" id="sec1-1">수행 내용</h4>
 <ul class="nlist"><li>미니배치 비편향 기울기 수식 직접 유도·검수 후 구현</li><li>이산 할당(Gibbs)·연속 파라미터(SGLD) 분리 하이브리드 순환 구조 설계</li><li>20 Newsgroups 18,000 문서 대상 3지표(Perplexity·Coherence·Silhouette) 통제 평가</li></ul>
-<p><strong>두 번째 프로젝트 · 종합적 한반도 평화 지표 개발과 적용 (2025.11)</strong></p>
-<ul class="nlist"><li>4영역 14지표 평화지수 체계 설계 (z-표준화·방향성 정렬·AHP 가중치 CR≈0.00001)</li><li>부트스트랩 1,000회 95% 신뢰구간 산출 및 결측-0 구분 정책 수립</li><li>통일부 2018년 언론 기사 전체 크롤링 및 LDA(K=8) 담론-지수 교차 검증</li></ul>
-<h2 class="nh1" id="sec6"><span class="sec-no">06</span>산출물</h2>
-<ul class="nlist"><li>하이브리드 토픽모델링 알고리즘 (Coherence 0.421→0.705, +67%)</li><li>한반도 평화지수(2017–2024) 및 담론 교차 검증 결과 (통일 준비 세미나 발표)</li></ul>
-<p class="nnum"><span class="nnum-n">1.</span> <strong>LDA + SGLD 하이브리드</strong></p>
-<a class="nfile" href="../files/LDA_SGLD_%ED%95%98%EC%9D%B4%EB%B8%8C%EB%A6%AC%EB%93%9C.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">SGLD 결합 하이브리드 토픽모델링</span></a>
-<p class="nnum"><span class="nnum-n">2.</span> <strong>종합적 한반도 평화 지표 개발과 적용</strong></p>
-<a class="nfile" href="../files/%EC%A2%85%ED%95%A9%EC%A0%81_%ED%95%9C%EB%B0%98%EB%8F%84_%ED%8F%89%ED%99%94%EC%A7%80%ED%91%9C_%EC%84%B8%EB%AF%B8%EB%82%98.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">종합적 한반도 평화 지표 개발과 적용 · 통일 준비 세미나</span></a>
-<h2 class="nh1" id="sec7"><span class="sec-no">07</span>결과 요약</h2>
-<p><strong>첫 번째 프로젝트 · LDA+SGLD 하이브리드 성능</strong> (20 Newsgroups 18,000 문서, 토픽 수 3~20 전 구간 비교)</p>
+<h4 class="nh3" id="sec1-2">결과</h4>
+<p><strong>LDA+SGLD 하이브리드 성능</strong> (20 Newsgroups 18,000 문서, 토픽 수 3~20 전 구간 비교)</p>
 <div class="ntable-wrap"><table class="ntable"><tr><th>지표</th><th>표준 LDA (gensim/sklearn)</th><th>SGLD-Gibbs-LDA (제안)</th></tr><tr><td>Coherence (주제 해석력, K=5)</td><td>0.421</td><td><strong>0.705 (+67%)</strong></td></tr><tr><td>Perplexity (생성 품질)</td><td>Gibbs 우수</td><td>열세</td></tr><tr><td>Silhouette (군집 명확성)</td><td>패키지 우수</td><td>열세</td></tr></table></div>
 <ul class="nlist"><li>지표마다 승자가 다름 → 사람이 결과를 읽는 도메인에서는 "이 주제가 말이 되는가(Coherence)"가 우선이라는 기준으로 실용적 균형점 선정. "무엇을 위한 모델인가에 따라 평가 기준부터 달라져야 한다"는 이후 전 프로젝트의 판단 원칙 획득</li><li>미니배치 비편향 기울기 수식을 손으로 유도·검수("파라미터 미분 검수"를 연구 일정의 별도 단계로 설정)한 뒤 구현</li></ul>
-<p><strong>두 번째 프로젝트 · 한반도 평화지수 (2017–2024)</strong></p>
+<a class="nfile" href="../files/LDA_SGLD_%ED%95%98%EC%9D%B4%EB%B8%8C%EB%A6%AC%EB%93%9C.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">SGLD 결합 하이브리드 토픽모델링</span></a>
+<h2 class="nh1" id="sec2"><span class="sec-no">02</span>두 번째 프로젝트 · 한반도 평화지수</h2>
+<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">문제</div><div class="fcard-b">전문가 주관에 의존하던 한반도 평화지수의 재현성 부족 (2016년 이후 조사 중단)</div></div><div class="fcard"><div class="fcard-k">역할</div><div class="fcard-b">학제간 3인 팀(통일외교안보·북한학) 내 유일 데이터 전공자로 정량 분석 전담 (2025.11)</div></div><div class="fcard"><div class="fcard-k">사용 기술</div><div class="fcard-b">AHP (쌍대비교), Bootstrap, 한국어 전처리·크롤링</div></div></div>
+<h4 class="nh3" id="sec2-1">수행 내용</h4>
+<ul class="nlist"><li>4영역 14지표 평화지수 체계 설계 (z-표준화·방향성 정렬·AHP 가중치 CR≈0.00001)</li><li>부트스트랩 1,000회 95% 신뢰구간 산출 및 결측-0 구분 정책 수립</li><li>통일부 2018년 언론 기사 전체 크롤링 및 LDA(K=8) 담론-지수 교차 검증</li></ul>
+<h4 class="nh3" id="sec2-2">결과</h4>
 <ul class="nlist"><li>4영역 14지표: 군사긴장(핵실험·미사일 등 5지표, 부정 가중치)·경제교류(5)·인도적 교류(2)·외교(2). 핵실험 10점·미사일 7점 등 파급력 순 가중치는 도메인 전공 팀원의 문헌 근거를 AHP 쌍대비교로 정량화, 일관성 비율 CR≈0.00001로 자기모순 없음 검증</li><li>"지원이 0이었던 해"와 "기록이 없는 해"를 구분하는 결측 정책, 부트스트랩 1,000회 95% 신뢰구간, 난수 시드 고정 재현성</li></ul>
 <figure class="nimg"><img src="../assets/topic_peace_index.png" loading="lazy" alt=""></figure>
 <ul class="nlist"><li>분석 결과: 2018년 4영역 동시 정점(100) → 하노이 회담 결렬 후 외교 영역 0으로 고착, 2023년 군사 영역 일부 회복에도 종합지수 미반등 → <strong>외교 채널 단절이 다른 모든 교류를 막는 병목</strong>임을 정량 입증</li><li>통일부 2018년 언론 기사 전량 크롤링, K=8 선정(Coherence·Perplexity·Diversity·Stability 4지표 비교) 후 월별 토픽 비중으로 "평창 참가→남북정상회담→북미정상회담→평양회담→실무협상" 담론 흐름을 복원해 지수 변동과 언론 의제의 연동을 교차 검증</li></ul>
 <figure class="nimg"><img src="../assets/topic_lda_trend.png" loading="lazy" alt=""></figure>
+<a class="nfile" href="../files/%EC%A2%85%ED%95%A9%EC%A0%81_%ED%95%9C%EB%B0%98%EB%8F%84_%ED%8F%89%ED%99%94%EC%A7%80%ED%91%9C_%EC%84%B8%EB%AF%B8%EB%82%98.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">종합적 한반도 평화 지표 개발과 적용 · 통일 준비 세미나</span></a>
   </article>
 </div>
 
@@ -310,6 +306,15 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 (function(){
   var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
   if (!links.length) return;
+  links.forEach(function(l){
+    l.addEventListener('click', function(ev){
+      var t = document.querySelector(l.getAttribute('href'));
+      if (!t) return;
+      ev.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth' });
+      history.replaceState(null, '', l.getAttribute('href'));
+    });
+  });
   var obs = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting) {
