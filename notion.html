@@ -122,6 +122,16 @@ html { scroll-behavior:smooth; }
 .ncallout-green_bg { background:#edf3ec; }
 .ncallout-yellow_bg { background:#fbf3db; }
 
+/* fact card grid (from labeled lists) */
+.fgrid { display:grid; gap:12px; margin:10px 0 18px; }
+.fgrid-2 { grid-template-columns:1fr 1fr; }
+.fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
+.fcard { background:#fafaf9; border:1px solid #ececea; border-radius:10px; padding:14px 16px; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-b strong { color:#37352f; }
+@media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
 ul.nlist li { position:relative; padding:3px 2px 3px 22px; }

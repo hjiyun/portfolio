@@ -122,6 +122,16 @@ html { scroll-behavior:smooth; }
 .ncallout-green_bg { background:#edf3ec; }
 .ncallout-yellow_bg { background:#fbf3db; }
 
+/* fact card grid (from labeled lists) */
+.fgrid { display:grid; gap:12px; margin:10px 0 18px; }
+.fgrid-2 { grid-template-columns:1fr 1fr; }
+.fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
+.fcard { background:#fafaf9; border:1px solid #ececea; border-radius:10px; padding:14px 16px; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-b strong { color:#37352f; }
+@media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
 ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
@@ -259,7 +269,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   <article class="content">
 <div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21v-9M9.5 21v-9M14.5 21v-9M19 21v-9M3 9.5 12 3l9 6.5z"/></svg></div><div class="ncallout-body"><p><strong>"신용점수가 낮습니다" 한 줄 안내를, 고객 본인의 수치와 심사 기준 문서를 근거로 한 맞춤 설명으로 바꾼 자체 호스팅 RAG.</strong> <br>신한금융 실고객 139만 건 · JKDAS 27(2) 제1저자 게재 · 단독 연구</p></div></div>
 <h2 class="nh1" id="sec1"><span class="sec-no">01</span>문제 정의</h2>
-<ul class="nlist"><li><strong>한 줄짜리 거절 안내</strong> · 사전 작성 템플릿이라 개인 재무 상황이 반영되지 않음. 고객은 무엇을 얼마나 고쳐야 다음에 승인되는지 알 수 없고, 금융기관도 재신청으로 이어질 기회를 상실</li><li><strong>비어 있는 피드백 영역</strong> · 국내 금융권은 RAG를 내부 문서 검색과 상담 효율화에 도입(신한투자증권, KB국민카드)했으나, 개인 금융 상태를 분석해 맞춤 개선 전략을 제시하는 영역은 공백</li><li><strong>LLM 단독 적용의 위험</strong> · 환각과 개정 심사 기준 미반영. 심사 사유를 잘못 설명하면 고객에게 잘못된 행동을 유도</li><li><strong>데이터 반출 불가</strong> · 실고객 금융 데이터는 외부 클라우드로 보낼 수 없음 (개인정보·규정 리스크)</li></ul>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">한 줄짜리 거절 안내</div><div class="fcard-b">사전 작성 템플릿이라 개인 재무 상황이 반영되지 않음. 고객은 무엇을 얼마나 고쳐야 다음에 승인되는지 알 수 없고, 금융기관도 재신청으로 이어질 기회를 상실</div></div><div class="fcard"><div class="fcard-k">비어 있는 피드백 영역</div><div class="fcard-b">국내 금융권은 RAG를 내부 문서 검색과 상담 효율화에 도입(신한투자증권, KB국민카드)했으나, 개인 금융 상태를 분석해 맞춤 개선 전략을 제시하는 영역은 공백</div></div><div class="fcard"><div class="fcard-k">LLM 단독 적용의 위험</div><div class="fcard-b">환각과 개정 심사 기준 미반영. 심사 사유를 잘못 설명하면 고객에게 잘못된 행동을 유도</div></div><div class="fcard"><div class="fcard-k">데이터 반출 불가</div><div class="fcard-b">실고객 금융 데이터는 외부 클라우드로 보낼 수 없음 (개인정보·규정 리스크)</div></div></div>
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>시스템 설계</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 클라우드 LLM API (GPT 등)</td><td>성능 최고, 구축 부담 없음</td><td class="c-red">기각. 실고객 데이터를 외부로 보내는 순간 보안·규정 리스크</td></tr><tr><td>2안. 자체 호스팅 LLM 단독 생성</td><td>구조 단순</td><td class="c-red">기각. 환각·개정 기준 미반영. 금융에서 사실 정확성은 타협 불가</td></tr><tr class="c-blue_bg"><td><strong>3안. 자체 호스팅 LLM + RAG (채택)</strong></td><td>심사 기준 문서를 검색해 근거로만 답변</td><td><strong>채택. 환각을 구조적으로 억제, 기준 개정은 인덱스 병합만으로 반영</strong></td></tr></table></div>
 <ul class="nlist"><li>모델 선택 기준은 성능 순위가 아니라 <strong>제약 조건의 순서</strong>. 내부망 모델 중 한국어 성능이 검증된 EXAONE-Deep-7.8B 선택, GPU 제약은 AWQ 양자화로 해결</li><li>효과를 입증하려면 비교 대상이 필요해 <strong>규칙 기반 시스템을 직접 구현</strong>. 동일 데이터와 동일 LLM을 사용하고 문서 기반 생성 여부만 다르게 두어, 성능 차이가 RAG 구조에서 온다는 것을 분리</li></ul>
@@ -268,7 +278,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <div class="ntable-wrap"><table class="ntable fit"><colgroup><col style="width:128px"><col></colgroup><tr><th>영역</th><th>구축 내용</th></tr><tr><td><strong>고객 데이터</strong></td><td>139만 건, 최종 77변수. 결측 50% 이상과 상관 0.7 이상, 다중공선성 변수 제거. 심사 설명용 <strong>파생변수 4종 설계</strong>(신용점수, 대출금액 대비 소득, 월상환액 대비 소득, 카드 사용률). 대출 실행 이후 생성 변수를 제거해 데이터 누수 차단</td></tr><tr><td><strong>근거 문서</strong></td><td>심사 기준 3종(KCB 신용평가체계, 대부금융협회 신용대출 매뉴얼, 핀다 대출거절 솔루션) + 금융 QA 2종(rag-ko, financial-mmlu-ko). PyMuPDF 추출 후 의미 단위 분할, <strong>출처와 페이지를 메타데이터로 보존</strong>해 답변 근거 추적 가능</td></tr><tr><td><strong>검색</strong></td><td>all-MiniLM-L6-v2 384차원 임베딩, FAISS 벡터스토어, LangChain RetrievalQA. 신규 문서는 인덱스 병합만으로 반영되어 기준 개정 시 재학습 불필요</td></tr><tr><td><strong>생성</strong></td><td>EXAONE-Deep-7.8B(AWQ 양자화) 내부망 서빙. 프롬프트에 "금융 문서 기반 판단, 구체적 수치와 기준 제시"를 명시해 일반론이 아닌 근거 기반 응답 유도</td></tr><tr><td><strong>상품 추천</strong></td><td>신한은행 금융상품 12종(예금, 적금, 주택청약, 펀드) 정형화. 가중치 기반 적합도와 임베딩 코사인 유사도의 평균으로 상위 3종 선정 후 추천 근거 생성</td></tr></table></div>
 <figure class="nimg"><img src="../assets/fin_paper_fig3.png" loading="lazy" alt="논문 게재본 시스템 구성도 (JKDAS 27(2), Figure 3)"><figcaption>논문 게재본 시스템 구성도 (JKDAS 27(2), Figure 3)</figcaption></figure>
 <h2 class="nh1" id="sec4"><span class="sec-no">04</span>평가 설계</h2>
-<ul class="nlist"><li><strong>응답 2종 분리 평가</strong> · 거절 사유 및 개선 방안과 금융상품 추천으로 나누어 각각 평가. 거절 고객 10명을 무작위 추출해 평균 비교</li><li><strong>기준선 설정</strong> · 정답 라벨이 없는 생성 태스크라, 금융 전문가가 작성한 참조 응답을 기준선으로 설정</li><li><strong>2축 평가 체계</strong> · 검색 성능(BM25·Cosine)과 생성 성능(ROUGE·BERTScore)을 분리해 측정</li><li><strong>지표 검증</strong> · 검색 지표가 태생적으로 RAG에 유리함을 인지하고, 최종 응답을 직접 읽으며 수치·기준의 문서 정합성까지 확인</li></ul>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">응답 2종 분리 평가</div><div class="fcard-b">거절 사유 및 개선 방안과 금융상품 추천으로 나누어 각각 평가. 거절 고객 10명을 무작위 추출해 평균 비교</div></div><div class="fcard"><div class="fcard-k">기준선 설정</div><div class="fcard-b">정답 라벨이 없는 생성 태스크라, 금융 전문가가 작성한 참조 응답을 기준선으로 설정</div></div><div class="fcard"><div class="fcard-k">2축 평가 체계</div><div class="fcard-b">검색 성능(BM25·Cosine)과 생성 성능(ROUGE·BERTScore)을 분리해 측정</div></div><div class="fcard"><div class="fcard-k">지표 검증</div><div class="fcard-b">검색 지표가 태생적으로 RAG에 유리함을 인지하고, 최종 응답을 직접 읽으며 수치·기준의 문서 정합성까지 확인</div></div></div>
 <h4 class="nh3" id="sec4-1">참조 문서 수(top_k) 결정</h4>
 <figure class="nimg"><img src="../assets/fin_paper_table1.png" loading="lazy" alt="논문 Table 1 · top_k별 검색·생성 성능"><figcaption>논문 Table 1 · top_k별 검색·생성 성능</figcaption></figure>
 <ul class="nlist"><li>문서를 늘리면 좋아질 것이라는 예상과 달리 top_k=5에서 검색 지표 하락. 원인은 금융 문서 간 의미 중복으로, 문서를 늘려도 새 정보 대신 중복이 노이즈로 누적. 전 지표가 가장 높은 top_k=3 확정</li></ul>

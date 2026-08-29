@@ -122,6 +122,16 @@ html { scroll-behavior:smooth; }
 .ncallout-green_bg { background:#edf3ec; }
 .ncallout-yellow_bg { background:#fbf3db; }
 
+/* fact card grid (from labeled lists) */
+.fgrid { display:grid; gap:12px; margin:10px 0 18px; }
+.fgrid-2 { grid-template-columns:1fr 1fr; }
+.fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
+.fcard { background:#fafaf9; border:1px solid #ececea; border-radius:10px; padding:14px 16px; }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:14px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:14px; color:#4b4a47; line-height:1.55; }
+.fcard-b strong { color:#37352f; }
+@media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
 /* lists */
 ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
 ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
@@ -264,25 +274,14 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   <article class="content">
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg></div><div class="ncallout-body"><p><strong>다봉 사후분포의 로컬 트랩을 깨는 그래프 preconditioned 적응형 샘플러.</strong> <br>BSS 키프레이즈 추출의 θ 샘플링 스텝만 AWSGLD로 교체 · 동일 데이터·동일 초기화 샘플러 6종 통제 비교 · 시뮬레이션 실험 4종 + Hulth 실데이터·실문서 트랩 검증 · 한국자료분석학회 포스터논문 장려상</p></div></div>
 <h2 class="nh1" id="sec1"><span class="sec-no">01</span>문제 정의</h2>
-<ul class="nlist"><li><strong>LDA 계열의 두 가지 한계</strong> · 결과가 낱개 단어 목록으로 나오지만 사람이 문서를 대표하는 단위로 쓰는 것은 구(phrase), 그리고 완전 비지도라 현실에 일부만 존재하는 정답 라벨을 버림</li><li><strong>BSS의 병목은 추론</strong> · 이를 해결한 BSS(그래프 기반 준지도 키프레이즈 추출)도 나쁜 초기값에서 출발하면 <strong>샘플러가 로컬 모드에 갇혀</strong> 신호가 있는 영역에 끝까지 도달하지 못하고, 결과가 초기값에 좌우됨</li><li><strong>다봉성은 확인된 사실</strong> · 가정이 아니라 직접 구성해 확인. 실문서 10편을 병합한 사후분포 지형에서 에너지 장벽 3.3~22.5로 분리된 <strong>10개 모드</strong>를 확인</li></ul>
+<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">LDA 계열의 두 가지 한계</div><div class="fcard-b">결과가 낱개 단어 목록으로 나오지만 사람이 문서를 대표하는 단위로 쓰는 것은 구(phrase), 그리고 완전 비지도라 현실에 일부만 존재하는 정답 라벨을 버림</div></div><div class="fcard"><div class="fcard-k">BSS의 병목은 추론</div><div class="fcard-b">이를 해결한 BSS(그래프 기반 준지도 키프레이즈 추출)도 나쁜 초기값에서 출발하면 <strong>샘플러가 로컬 모드에 갇혀</strong> 신호가 있는 영역에 끝까지 도달하지 못하고, 결과가 초기값에 좌우됨</div></div><div class="fcard"><div class="fcard-k">다봉성은 확인된 사실</div><div class="fcard-b">가정이 아니라 직접 구성해 확인. 실문서 10편을 병합한 사후분포 지형에서 에너지 장벽 3.3~22.5로 분리된 <strong>10개 모드</strong>를 확인</div></div></div>
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>알고리즘 설계</h2>
-<div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 키프레이즈 추출 모델 신규 설계</td><td class="c-gray">구절 단위 처리와 부분 라벨 활용을 전부 재구현. 성능 개선이 샘플러 덕분인지 모델 덕분인지 분리 불가</td><td class="c-gray">기각</td></tr><tr><td class="c-green_bg"><strong>2안. BSS 유지 + θ 샘플링 스텝만 AWSGLD로 교체</strong></td><td class="c-green_bg">그래프 구조·PU Learning 등 모델은 그대로 두고 변경점을 샘플러 하나로 최소화해 개선 효과를 샘플러에 귀속</td><td class="c-green_bg"><strong>채택</strong></td></tr></table></div>
-<ul class="nlist"><li><strong>그래프 preconditioning P = (BᵀB)⁻¹</strong> · 단어 공출현 그래프의 기하를 기울기에 반영. 에너지 장벽을 넘는 <strong>탈출의 1차 요인</strong></li><li><strong>에너지 파티션 적응 가중(flat-histogram)</strong> · 자주 방문한 저에너지 구간을 점진적으로 up-weight해 샘플러가 보는 지형 자체를 평탄화. <strong>탈출 이후 혼합 효율의 2차 요인</strong>이며, 파티션이 1차원 에너지 축에 걸리므로 모드 수가 차원과 함께 폭증해도 비용이 늘지 않는 구조</li></ul>
+<div class="ntable-wrap"><table class="ntable fit"><colgroup><col style="width:290px"><col><col style="width:72px"></colgroup><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. 키프레이즈 추출 모델 신규 설계</td><td class="c-gray">구절 단위 처리와 부분 라벨 활용을 전부 재구현. 성능 개선이 샘플러 덕분인지 모델 덕분인지 분리 불가</td><td class="c-gray">기각</td></tr><tr><td class="c-green_bg"><strong>2안. BSS 유지 + θ 샘플링 스텝만 AWSGLD로 교체</strong></td><td class="c-green_bg">그래프 구조·PU Learning 등 모델은 그대로 두고 변경점을 샘플러 하나로 최소화해 개선 효과를 샘플러에 귀속</td><td class="c-green_bg"><strong>채택</strong></td></tr></table></div>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">그래프 preconditioning P = (BᵀB)⁻¹</div><div class="fcard-b">단어 공출현 그래프의 기하를 기울기에 반영. 에너지 장벽을 넘는 <strong>탈출의 1차 요인</strong></div></div><div class="fcard"><div class="fcard-k">에너지 파티션 적응 가중(flat-histogram)</div><div class="fcard-b">자주 방문한 저에너지 구간을 점진적으로 up-weight해 샘플러가 보는 지형 자체를 평탄화. <strong>탈출 이후 혼합 효율의 2차 요인</strong>이며, 파티션이 1차원 에너지 축에 걸리므로 모드 수가 차원과 함께 폭증해도 비용이 늘지 않는 구조</div></div></div>
 <h4 class="nh3" id="sec2-1">비교 샘플러 6종 · 동일 데이터·동일 초기화 통제</h4>
 <div class="ntable-wrap"><table class="ntable fit"><colgroup><col><col style="width:466px"></colgroup><tr><th>샘플러</th><th>전략</th></tr><tr><td>acMH-within-Gibbs</td><td>원논문(Wang et al. 2023) 기본. (BᵀB)⁻¹·σ² 제안 + MH 수락</td></tr><tr><td>SGLD</td><td>바닐라 확률적 경사 랑주뱅</td></tr><tr><td>qSGLD</td><td>(BᵀB)⁻¹ preconditioning + 상관 노이즈</td></tr><tr><td>cycSGLD</td><td>주기적 학습률 + 2단계 온도</td></tr><tr><td>SGHMC</td><td>보조 운동량 + 마찰항으로 미니배치 노이즈 상쇄</td></tr><tr class="c-green_bg"><td><strong>AWSGLD (제안)</strong></td><td><strong>그래프 preconditioning + 에너지 파티션별 적응 가중으로 모드 간 장벽 평탄화</strong></td></tr></table></div>
 <h2 class="nh1" id="sec3"><span class="sec-no">03</span>실험 설계</h2>
-<p><strong>실험 1 · 원본 BSS 사후분포 비교</strong></p>
-<p>아무 조작 없는 실제 목표 분포에서 6종을 데이터 기반 에너지 컷오프(U ≤ 312) 도달 여부·수렴·효율로 비교</p>
-<p><strong>실험 2 · 다봉 트랩 탈출과 메커니즘 진단</strong></p>
-<p>3모드 혼합 타깃(p=400)을 주입하고 일부러 가장 나쁜 초기값(null basin)에서 출발시켜 탈출 여부와 혼합 품질을 측정, 에너지 파티션 1,000개의 방문 프로파일로 flat-histogram 재가중이 설계대로 동작하는지까지 확인</p>
-<p><strong>실험 3 · 난이도 4시나리오</strong></p>
-<p>Easy부터 Sparse까지 난이도를 4단계로 조절한 합성 그래프에서 같은 조건으로 3회 반복 비교</p>
-<p><strong>실험 4 · 규모 확장</strong></p>
-<p>n=200에서 10,000까지 50배 키우며 시드 5개 평균·3체인 pooled 평가로 규모에 따른 안정성 확인</p>
-<p><strong>실험 5 · 실데이터 Hulth 벤치마크</strong></p>
-<p>초록 500편에서 FDR 컷오프 기반 키프레이즈 선택의 품질과 캘리브레이션(실현 FDR)을 검증</p>
-<p><strong>실험 6 · 실문서 병합 트랩</strong></p>
-<p>어휘 겹침이 낮은 Hulth 실문서 3편·10편을 병합해 다봉 지형을 실데이터로 직접 구성하고, 시뮬레이션의 탈출 능력이 재현되는지 확인</p>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">실험 1 · 원본 BSS 사후분포 비교</div><div class="fcard-b">아무 조작 없는 실제 목표 분포에서 6종을 데이터 기반 에너지 컷오프(U ≤ 312) 도달 여부·수렴·효율로 비교</div></div><div class="fcard"><div class="fcard-k">실험 2 · 다봉 트랩 탈출과 메커니즘 진단</div><div class="fcard-b">3모드 혼합 타깃(p=400)을 주입하고 일부러 가장 나쁜 초기값(null basin)에서 출발시켜 탈출 여부와 혼합 품질을 측정, 에너지 파티션 1,000개의 방문 프로파일로 flat-histogram 재가중이 설계대로 동작하는지까지 확인</div></div><div class="fcard"><div class="fcard-k">실험 3 · 난이도 4시나리오</div><div class="fcard-b">Easy부터 Sparse까지 난이도를 4단계로 조절한 합성 그래프에서 같은 조건으로 3회 반복 비교</div></div><div class="fcard"><div class="fcard-k">실험 4 · 규모 확장</div><div class="fcard-b">n=200에서 10,000까지 50배 키우며 시드 5개 평균·3체인 pooled 평가로 규모에 따른 안정성 확인</div></div><div class="fcard"><div class="fcard-k">실험 5 · 실데이터 Hulth 벤치마크</div><div class="fcard-b">초록 500편에서 FDR 컷오프 기반 키프레이즈 선택의 품질과 캘리브레이션(실현 FDR)을 검증</div></div><div class="fcard"><div class="fcard-k">실험 6 · 실문서 병합 트랩</div><div class="fcard-b">어휘 겹침이 낮은 Hulth 실문서 3편·10편을 병합해 다봉 지형을 실데이터로 직접 구성하고, 시뮬레이션의 탈출 능력이 재현되는지 확인</div></div></div>
 <ul class="nlist"><li>지표는 복원(MSE·Spearman·NDCG)과 수렴·효율(R̂·ESS·Cost/ESS), 선택 품질(F@k·실현 FDR)을 분리해 측정</li></ul>
 <h2 class="nh1" id="sec4"><span class="sec-no">04</span>결과</h2>
 <div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-amber"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.2 3.2 0 0 0 8 9M16 5.5h3.2A3.2 3.2 0 0 1 16 9"/><path d="M12 13.5v2.5M9.2 20.5h5.6M10 16h4l.9 4.5H9.1z"/></svg></div><div class="ncallout-body"><p><strong>원본 사후분포에서 6종 중 유일하게 전 성분 수렴(R̂ &lt; 1.2)하며 ESS 26.4로 차선의 2배 · 10문서 실데이터 트랩에서 10개 모드 중 평균 7.4개 방문(차선 1.8) · 한국자료분석학회 포스터논문 장려상 (2026.06)</strong></p></div></div>
