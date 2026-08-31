@@ -74,6 +74,7 @@ section.alt .pill { background:#fff; border:1px solid #eee; }
 .pcard { scroll-margin-top:88px; border:1px solid #ececec; border-radius:18px; padding:22px 22px 20px; background:#fff; display:flex; flex-direction:column; transition:box-shadow 140ms ease, transform 140ms ease; }
 .pcard:hover { box-shadow:0 14px 34px rgba(24,24,27,0.1); transform:translateY(-2px); }
 .pcard:active { transform:translateY(0); box-shadow:0 6px 18px rgba(24,24,27,0.09); }
+.pcard.flash { box-shadow:0 0 0 3px rgba(24,24,27,0.45), 0 14px 34px rgba(24,24,27,0.12); transition:box-shadow 400ms ease; }
 .cov { position:relative; height:148px; border-radius:12px; margin-bottom:18px; overflow:hidden; display:flex; align-items:center; padding:0 26px; }
 .cov-blue { background:linear-gradient(135deg, #e7f3f8 0%, #f6fbfd 60%, #fdfeff 100%); }
 .cov-purple { background:linear-gradient(135deg, #f0e9f7 0%, #f9f6fc 60%, #fefdff 100%); }
@@ -421,6 +422,28 @@ a:focus-visible { outline:2px solid #18181b; outline-offset:3px; border-radius:6
 </div></footer>
 
 <script>
+(function(){
+  function flash(el){
+    el.scrollIntoView({ block: 'center' });
+    el.classList.add('flash');
+    setTimeout(function(){ el.classList.remove('flash'); }, 1800);
+  }
+  window.addEventListener('pageshow', function(ev){
+    try {
+      if (location.hash && location.hash.indexOf('#p-') === 0) {
+        var el = document.getElementById(location.hash.slice(1));
+        if (el) flash(el);
+        return;
+      }
+      var nav = performance.getEntriesByType('navigation')[0];
+      var isBack = ev.persisted || (nav && nav.type === 'back_forward');
+      if (!isBack) return;
+      var id = sessionStorage.getItem('lastProject');
+      var el2 = id && document.getElementById(id);
+      if (el2) flash(el2);
+    } catch (e) {}
+  });
+})();
 (function(){
   var links = Array.prototype.slice.call(document.querySelectorAll('.nav-pills a, a.btn-dark[href^="#"]'));
   if (!links.length) return;
