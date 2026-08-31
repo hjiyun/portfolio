@@ -189,7 +189,15 @@ span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
 
 /* images */
 figure.nimg { margin:6px 0 12px; }
-figure.nimg img { max-width:100%; border:1px solid #eeedeb; border-radius:10px; display:block; margin:0 auto; }
+figure.nimg img { max-width:100%; border:1px solid #eeedeb; border-radius:10px; display:block; margin:0 auto; cursor:zoom-in; }
+
+/* lightbox */
+.lightbox { position:fixed; inset:0; z-index:200; background:rgba(15,15,15,0.88); display:none; align-items:center; justify-content:center; padding:52px 48px 56px; }
+.lightbox.open { display:flex; }
+.lightbox img { max-width:100%; max-height:100%; border-radius:8px; background:#fff; box-shadow:0 30px 80px rgba(0,0,0,0.5); cursor:default; }
+.lb-close { position:fixed; top:18px; right:22px; width:42px; height:42px; border-radius:50%; border:none; background:rgba(255,255,255,0.14); color:#fff; font-size:20px; line-height:1; cursor:pointer; transition:background 160ms ease; }
+.lb-close:hover { background:rgba(255,255,255,0.3); }
+.lb-cap { position:fixed; left:50%; transform:translateX(-50%); bottom:16px; color:rgba(255,255,255,0.85); font-size:13.5px; line-height:1.5; max-width:80%; text-align:center; }
 figure.nimg figcaption { font-size:14.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
 
 /* columns */
@@ -364,6 +372,27 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
   }).observe(sent);
 })();
 try { sessionStorage.setItem('lastProject', 'p-samc'); } catch (e) {}
+(function(){
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.content figure.nimg img'));
+  if (!imgs.length) return;
+  var lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML = '<button class="lb-close" aria-label="닫기">&#10005;</button><img alt=""><div class="lb-cap"></div>';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector('img');
+  var cap = lb.querySelector('.lb-cap');
+  function close(){ lb.classList.remove('open'); document.body.style.overflow = ''; }
+  imgs.forEach(function(im){
+    im.addEventListener('click', function(){
+      lbImg.src = im.src;
+      cap.textContent = im.alt || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  lb.addEventListener('click', function(e){ if (e.target !== lbImg) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+})();
 </script>
 </div>
 </body>
