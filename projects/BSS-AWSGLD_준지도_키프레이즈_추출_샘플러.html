@@ -95,6 +95,18 @@ html { scroll-behavior:smooth; }
 
 
 
+/* top bar: breadcrumb + prev/next */
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:24px; flex-wrap:wrap; }
+.topbar .breadcrumb { margin-bottom:0; }
+.pagenav { display:flex; gap:8px; }
+a.pn { display:inline-flex; align-items:center; gap:7px; border:1px solid #e6e5e3; border-radius:99px; padding:6px 14px; text-decoration:none; font-size:13px; color:#5f5e5b; background:#fff; transition:border-color 160ms ease, color 160ms ease; }
+a.pn:hover { border-color:var(--acc, #37352f); color:#18181b; }
+.pn-k { font-weight:700; color:#a3a29e; font-size:11px; letter-spacing:0.06em; }
+.pn-t { max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:600; }
+.pn-ar { color:#b9b7b3; font-weight:600; }
+a.pn:hover .pn-ar { color:var(--acc, #37352f); }
+@media (max-width:900px){ .pn-t { max-width:88px; } }
+
 /* breadcrumb */
 .breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
 .breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
@@ -257,7 +269,13 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <body>
 <div class="page accent-purple">
 
-<div class="breadcrumb"><a href="../index.html">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg> BSS-AWSGLD 준지도 키프레이즈 추출 샘플러</span></div>
+<div class="topbar">
+  <div class="breadcrumb"><a href="../index.html#p-bss">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg> BSS-AWSGLD 준지도 키프레이즈 추출 샘플러</span></div>
+  <div class="pagenav">
+  <a class="pn" href="./SAMC-CBS_초고차원_베이지안_변수선택.html"><span class="pn-ar">←</span><span class="pn-k">이전</span><span class="pn-t">SAMC-CBS 초고차원 베이지안 변수선택</span></a>
+  <a class="pn" href="./베이지안_토픽모델링_프로젝트_2종.html"><span class="pn-k">다음</span><span class="pn-t">베이지안 토픽모델링 프로젝트 2종</span><span class="pn-ar">→</span></a>
+</div>
+</div>
 <div class="page-head">
   <div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v7.5a6 6 0 0 0 12 0V3"/><path d="M6 3h4.2M13.8 3H18M6 8.2h4.2M13.8 8.2H18"/></svg></div>
   <h1 class="page-title">BSS-AWSGLD 준지도 키프레이즈 추출 샘플러</h1>
