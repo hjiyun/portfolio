@@ -66,7 +66,7 @@ hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
 html { scroll-behavior:smooth; }
 .layout { display:flex; gap:60px; align-items:flex-start; }
 .content { flex:1; min-width:0; max-width:920px; }
-.toc { position:sticky; top:36px; width:260px; flex-shrink:0; font-size:15.5px; }
+.toc { position:sticky; top:88px; width:260px; flex-shrink:0; font-size:15.5px; }
 .toc-t { font-weight:800; font-size:12.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; padding-left:16px; }
 .toc a { display:flex; gap:10px; padding:9px 14px 9px 13px; color:#5f5e5b; text-decoration:none; font-weight:600; line-height:1.4; border-left:3px solid #ececea; }
 .toc a:hover { color:#18181b; background:#fafaf9; }
@@ -80,7 +80,7 @@ html { scroll-behavior:smooth; }
 .toc a.sub.on { font-weight:600; }
 @media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
 
-.content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:3.1em; font-size:1.55em; scroll-margin-top:28px; }
+.content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:3.1em; font-size:1.55em; scroll-margin-top:82px; }
 
 /* gentle scroll entry (JS adds .js on root; disabled for print) */
 .js .content > * { opacity:0; transform:translateY(10px); transition:opacity 640ms cubic-bezier(0.32,0.72,0,1), transform 640ms cubic-bezier(0.32,0.72,0,1); }
@@ -88,15 +88,17 @@ html { scroll-behavior:smooth; }
 @media print { .js .content > * { opacity:1 !important; transform:none !important; } }
 @media (prefers-reduced-motion: reduce) { .js .content > * { opacity:1; transform:none; transition:none; } }
 .content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
-.content h4.nh3 { scroll-margin-top:28px; }
+.content h4.nh3 { scroll-margin-top:82px; }
 .content > .ncallout:first-child { margin-top:4px; font-size:17.5px; padding:20px 20px 20px 17px; }
 .page-head { margin-bottom:4px; }
 
 
 
 
-/* top bar: breadcrumb + prev/next */
-.topbar { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:24px; flex-wrap:wrap; }
+/* top bar: breadcrumb + prev/next (sticky) */
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:0 -48px 18px; padding:12px 48px; flex-wrap:wrap; position:sticky; top:0; z-index:60; background:rgba(255,255,255,0.94); backdrop-filter:blur(8px); }
+.topbar.stuck { box-shadow:0 1px 0 #ececea, 0 10px 24px -20px rgba(24,24,27,0.2); }
+.top-sentinel { height:1px; }
 .topbar .breadcrumb { margin-bottom:0; }
 .pagenav { display:flex; gap:8px; }
 a.pn { display:inline-flex; align-items:center; gap:7px; border:1px solid #e6e5e3; border-radius:99px; padding:6px 14px; text-decoration:none; font-size:13px; color:#5f5e5b; background:#fff; transition:border-color 160ms ease, color 160ms ease; }
@@ -269,6 +271,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <body>
 <div class="page accent-yellow">
 
+<div class="top-sentinel"></div>
 <div class="topbar">
   <div class="breadcrumb"><a href="../index.html#p-tbt">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5a3 3 0 0 1 6 0"/><path d="m8.8 13.5 2.3 2.3 4.2-4.6"/></svg> 식품 수출 규제 대응 시스템 (ML→SQL 룰엔진)</span></div>
   <div class="pagenav">
@@ -366,6 +369,14 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
     });
   }, { rootMargin: '0px 0px -6% 0px' });
   kids.forEach(function(k){ ro.observe(k); });
+})();
+(function(){
+  var sent = document.querySelector('.top-sentinel');
+  var tb = document.querySelector('.topbar');
+  if (!sent || !tb) return;
+  new IntersectionObserver(function(es){
+    tb.classList.toggle('stuck', !es[0].isIntersecting);
+  }).observe(sent);
 })();
 </script>
 </div>
