@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="고려대학교 빅데이터사이언스학과 석사과정 홍지윤의 포트폴리오. Bayesian Computation과 LLM·RAG 연구, JKDAS 제1저자 논문 2편.">
+<title>출판사 재주문 예측과 LLM 멀티 에이전트 개선 공정</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2318181b'/%3E%3Ctext x='32' y='43' font-family='sans-serif' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3E%ED%99%8D%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>* { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  font-family: "Pretendard", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Helvetica, Arial, sans-serif;
+  color:#37352f; background:#fff;
+  line-height:1.55; font-size:17px;
+  -webkit-font-smoothing:antialiased;
+}
+.page { max-width:1400px; margin:0 auto; padding:56px 48px 18vh; }
+.page.wide { max-width:1400px; }
+a { color:inherit; text-decoration:underline; text-decoration-color:rgba(55,53,47,0.4); text-underline-offset:2px; }
+a:hover { text-decoration-color:rgba(55,53,47,0.8); }
+p { margin:3px 0; padding:3px 2px; }
+strong { font-weight:600; }
+em { color:#787774; font-style:italic; }
+hr { border:none; border-top:1px solid rgba(55,53,47,0.16); margin:13px 0; }
+.sp { height:16px; }
+
+/* icons */
+.icon { width:1.25em; height:1.25em; vertical-align:-0.22em; }
+.page-icon-svg { width:64px; height:64px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.page-icon-svg .icon { width:36px; height:36px; }
+.ico-blue { color:#2081a8; }
+.ico-purple { color:#7a52b3; }
+.ico-yellow { color:#c07d1a; }
+.ico-gray { color:#5f5e5b; }
+.ico-red { color:#d4574e; }
+.ico-green { color:#448361; }
+.ico-amber { color:#c07d1a; }
+.tint-blue { background:#e7f3f8; color:#2081a8; }
+.tint-purple { background:#f3eef9; color:#7a52b3; }
+.tint-yellow { background:#fbf3db; color:#c07d1a; }
+.tint-gray { background:#f1f1ef; color:#5f5e5b; }
+.bc-ic { width:1.05em; height:1.05em; }
+.ncallout-icon .icon { width:22px; height:22px; }
+.nfile-svg { width:19px; height:19px; color:#787774; flex-shrink:0; }
+
+
+/* meta summary grid (website-style) */
+.meta { display:flex; align-items:flex-start; border-top:1px solid #e6e5e3; border-bottom:1px solid #e6e5e3; padding:20px 2px; margin:14px 0 38px; }
+.meta-item { padding:0 34px; border-left:1px solid #ececea; min-width:0; }
+.meta-item:first-child { padding-left:2px; border-left:none; }
+.meta-item:last-child { padding-right:2px; }
+.meta-k { font-size:11.5px; font-weight:700; color:#a3a29e; letter-spacing:0.09em; margin-bottom:6px; }
+.meta-v { font-size:16px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; }
+.meta-item:nth-child(3) .meta-v { color:var(--acc, #18181b); }
+@media (max-width:800px){ .meta { flex-direction:column; gap:14px; } .meta-item { border-left:none; padding:0; } }
+
+
+/* accents per group */
+.accent-blue { --acc:#2081a8; }
+.accent-purple { --acc:#7a52b3; }
+.accent-yellow { --acc:#c07d1a; }
+.accent-gray { --acc:#5f5e5b; }
+
+/* detail layout: content + sticky toc */
+html { scroll-behavior:smooth; }
+.layout { display:flex; gap:60px; align-items:flex-start; }
+.content { flex:1; min-width:0; max-width:920px; }
+.toc { position:sticky; top:88px; width:260px; flex-shrink:0; font-size:15.5px; }
+.toc-t { font-weight:800; font-size:12.5px; color:#9b9a97; letter-spacing:0.12em; margin-bottom:12px; padding-left:16px; }
+.toc a { display:flex; gap:10px; padding:9px 14px 9px 13px; color:#5f5e5b; text-decoration:none; font-weight:600; line-height:1.4; border-left:3px solid #ececea; }
+.toc a:hover { color:#18181b; background:#fafaf9; }
+.toc a.on { color:var(--acc, #18181b); border-left-color:var(--acc, #18181b); background:#fafaf9; font-weight:700; }
+.toc-n { color:#c1c0bd; font-size:12px; padding-top:2.5px; font-weight:700; }
+.toc a.on .toc-n { color:var(--acc, #18181b); }
+.toc a.on-parent { color:#18181b; border-left-color:#d5d3cf; }
+.toc a.sub { font-size:13px; font-weight:500; color:#8f8e8a; padding:4.5px 14px 4.5px 36px; }
+.toc a.sub .toc-sub-t { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.toc a.sub:hover { color:#18181b; }
+.toc a.sub.on { font-weight:600; }
+@media (max-width:1024px) { .toc { display:none; } .content { max-width:none; } }
+
+.content h2.nh1 { border-left:4px solid var(--acc, #37352f); padding-left:15px; margin-top:3.1em; font-size:1.55em; scroll-margin-top:82px; }
+
+/* gentle scroll entry (JS adds .js on root; disabled for print) */
+.js .content > * { opacity:0; transform:translateY(10px); transition:opacity 640ms cubic-bezier(0.32,0.72,0,1), transform 640ms cubic-bezier(0.32,0.72,0,1); }
+.js .content > .in { opacity:1; transform:none; }
+@media print { .js .content > * { opacity:1 !important; transform:none !important; } }
+@media (prefers-reduced-motion: reduce) { .js .content > * { opacity:1; transform:none; transition:none; } }
+.content h2.nh1 .sec-no { color:var(--acc, #37352f); opacity:0.6; font-size:0.66em; font-weight:800; letter-spacing:0.08em; margin-right:12px; vertical-align:3px; font-variant-numeric:tabular-nums; }
+.content h4.nh3 { scroll-margin-top:82px; }
+.content > .ncallout:first-child { margin-top:4px; font-size:17.5px; padding:20px 20px 20px 17px; }
+.page-head { margin-bottom:4px; }
+
+
+
+
+/* top bar: breadcrumb + prev/next (sticky) */
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:0 -48px 18px; padding:12px 48px; flex-wrap:wrap; position:sticky; top:0; z-index:60; background:rgba(255,255,255,0.94); backdrop-filter:blur(8px); }
+.topbar.stuck { box-shadow:0 1px 0 #ececea, 0 10px 24px -20px rgba(24,24,27,0.2); }
+.top-sentinel { height:1px; }
+.topbar .breadcrumb { margin-bottom:0; }
+.pagenav { display:flex; gap:8px; }
+a.pn { display:inline-flex; align-items:center; gap:7px; border:1px solid #e6e5e3; border-radius:99px; padding:6px 14px; text-decoration:none; font-size:13px; color:#5f5e5b; background:#fff; transition:border-color 160ms ease, color 160ms ease; }
+a.pn:hover { border-color:var(--acc, #37352f); color:#18181b; }
+.pn-k { font-weight:700; color:#a3a29e; font-size:11px; letter-spacing:0.06em; }
+.pn-t { max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:600; }
+.pn-ar { color:#b9b7b3; font-weight:600; }
+a.pn:hover .pn-ar { color:var(--acc, #37352f); }
+@media (max-width:900px){ .pn-t { max-width:88px; } }
+
+/* breadcrumb */
+.breadcrumb { font-size:14px; color:#37352f; margin-bottom:24px; }
+.breadcrumb a { text-decoration:none; color:#37352f; padding:2px 6px; border-radius:4px; }
+.breadcrumb a:hover { background:rgba(55,53,47,0.08); }
+.bc-sep { color:rgba(55,53,47,0.4); margin:0 4px; }
+
+/* page title */
+.page-icon { font-size:64px; line-height:1.1; margin-bottom:8px; }
+.page-title { font-size:40px; font-weight:700; line-height:1.2; margin-bottom:24px; letter-spacing:-0.01em; }
+
+/* properties */
+.props { display:flex; flex-direction:column; gap:2px; margin-bottom:8px; }
+.prop { display:flex; align-items:flex-start; min-height:32px; font-size:14px; }
+.prop-k { display:flex; align-items:center; gap:8px; width:140px; flex-shrink:0; color:rgba(55,53,47,0.65); padding:6px 8px 6px 4px; }
+.pic { width:16px; height:16px; opacity:0.7; }
+.prop-v { padding:6px 8px; flex:1; }
+.props-hr { margin:8px 0 24px; }
+
+/* headings */
+.nh1, h2.nh1 { font-size:1.6em; font-weight:700; margin:1.4em 0 4px; padding:3px 2px; line-height:1.3; }
+.nh2 { font-size:1.3em; font-weight:600; margin:1.2em 0 2px; padding:3px 2px; }
+.nh3, summary.h4 { font-size:1.1em; font-weight:600; margin:1em 0 2px; padding:3px 2px; }
+.gray, .gray-text { color:#787774; }
+
+/* callout */
+.ncallout { display:flex; gap:10px; padding:16px 16px 16px 14px; border-radius:14px; margin:8px 0 14px; border:1px solid rgba(55,53,47,0.06); box-shadow:0 14px 30px -26px rgba(24,24,27,0.35); }
+.ncallout-icon { font-size:20px; line-height:1.3; }
+.ncallout-body p { margin:0; padding:1px 0; }
+.ncallout-blue_bg { background:#e7f3f8; }
+.ncallout-gray_bg { background:#f1f1ef; }
+.ncallout-purple_bg { background:#f8f3fc; }
+.ncallout-green_bg { background:#edf3ec; }
+.ncallout-yellow_bg { background:#fbf3db; }
+
+/* fact card grid (from labeled lists) */
+.fgrid { display:grid; gap:12px; margin:10px 0 18px; }
+.fgrid-2 { grid-template-columns:1fr 1fr; }
+.fgrid-3 { grid-template-columns:1fr 1fr 1fr; }
+.fcard { background:#fff; border:1px solid #ecebe9; border-radius:12px; padding:15px 17px; box-shadow:0 12px 26px -24px rgba(24,24,27,0.32); }
+.fcard-k { color:var(--acc, #37352f); font-weight:700; font-size:15px; margin-bottom:5px; line-height:1.4; }
+.fcard-b { font-size:15px; color:#4b4a47; line-height:1.55; }
+.fcard-b strong { color:#37352f; }
+@media (max-width:800px){ .fgrid-2, .fgrid-3 { grid-template-columns:1fr; } }
+
+/* step flow (wrapping process chips) */
+.stepflow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 6px; margin:12px 0 16px; }
+.step { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid #ecebe9; border-radius:99px; padding:7px 14px 7px 8px; font-size:14.5px; font-weight:600; color:#37352f; box-shadow:0 8px 18px -18px rgba(24,24,27,0.35); white-space:nowrap; }
+.step-n { display:inline-flex; align-items:center; justify-content:center; width:21px; height:21px; border-radius:50%; background:var(--acc, #37352f); color:#fff; font-size:11.5px; font-weight:700; }
+.step-arrow { color:#c9c8c5; font-size:14px; }
+
+/* lists */
+ul.nlist { margin:2px 0 6px; padding-left:0; list-style:none; }
+ul.nlist li { position:relative; padding:3px 2px 3px 22px; }
+ul.nlist li::before { content:"•"; position:absolute; left:8px; font-size:1em; }
+.nnum { padding-left:4px; }
+.nnum-n { margin-right:6px; }
+
+/* tables */
+.ntable-wrap { overflow-x:auto; margin:8px 0 14px; }
+table.ntable { border-collapse:collapse; font-size:15px; width:auto; min-width:60%; font-variant-numeric:tabular-nums; }
+table.ntable.fit { width:100%; }
+.ntable th, .ntable td { border:1px solid rgba(55,53,47,0.1); padding:8px 11px; vertical-align:top; text-align:left; }
+.ntable th { background:#fbfaf8; font-weight:600; color:#37352f; }
+.stars { white-space:nowrap; letter-spacing:1px; }
+
+/* cell / row / inline colors (Notion palette) */
+.c-red { color:#e03e3e; }
+.c-gray { color:#787774; }
+td.c-gray, th.c-gray { color:#787774; }
+.c-green_bg { background:#edf3ec; }
+.ntable th.c-green_bg { background:#edf3ec; }
+.c-blue_bg { background:#e7f3f8; }
+.c-gray_bg { background:#f1f1ef; }
+.c-purple_bg { background:#f8f3fc; }
+tr.c-green_bg td { background:#edf3ec; }
+tr.c-blue_bg td { background:#e7f3f8; }
+span.c-gray_bg { background:#f1f1ef; border-radius:3px; padding:1px 4px; }
+
+/* images */
+figure.nimg { margin:6px 0 12px; }
+figure.nimg img { max-width:100%; border:1px solid #eeedeb; border-radius:10px; display:block; margin:0 auto; cursor:zoom-in; }
+
+/* lightbox */
+.lightbox { position:fixed; inset:0; z-index:200; background:rgba(15,15,15,0.88); display:none; align-items:center; justify-content:center; padding:64px 48px 56px; }
+.lightbox.open { display:flex; }
+.lb-box { position:relative; }
+.lightbox img { max-width:min(1000px, 84vw); max-height:76vh; border-radius:8px; background:#fff; box-shadow:0 30px 80px rgba(0,0,0,0.5); cursor:default; display:block; }
+.lb-close { position:absolute; top:-32px; right:0; border:none; background:none; padding:2px 4px; color:rgba(255,255,255,0.85); font-size:17px; line-height:1; cursor:pointer; transition:color 160ms ease; }
+.lb-close:hover { color:#fff; }
+.lb-cap { position:fixed; left:50%; transform:translateX(-50%); bottom:16px; color:rgba(255,255,255,0.85); font-size:13.5px; line-height:1.5; max-width:80%; text-align:center; }
+figure.nimg figcaption { font-size:14.5px; color:#787774; padding:6px 2px 0; line-height:1.4; }
+
+/* columns */
+.ncols { display:flex; gap:23px; margin:4px 0; align-items:flex-start; flex-wrap:wrap; }
+.ncol { min-width:0; flex:1; }
+@media (max-width:640px){ .ncols { flex-direction:column; } .ncol { flex:1 1 auto !important; width:100%; } }
+.intro { align-items:center; }
+img.profile { width:100%; border-radius:4px; }
+
+/* quote */
+blockquote.nquote { border-left:3px solid #37352f; padding:4px 2px 4px 14px; margin:8px 0; }
+
+/* code */
+pre.ncode { background:#f7f6f3; border-radius:6px; padding:16px 16px; overflow-x:auto; margin:8px 0 12px; }
+pre.ncode code { font-family:"SFMono-Regular", Consolas, "D2Coding", "Nanum Gothic Coding", monospace; font-size:13px; line-height:1.55; color:#37352f; }
+code.ic { font-family:"SFMono-Regular", Consolas, monospace; font-size:85%; background:rgba(135,131,120,0.15); color:#eb5757; border-radius:3px; padding:1px 4px; }
+
+/* toggle */
+details.ntoggle { margin:8px 0; }
+details.ntoggle summary { cursor:pointer; font-weight:600; padding:3px 2px; list-style-position:outside; }
+details.ntoggle summary::marker { color:rgba(55,53,47,0.6); }
+.ntoggle-body { padding:2px 0 4px 20px; }
+
+/* file card */
+a.nfile { display:flex; align-items:center; gap:8px; border:1px solid rgba(55,53,47,0.16); border-radius:6px; padding:9px 12px; margin:6px 0; text-decoration:none; font-size:14.5px; }
+a.nfile:hover { background:rgba(55,53,47,0.04); }
+.nfile-ic { font-size:17px; }
+.nfile-name { font-weight:500; }
+
+/* chips (select colors) */
+.chip { display:inline-block; border-radius:4px; padding:1px 8px; font-size:13.5px; font-weight:500; line-height:1.5; white-space:nowrap; }
+.chip-blue { background:#d3e5ef; color:#183347; }
+.chip-purple { background:#e8deee; color:#412454; }
+.chip-yellow { background:#fdecc8; color:#402c1b; }
+.chip-gray { background:#e3e2e0; color:#32302c; }
+
+/* gallery */
+.group-sec { margin:18px 0 6px; }
+.group-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.group-count { color:rgba(55,53,47,0.5); font-size:14px; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; }
+.gcard { display:block; border:1px solid rgba(55,53,47,0.12); border-radius:8px; padding:14px 14px 12px; text-decoration:none; background:#fff; box-shadow:0 1px 2px rgba(15,15,15,0.04); transition:filter 80ms ease-in, transform 80ms ease-in; }
+.gcard.tint-blue { background:#f0f7fa; border-color:#cfe4ee; }
+.gcard.tint-purple { background:#f6f2fa; border-color:#ded1ee; }
+.gcard.tint-yellow { background:#fcf6e5; border-color:#eddfb9; }
+.gcard.tint-gray { background:#f5f5f3; border-color:#dedcd8; }
+a.gcard:hover { filter:brightness(0.97); }
+.gcard-icon { margin-bottom:8px; }
+.gcard-icon .icon { width:26px; height:26px; }
+.gcard-title { font-weight:600; font-size:14.5px; line-height:1.35; margin-bottom:4px; color:#37352f; }
+.gcard-sub { font-size:13px; color:#787774; line-height:1.4; }
+.gcard-meta { font-size:12.5px; color:rgba(55,53,47,0.5); margin-top:6px; }
+
+/* experience board (vertical columns) */
+.board { display:flex; gap:16px; align-items:flex-start; margin:12px 0; }
+.bcol { flex:1; border-radius:10px; padding:12px 12px 8px; min-width:0; }
+.bcol-red { background:#fbf1ef; }
+.bcol-blue { background:#eff5fb; }
+.bcol-green { background:#f0f7f0; }
+.bcol-head { display:flex; align-items:center; gap:8px; margin:0 2px 10px; }
+.chip-red { background:#ffe2dd; color:#5d1715; }
+.chip-green { background:#dbeddb; color:#1c3829; }
+.bcard { display:flex; align-items:center; gap:9px; background:#fff; border:1px solid rgba(55,53,47,0.1); border-radius:8px; box-shadow:0 1px 2px rgba(15,15,15,0.04); padding:10px 12px; margin-bottom:8px; font-size:14px; font-weight:500; line-height:1.4; }
+.bcard-ic { flex-shrink:0; display:flex; }
+.bcard-ic .icon { width:19px; height:19px; }
+@media (max-width:760px){ .board { flex-direction:column; } }
+
+/* keyboard focus */
+a:focus-visible, summary:focus-visible { outline:2px solid var(--acc, #2081a8); outline-offset:2px; border-radius:4px; }
+a:focus { outline:none; }
+a:focus-visible { outline:2px solid var(--acc, #2081a8); }
+
+@media print {
+  .page { padding:20px; }
+  .gcard { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page accent-blue">
+
+<div class="top-sentinel"></div>
+<div class="topbar">
+  <div class="breadcrumb"><a href="../index.html#p-marine">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 10.8 16M15.7 7.2 13.2 16M8.5 6h7"/></svg> 출판사 재주문 예측과 LLM 멀티 에이전트 개선 공정</span></div>
+  <div class="pagenav">
+  <a class="pn" href="./꿈꾸는_책방_AI_인터랙티브_독서.html"><span class="pn-ar">←</span><span class="pn-k">이전</span><span class="pn-t">꿈꾸는 책방 - AI 인터랙티브 독서</span></a>
+  <a class="pn" href="./SGMCMC-KF_실시간_시계열_이상치_탐지.html"><span class="pn-k">다음</span><span class="pn-t">SGMCMC-KF 실시간 시계열 이상치 탐지</span><span class="pn-ar">→</span></a>
+</div>
+</div>
+<div class="page-head">
+  <div class="page-icon-svg tint-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 10.8 16M15.7 7.2 13.2 16M8.5 6h7"/></svg></div>
+  <h1 class="page-title">출판사 재주문 예측과 LLM 멀티 에이전트 개선 공정</h1>
+</div>
+
+<div class="meta">
+  <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2026.09 - 현재 (2026.12 완료 예정)</div></div>
+  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">단독 수행 (초격차 산업기반표준 전문인력양성사업 산학 프로젝트, 마린북스(온에듀) 연계)</div></div>
+  <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">Precision@20% 교보 52%, 예스24 59% (판매 규칙 42%, 47%)</div></div>
+  <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-blue">LLM·RAG</span></div></div>
+</div>
+<div class="layout">
+  <aside class="toc"><div class="toc-t">목차</div>
+<a href="#sec1"><span class="toc-n">01</span><span>개요</span></a>
+<a href="#sec2"><span class="toc-n">02</span><span>문제 정의</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>데이터 계층과 재주문 예측</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>LLM 에이전트 데이터 검토</span></a>
+<a href="#sec5"><span class="toc-n">05</span><span>경쟁, 토론, 적대적 검토 공정</span></a>
+<a class="sub" href="#sec5-1"><span class="toc-sub-t">검증 점수만 믿으면 생기는 일</span></a>
+<a href="#sec6"><span class="toc-n">06</span><span>결과</span></a>
+<a href="#sec7"><span class="toc-n">07</span><span>한계와 다음 단계</span></a>
+<a href="#sec8"><span class="toc-n">08</span><span>자료</span></a>
+  </aside>
+  <article class="content">
+<div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 10.8 16M15.7 7.2 13.2 16M8.5 6h7"/></svg></div><div class="ncallout-body"><p><strong>출판사가 어느 도서에 재고와 마케팅 자원을 먼저 쓸지 정하도록 돕는 산학 프로젝트.</strong> 교보문고와 예스24 SCM 자료로 다음 30일 재주문 도서 상위 20%를 예측하고, LLM 멀티 에이전트가 개선안을 내고 서로 토론한 뒤 적대적 검토자가 최종안을 고르는 공정을 만들었습니다. 에이전트는 원본 행 없이 읽기 전용 SQL로 집계 결과만 보고, 모든 제안과 점수와 판정은 DB에 남습니다.</p></div></div>
+<h2 class="nh1" id="sec1"><span class="sec-no">01</span>개요</h2>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>단계</th><th>접근</th><th>핵심 결과</th></tr>
+<tr><td><strong>재주문 예측</strong></td><td>매월 1일 기준 이전 기록으로 변수, 이후 30일로 라벨 구성. 로지스틱 회귀와 그래디언트 부스팅을 무작위, 최근 판매 규칙과 비교</td><td>Precision@20% 교보 <strong>52%</strong>, 예스24 <strong>59%</strong> (판매 규칙 42%, 47%)</td></tr>
+<tr><td><strong>에이전트 데이터 검토</strong></td><td>오류를 일부러 넣은 자료에서 분석가 A, B, 조정자, 적대적 검토자가 정제 조치를 고름</td><td>규칙이 놓친 반품 날짜 오기 <strong>93%</strong>, 판매 중복 <strong>100%</strong> 처리</td></tr>
+<tr><td><strong>예측 개선 공정</strong></td><td>두 에이전트가 개선안을 경쟁, 토론(수정 2회)하고 적대적 검토자가 사전 채택 기준으로 최종안 선택</td><td>예스24 채택안 시험 구간 Precision@20% <strong>+1.8%p</strong>, AP <strong>+2.3%p</strong></td></tr>
+<tr><td><strong>도서 지식 에이전트</strong></td><td>제목만 보고 167종을 독립 분류, 엇갈린 29종은 판정 에이전트가 결정. 공식 시험 일정 확인</td><td>3월, 9월 재주문 쏠림을 시험이 아닌 학기 시작으로 설명</td></tr>
+</table></div>
+<h2 class="nh1" id="sec2"><span class="sec-no">02</span>문제 정의</h2>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">의사결정</div><div class="fcard-b">컴퓨터, AI 교육 도서 출판사 마린북스(온에듀)는 한정된 재고와 마케팅 자원을 어느 도서에 먼저 배분할지 판단할 근거가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">서점마다 다른 자료</div><div class="fcard-b">교보문고는 발주 이력이 없어 입하를 재주문의 대리 지표로 쓰고, 예스24는 실제 발주를 씁니다. 거래 정의와 자료 구조가 달라 공통 절차가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">없는 자료</div><div class="fcard-b">개인 구매 이력과 광고 집행 기록이 없습니다. 재주문 예측, 집계 고객 분석, 광고 효과 검증의 범위를 처음부터 구분했습니다</div></div><div class="fcard"><div class="fcard-k">목표</div><div class="fcard-b">매월 1일 기준 다음 30일 안에 서점이 재주문할 도서 상위 20%를 골라 재고 준비와 중쇄 판단을 돕는 것</div></div></div>
+<h2 class="nh1" id="sec3"><span class="sec-no">03</span>데이터 계층과 재주문 예측</h2>
+<figure class="nimg"><img src="../assets/mb_flow.png" loading="lazy" alt="전체 시스템 흐름. 서점 SCM 자료를 SQLite에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다"><figcaption>전체 시스템 흐름. 서점 SCM 자료를 SQLite에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다</figcaption></figure>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">SQL 데이터 계층</div><div class="fcard-b">입하, 발주, 반품, 판매, 구매자 자료를 공통 형식으로 연결. 품질 점검 규칙 하나를 쿼리 하나로 작성하고, 정제 뷰와 에이전트용 읽기 전용 조회를 분리. SQL 결과와 pandas 결과가 같은지 테스트로 대조</div></div><div class="fcard"><div class="fcard-k">품질 점검</div><div class="fcard-b">ISO/IEC 25012의 완전성, 일관성, 추적성 관점을 참고한 자체 규칙(인증 아님). 예스24의 수량 0 발주 행 약 28%를 걸러 재주문 오집계를 막음</div></div><div class="fcard"><div class="fcard-k">정보 누출 방지</div><div class="fcard-b">변수는 기준일 이전 기록만 쓰고 이후 30일은 라벨에만 사용. 기준일 이후 값을 바꿔도 변수가 변하지 않는지 테스트</div></div><div class="fcard"><div class="fcard-k">두 번째 서점 재사용</div><div class="fcard-b">예스24는 입력 변환만 새로 쓰고 품질 점검, 예측, 평가, ROI, CRM은 교보와 같은 코드를 그대로 사용</div></div></div>
+<figure class="nimg"><img src="../assets/mb_precision.png" loading="lazy" style="width:72%" alt="시험 구간(마지막 6개월) 상위 20% 선정 정확도. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음"><figcaption>시험 구간(마지막 6개월) 상위 20% 선정 정확도. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음</figcaption></figure>
+<h2 class="nh1" id="sec4"><span class="sec-no">04</span>LLM 에이전트 데이터 검토</h2>
+<p>행 단위 규칙이 놓치는 오류(날짜 오기, 단위 오류, 판매 중복)를 자료에 일부러 넣고, 에이전트가 이를 찾아 되돌리는지 실험했습니다.</p>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">에이전트가 보는 것</div><div class="fcard-b">원본 행과 ISBN은 넘기지 않고 집계 도구 7개의 결과만 제공. 결과마다 근거 ID가 붙고, 받은 근거 ID가 없는 조치는 자동으로 버림</div></div><div class="fcard"><div class="fcard-k">에이전트가 하는 것</div><div class="fcard-b">정제 조치 11종 중에서 고르고 매개변수를 정함. 실제 적용은 코드가 하고, 검토자는 조치 미리보기로 정상 행을 얼마나 건드리는지 확인</div></div><div class="fcard"><div class="fcard-k">역할</div><div class="fcard-b">분석가 A(분포, 중복, 이상값)와 분석가 B(날짜, 문서번호, 표 간 흐름)가 서로 모르게 제안하고, 조정자가 합치고, 적대적 검토자가 승인, 거부, 축소</div></div><div class="fcard"><div class="fcard-k">대조군</div><div class="fcard-b">A 점검 없음, B 기존 규칙, C 에이전트만, D 규칙과 에이전트, H 고정 휴리스틱(LLM 없음). H로 에이전트 판단이 조치 목록 자체보다 나은지 확인</div></div></div>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>규칙이 놓친 오류</th><th>B 규칙</th><th>C 에이전트만</th><th>D 규칙과 에이전트</th><th>H 휴리스틱</th></tr>
+<tr><td>반품 날짜 오기</td><td>0%</td><td>93%</td><td>93%</td><td>93%</td></tr>
+<tr><td>판매 중복</td><td>0%</td><td>100%</td><td>100%</td><td>100%</td></tr>
+<tr><td>이벤트 날짜 오기</td><td>0%</td><td>57%</td><td>53%</td><td>77%</td></tr>
+<tr><td>판매 단위 오류(×10)</td><td>1%</td><td>15%</td><td>6%</td><td>56%</td></tr>
+<tr class="c-blue_bg"><td><strong>예스24 부수 피해(정상 행 변경 수)</strong></td><td>-</td><td>1~25</td><td>1~14</td><td>80~91</td></tr>
+</table></div>
+<ul class="nlist"><li>예스24에서 에이전트의 부수 피해는 휴리스틱의 10분의 1 수준</li><li>교보 입하 문서번호는 날짜가 다른 거래에 재사용되는데(문서번호와 날짜 순위상관 약 0.26, 예스24 약 0.99), 이 함정을 피하는 판단은 실행마다 달랐음. 일관되지 않은 판단으로 기록</li><li>정제 후 Precision@20% 차이는 1~2%p로 실행 간 흔들림(2~4%p)보다 작아, 데이터를 바꾼 효과와 성능 개선을 구분해 보고</li></ul>
+<h2 class="nh1" id="sec5"><span class="sec-no">05</span>경쟁, 토론, 적대적 검토 공정</h2>
+<p>정제만으로는 되찾을 수 있는 폭이 작아서, 에이전트가 예측 자체를 개선하는 안을 내고 경쟁하는 공정으로 넓혔습니다.</p>
+<figure class="nimg"><img src="../assets/mb_agent_flow.png" loading="lazy" alt="LLM 멀티 에이전트 개선 공정. 모든 단계의 입력, 중간, 최종 산출물이 서점별 공정 DB에 쌓입니다"><figcaption>LLM 멀티 에이전트 개선 공정. 모든 단계의 입력, 중간, 최종 산출물이 서점별 공정 DB에 쌓입니다</figcaption></figure>
+<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">경쟁</div><div class="fcard-b">분석가 A(변수 중심)와 B(모델, 학습 기간, 정제 중심)가 공정 DB를 SELECT 하나로만 조회하고 서로 모르게 개선안을 최대 3개씩 제출</div></div><div class="fcard"><div class="fcard-k">채점은 코드가</div><div class="fcard-b">검증 구간에서 기준 대비 차이, 짝지은 부트스트랩 표준편차, 개선 확률을 계산. 평가 도서와 정답은 원자료로 고정해 정제로 라벨을 바꿔 점수를 올릴 수 없음</div></div><div class="fcard"><div class="fcard-k">토론</div><div class="fcard-b">점수표와 상대 안을 읽고 반박하거나 결합한 수정안을 제출(수정 최대 2회), 매번 재채점</div></div><div class="fcard"><div class="fcard-k">적대적 검토</div><div class="fcard-b">사전 채택 기준(개선 확률 0.9 이상, 2구간 이상 개선)으로 우연한 개선을 거르고, 검토자의 수치 주장은 근거 ID의 조회 값과 자동 대조</div></div><div class="fcard"><div class="fcard-k">조회 제한</div><div class="fcard-b">에이전트는 시험 결과, 추천 목록, 근거 테이블을 조회할 수 없음. 시험 구간은 마지막에 단계별 대표안을 평가할 때 한 번만 사용</div></div><div class="fcard"><div class="fcard-k">실행 환경</div><div class="fcard-b">Claude Agent SDK로 호출. 파일, 셸 도구와 사용자 설정을 주지 않고, 같은 입력은 저장된 출력을 재사용. 단위 테스트는 가짜 LLM 클라이언트로 API 호출 없이 실행</div></div></div>
+<h4 class="nh3" id="sec5-1">검증 점수만 믿으면 생기는 일</h4>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">첫 실행</div><div class="fcard-b">예스24에서 두 안이 검증 점수로는 기준을 넘었지만, 검토자가 뺀 변수를 검증 구간 중요도로 골라 낙관 편향이 있다며 거부. 시험 구간에서 두 안은 실제로 -3.5%p, -2.6%p</div></div><div class="fcard"><div class="fcard-k">공정 수정</div><div class="fcard-b">진단표가 검증 구간으로 계산된 문제를 찾아 진단 구간(학습 구간 마지막 6개 기준일)과 채점 구간을 분리하고, 6개월 3구간 롤링 검증을 도입</div></div><div class="fcard"><div class="fcard-k">수정 후</div><div class="fcard-b">검증 최고안이 시험 구간에서도 +1.8%p. 검증과 시험의 방향이 처음으로 일치</div></div><div class="fcard"><div class="fcard-k">수치 주장 대조</div><div class="fcard-b">검토자의 수치 주장 17개, 22개, 19개(실행별)가 모두 DB 조회 값과 일치</div></div></div>
+<h2 class="nh1" id="sec6"><span class="sec-no">06</span>결과</h2>
+<figure class="nimg"><img src="../assets/mb_agent_table.png" loading="lazy" alt="단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번"><figcaption>단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번</figcaption></figure>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">예측</div><div class="fcard-b">같은 상위 20%를 고를 때 재주문 적중률이 최근 판매 규칙보다 교보 약 10%p, 예스24 약 12%p 높아 재고 준비와 중쇄 우선순위의 판단 자료를 마련</div></div><div class="fcard"><div class="fcard-k">에이전트 개선</div><div class="fcard-b">예스24에서 기준을 넘은 안 7개 중 검토자가 가장 단순한 안(계절 변수 추가, 변수 6개 제거, 깊이 2 트리)을 채택. 시험 구간 Precision@20% 58.8%에서 60.5%, AP 57.7%에서 60.0%</div></div><div class="fcard"><div class="fcard-k">기준 모델 유지</div><div class="fcard-b">교보는 최고안의 개선 확률이 0.78로 기준에 못 미쳐 기준 모델 유지. 검증 최고안의 시험 결과도 기준과 같아 놓친 이득 없음</div></div><div class="fcard"><div class="fcard-k">보조 분석</div><div class="fcard-b">구매자 성별, 연령, 지역 집계로 독자층을 분석하고 비용 가정별 광고 손익분기를 산정. 광고 집행 기록이 없어 효과 추정 대신 무작위 판촉 실험을 설계</div></div></div>
+<h2 class="nh1" id="sec7"><span class="sec-no">07</span>한계와 다음 단계</h2>
+<ul class="nlist"><li>같은 공정이라도 실행마다 최종안이 달랐음. 예스24 AP는 두 실행 모두 +2.3~2.6%p로 일관됐지만 Precision@20%는 -1~+2%p로 변동</li><li>앙상블은 규칙 설계 문제로 한 번도 작동하지 않아 성과에서 제외하고 개선 과제로 남김</li><li>현재 수치는 중간 오프라인 평가 결과이며, 실제 재고 비용 절감이나 매출 증가를 확정 성과로 제시하지 않음</li><li>협력사 제공 자료와 분석 결과는 공개하지 않으며, 코드는 작은 가상 데이터로 테스트가 동작</li></ul>
+<h2 class="nh1" id="sec8"><span class="sec-no">08</span>자료</h2>
+<p><a href="https://github.com/hjiyun/publisher-reorder-crm" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm</a></p>
+  </article>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  if (!links.length) return;
+  links.forEach(function(l){
+    l.addEventListener('click', function(ev){
+      var t = document.querySelector(l.getAttribute('href'));
+      if (!t) return;
+      ev.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth' });
+      history.replaceState(null, '', l.getAttribute('href'));
+    });
+  });
+  var obs = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) {
+        var id = e.target.id;
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + id); });
+        var parent = id.indexOf('-') > -1 ? id.split('-')[0] : id;
+        links.forEach(function(l){
+          if (!l.classList.contains('sub')) l.classList.toggle('on-parent', l.getAttribute('href') === '#' + parent);
+        });
+      }
+    });
+  }, { rootMargin: '-8% 0px -78% 0px' });
+  document.querySelectorAll('.content h2.nh1, .content h4.nh3').forEach(function(h){ if (h.id) obs.observe(h); });
+})();
+(function(){
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.documentElement.classList.add('js');
+  var kids = Array.prototype.slice.call(document.querySelectorAll('.content > *'));
+  var ro = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  kids.forEach(function(k){ ro.observe(k); });
+})();
+(function(){
+  var sent = document.querySelector('.top-sentinel');
+  var tb = document.querySelector('.topbar');
+  if (!sent || !tb) return;
+  new IntersectionObserver(function(es){
+    tb.classList.toggle('stuck', !es[0].isIntersecting);
+  }).observe(sent);
+})();
+try { sessionStorage.setItem('lastProject', 'p-marine'); } catch (e) {}
+(function(){
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.content figure.nimg img'));
+  if (!imgs.length) return;
+  var lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML = '<div class="lb-box"><button class="lb-close" aria-label="닫기">&#10005;</button><img alt=""></div><div class="lb-cap"></div>';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector('img');
+  var cap = lb.querySelector('.lb-cap');
+  function close(){ lb.classList.remove('open'); document.body.style.overflow = ''; }
+  imgs.forEach(function(im){
+    im.addEventListener('click', function(){
+      lbImg.src = im.src;
+      cap.textContent = im.alt || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  lb.addEventListener('click', function(e){ if (e.target !== lbImg) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+})();
+</script>
+</div>
+</body>
+</html>
