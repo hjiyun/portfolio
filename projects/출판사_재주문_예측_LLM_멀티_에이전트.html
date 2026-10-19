@@ -304,6 +304,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a href="#sec1"><span class="toc-n">01</span><span>개요</span></a>
 <a href="#sec2"><span class="toc-n">02</span><span>문제 정의</span></a>
 <a href="#sec3"><span class="toc-n">03</span><span>데이터 계층과 재주문 예측</span></a>
+<a class="sub" href="#sec3-1"><span class="toc-sub-t">Airflow 월 배치</span></a>
 <a href="#sec4"><span class="toc-n">04</span><span>LLM 에이전트 데이터 검토</span></a>
 <a href="#sec5"><span class="toc-n">05</span><span>경쟁, 토론, 적대적 검토 공정</span></a>
 <a class="sub" href="#sec5-1"><span class="toc-sub-t">검증 점수만 믿으면 생기는 일</span></a>
@@ -316,6 +317,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <h2 class="nh1" id="sec1"><span class="sec-no">01</span>개요</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>단계</th><th>접근</th><th>핵심 결과</th></tr>
 <tr><td><strong>재주문 예측</strong></td><td>매월 1일 기준 이전 기록으로 변수, 이후 30일로 라벨 구성. 로지스틱 회귀와 그래디언트 부스팅을 무작위, 최근 판매 규칙과 비교</td><td>Precision@20% 교보 <strong>52%</strong>, 예스24 <strong>59%</strong> (판매 규칙 42%, 47%)</td></tr>
+<tr><td><strong>월 배치 자동화</strong></td><td>적재, 품질 점검, 기준일 변수, 월간 지표 저장을 Airflow DAG로 묶어 매월 1일 실행</td><td>같은 자료로 두 번 실행한 결과 파일 <strong>동일</strong></td></tr>
 <tr><td><strong>에이전트 데이터 검토</strong></td><td>오류를 일부러 넣은 자료에서 분석가 A, B, 조정자, 적대적 검토자가 정제 조치를 고름</td><td>규칙이 놓친 반품 날짜 오기 <strong>93%</strong>, 판매 중복 <strong>100%</strong> 처리</td></tr>
 <tr><td><strong>예측 개선 공정</strong></td><td>두 에이전트가 개선안을 경쟁, 토론(수정 2회)하고 적대적 검토자가 사전 채택 기준으로 최종안 선택</td><td>예스24 채택안 시험 구간 Precision@20% <strong>+1.8%p</strong>, AP <strong>+2.3%p</strong></td></tr>
 <tr><td><strong>도서 지식 에이전트</strong></td><td>제목만 보고 167종을 독립 분류, 엇갈린 29종은 판정 에이전트가 결정. 공식 시험 일정 확인</td><td>3월, 9월 재주문 쏠림을 시험이 아닌 학기 시작으로 설명</td></tr>
@@ -326,6 +328,10 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <figure class="nimg"><img src="../assets/mb_flow.png" loading="lazy" alt="전체 시스템 흐름. 서점 SCM 자료를 SQLite에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다"><figcaption>전체 시스템 흐름. 서점 SCM 자료를 SQLite에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다</figcaption></figure>
 <div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">SQL 데이터 계층</div><div class="fcard-b">입하, 발주, 반품, 판매, 구매자 자료를 공통 형식으로 연결. 품질 점검 규칙 하나를 쿼리 하나로 작성하고, 정제 뷰와 에이전트용 읽기 전용 조회를 분리. SQL 결과와 pandas 결과가 같은지 테스트로 대조</div></div><div class="fcard"><div class="fcard-k">품질 점검</div><div class="fcard-b">ISO/IEC 25012의 완전성, 일관성, 추적성 관점을 참고한 자체 규칙(인증 아님). 예스24의 수량 0 발주 행 약 28%를 걸러 재주문 오집계를 막음</div></div><div class="fcard"><div class="fcard-k">정보 누출 방지</div><div class="fcard-b">변수는 기준일 이전 기록만 쓰고 이후 30일은 라벨에만 사용. 기준일 이후 값을 바꿔도 변수가 변하지 않는지 테스트</div></div><div class="fcard"><div class="fcard-k">두 번째 서점 재사용</div><div class="fcard-b">예스24는 입력 변환만 새로 쓰고 품질 점검, 예측, 평가, ROI, CRM은 교보와 같은 코드를 그대로 사용</div></div></div>
 <figure class="nimg"><img src="../assets/mb_precision.png" loading="lazy" style="width:72%" alt="시험 구간(마지막 6개월) 상위 20% 선정 정확도. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음"><figcaption>시험 구간(마지막 6개월) 상위 20% 선정 정확도. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음</figcaption></figure>
+<h4 class="nh3" id="sec3-1">Airflow 월 배치</h4>
+<p>서점 자료는 매달 새로 들어옵니다. 적재부터 월간 지표 저장까지의 처리를 사람이 매번 실행하지 않도록, 위 데이터 계층의 함수를 그대로 불러 쓰는 Airflow DAG로 묶었습니다.</p>
+<figure class="nimg"><img src="../assets/mb_airflow_dag.png" loading="lazy" alt="Airflow DAG publisher_monthly. 적재, 품질 점검, 기준일 변수, 월간 지표 저장 네 태스크가 모두 성공한 실행"><figcaption>Airflow DAG publisher_monthly. 적재, 품질 점검, 기준일 변수, 월간 지표 저장 네 태스크가 모두 성공한 실행</figcaption></figure>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">DAG 구성</div><div class="fcard-b">load_to_sqlite, quality_checks, build_features, export_marts 4단계. 매월 1일 09:00(KST) 실행, 태스크별 재시도 2회, 동시 실행 1개. Docker Compose(Airflow 2.10.5) 환경에서 실행</div></div><div class="fcard"><div class="fcard-k">재실행해도 같은 결과</div><div class="fcard-b">적재할 때마다 테이블을 지우고 다시 만들고 원본 파일의 SHA-256 적재 기록을 남김. 같은 자료로 두 번 실행한 결과 파일(품질 점검표, 기준일 변수, 월간 지표)이 동일함을 확인</div></div><div class="fcard"><div class="fcard-k">기준일 계산</div><div class="fcard-b">현재 시각 대신 Airflow 실행 구간(data_interval_end)의 월 1일을 기준일로 사용해 과거 월을 다시 돌려도 그 시점의 변수가 만들어짐. 태스크 사이에는 건수만 XCom으로 전달</div></div><div class="fcard"><div class="fcard-k">진행 중 생긴 문제</div><div class="fcard-b">추가 패키지 설치 후 numpy와 pandas의 바이너리 버전이 맞지 않아 DAG가 등록되지 않음. 기본 이미지의 numpy 1.26.4에 맞춰 패키지 버전을 고정해 해결</div></div></div>
 <h2 class="nh1" id="sec4"><span class="sec-no">04</span>LLM 에이전트 데이터 검토</h2>
 <p>행 단위 규칙이 놓치는 오류(날짜 오기, 단위 오류, 판매 중복)를 자료에 일부러 넣고, 에이전트가 이를 찾아 되돌리는지 실험했습니다.</p>
 <div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">에이전트가 보는 것</div><div class="fcard-b">원본 행과 ISBN은 넘기지 않고 집계 도구 7개의 결과만 제공. 결과마다 근거 ID가 붙고, 받은 근거 ID가 없는 조치는 자동으로 버림</div></div><div class="fcard"><div class="fcard-k">에이전트가 하는 것</div><div class="fcard-b">정제 조치 11종 중에서 고르고 매개변수를 정함. 실제 적용은 코드가 하고, 검토자는 조치 미리보기로 정상 행을 얼마나 건드리는지 확인</div></div><div class="fcard"><div class="fcard-k">역할</div><div class="fcard-b">분석가 A(분포, 중복, 이상값)와 분석가 B(날짜, 문서번호, 표 간 흐름)가 서로 모르게 제안하고, 조정자가 합치고, 적대적 검토자가 승인, 거부, 축소</div></div><div class="fcard"><div class="fcard-k">대조군</div><div class="fcard-b">A 점검 없음, B 기존 규칙, C 에이전트만, D 규칙과 에이전트, H 고정 휴리스틱(LLM 없음). H로 에이전트 판단이 조치 목록 자체보다 나은지 확인</div></div></div>
@@ -350,6 +356,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <ul class="nlist"><li>같은 공정이라도 실행마다 최종안이 달랐음. 예스24 AP는 두 실행 모두 +2.3~2.6%p로 일관됐지만 Precision@20%는 -1~+2%p로 변동</li><li>앙상블은 규칙 설계 문제로 한 번도 작동하지 않아 성과에서 제외하고 개선 과제로 남김</li><li>현재 수치는 중간 오프라인 평가 결과이며, 실제 재고 비용 절감이나 매출 증가를 확정 성과로 제시하지 않음</li><li>협력사 제공 자료와 분석 결과는 공개하지 않으며, 코드는 작은 가상 데이터로 테스트가 동작</li></ul>
 <h2 class="nh1" id="sec8"><span class="sec-no">08</span>자료</h2>
 <p><a href="https://github.com/hjiyun/publisher-reorder-crm" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm</a></p>
+<p>Airflow DAG: <a href="https://github.com/hjiyun/publisher-reorder-crm/tree/main/airflow" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm/tree/main/airflow</a></p>
   </article>
 </div>
 
