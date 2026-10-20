@@ -307,7 +307,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a class="sub" href="#sec3-1"><span class="toc-sub-t">Airflow 월 배치</span></a>
 <a href="#sec4"><span class="toc-n">04</span><span>LLM 에이전트 데이터 검토</span></a>
 <a href="#sec5"><span class="toc-n">05</span><span>경쟁, 토론, 적대적 검토 공정</span></a>
-<a class="sub" href="#sec5-1"><span class="toc-sub-t">검증 점수만 믿으면 생기는 일</span></a>
+<a class="sub" href="#sec5-1"><span class="toc-sub-t">진단 구간과 채점 구간 분리</span></a>
 <a href="#sec6"><span class="toc-n">06</span><span>결과</span></a>
 <a href="#sec7"><span class="toc-n">07</span><span>한계와 다음 단계</span></a>
 <a href="#sec8"><span class="toc-n">08</span><span>자료</span></a>
@@ -347,7 +347,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <p>정제만으로는 되찾을 수 있는 폭이 작아서, 에이전트가 예측 자체를 개선하는 안을 내고 경쟁하는 공정으로 넓혔습니다.</p>
 <figure class="nimg"><img src="../assets/mb_agent_flow.png" loading="lazy" alt="LLM 멀티 에이전트 개선 공정. 모든 단계의 입력, 중간, 최종 산출물이 서점별 공정 DB에 쌓입니다"><figcaption>LLM 멀티 에이전트 개선 공정. 모든 단계의 입력, 중간, 최종 산출물이 서점별 공정 DB에 쌓입니다</figcaption></figure>
 <div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">경쟁과 토론</div><div class="fcard-b">분석가 A, B가 서로 모르게 개선안을 내고, 점수표를 본 뒤 수정안을 최대 2회 다시 제출</div></div><div class="fcard"><div class="fcard-k">채점과 검토</div><div class="fcard-b">점수는 코드가 매기고, 적대적 검토자가 사전 기준(개선 확률 0.9 이상, 2구간 이상 개선)으로 최종안 선택</div></div><div class="fcard"><div class="fcard-k">조회 제한</div><div class="fcard-b">에이전트는 시험 결과를 볼 수 없고, 시험 구간은 마지막에 한 번만 사용</div></div></div>
-<h4 class="nh3" id="sec5-1">검증 점수만 믿으면 생기는 일</h4>
+<h4 class="nh3" id="sec5-1">진단 구간과 채점 구간 분리</h4>
 <p>첫 실행에서 검증 점수로 기준을 넘은 두 안을 검토자가 낙관 편향을 이유로 거부했고, 실제 시험 구간에서 두 안은 -3.5%p, -2.6%p였습니다. 진단 구간과 채점 구간을 분리하고 롤링 검증을 도입한 뒤에는 검증 최고안이 시험 구간에서도 +1.8%p로, 두 구간의 방향이 처음으로 일치했습니다.</p>
 <h2 class="nh1" id="sec6"><span class="sec-no">06</span>결과</h2>
 <figure class="nimg"><img src="../assets/mb_agent_table.png" loading="lazy" alt="단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번"><figcaption>단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번</figcaption></figure>
