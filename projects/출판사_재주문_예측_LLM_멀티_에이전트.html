@@ -295,66 +295,67 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 
 <div class="meta">
   <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2026.09 - 현재 (2026.12 완료 예정)</div></div>
-  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">단독 수행 (초격차 산업기반표준 전문인력양성사업 산학 프로젝트, 마린북스(온에듀) 연계)</div></div>
-  <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">Precision@20% 교보 52%, 예스24 59% (판매 규칙 42%, 47%)</div></div>
+  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">개인 수행 (초격차 산업기반표준 전문인력양성사업 산학 프로젝트, 마린북스(온에듀) 연계)</div></div>
+  <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">상위 20% 적중률 교보 52%, 예스24 59% (최근 판매 규칙 42%, 47%)</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-blue">LLM·RAG</span></div></div>
 </div>
 <div class="layout">
   <aside class="toc"><div class="toc-t">목차</div>
 <a href="#sec1"><span class="toc-n">01</span><span>개요</span></a>
 <a href="#sec2"><span class="toc-n">02</span><span>문제 정의</span></a>
-<a href="#sec3"><span class="toc-n">03</span><span>데이터 계층과 재주문 예측</span></a>
-<a class="sub" href="#sec3-1"><span class="toc-sub-t">Airflow 월 배치</span></a>
-<a href="#sec4"><span class="toc-n">04</span><span>LLM 에이전트 데이터 검토</span></a>
-<a href="#sec5"><span class="toc-n">05</span><span>경쟁, 토론, 적대적 검토 공정</span></a>
-<a class="sub" href="#sec5-1"><span class="toc-sub-t">진단 구간과 채점 구간 분리</span></a>
+<a href="#sec3"><span class="toc-n">03</span><span>데이터 정리와 재주문 예측</span></a>
+<a class="sub" href="#sec3-1"><span class="toc-sub-t">매월 자동 실행(Airflow)</span></a>
+<a href="#sec4"><span class="toc-n">04</span><span>AI 에이전트의 자료 오류 검토</span></a>
+<a href="#sec5"><span class="toc-n">05</span><span>에이전트 경쟁과 검토 공정</span></a>
+<a class="sub" href="#sec5-1"><span class="toc-sub-t">고르는 자료와 채점 자료 분리</span></a>
 <a href="#sec6"><span class="toc-n">06</span><span>결과</span></a>
-<a href="#sec7"><span class="toc-n">07</span><span>한계와 다음 단계</span></a>
-<a href="#sec8"><span class="toc-n">08</span><span>자료</span></a>
+<a href="#sec8"><span class="toc-n">07</span><span>자료</span></a>
+
   </aside>
   <article class="content">
-<div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 10.8 16M15.7 7.2 13.2 16M8.5 6h7"/></svg></div><div class="ncallout-body"><p><strong>출판사가 어느 도서에 재고와 마케팅 자원을 먼저 쓸지 정하도록 돕는 산학 프로젝트.</strong> 교보문고와 예스24 SCM 자료로 다음 30일 재주문 도서 상위 20%를 예측하고, LLM 멀티 에이전트가 개선안을 내고 서로 토론한 뒤 적대적 검토자가 최종안을 고르는 공정을 만들었습니다. 에이전트는 원본 행 없이 읽기 전용 SQL로 집계 결과만 보고, 모든 제안과 점수와 판정은 DB에 남습니다.</p></div></div>
+<div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 10.8 16M15.7 7.2 13.2 16M8.5 6h7"/></svg></div><div class="ncallout-body"><p><strong>출판사가 어느 도서에 재고와 마케팅 자원을 먼저 쓸지 정하도록 돕는 산학 프로젝트.</strong> 교보문고와 예스24의 입하, 발주, 판매 자료로 다음 30일 안에 재주문될 도서 상위 20%를 예측했습니다. 이어서 AI 에이전트 여러 개가 예측을 개선하는 안을 내고 서로 토론하면, 검토 에이전트가 약점을 따져 최종안을 고르는 공정을 만들었습니다. 에이전트는 원본 자료 대신 집계 결과만 조회할 수 있고, 모든 제안과 점수와 판정은 DB에 기록됩니다.</p></div></div>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>이 페이지의 용어</th><th>뜻</th></tr><tr><td><strong>상위 20% 적중률</strong></td><td>모델이 고른 상위 20% 도서 중 실제로 30일 안에 재주문된 도서의 비율 (Precision@20%)</td></tr><tr><td><strong>평균 정밀도</strong></td><td>재주문될 도서를 순위 위쪽에 얼마나 잘 올렸는지 보는 점수 (AP)</td></tr><tr><td><strong>최근 판매 규칙</strong></td><td>모델 없이 최근 판매량이 많은 순서로 도서를 고르는 기존 방식</td></tr><tr><td><strong>검증 구간, 시험 구간</strong></td><td>개선안을 고를 때 쓰는 기간, 그리고 최종 성적을 마지막에 한 번만 확인하는 기간(마지막 6개월)</td></tr><tr><td><strong>분석가 에이전트, 검토 에이전트</strong></td><td>개선안을 내는 AI, 그리고 개선안의 약점을 따져 채택 또는 기각하는 AI (적대적 검토자)</td></tr></table></div>
 <h2 class="nh1" id="sec1"><span class="sec-no">01</span>개요</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>단계</th><th>접근</th><th>핵심 결과</th></tr>
-<tr><td><strong>재주문 예측</strong></td><td>매월 1일 기준 이전 기록으로 변수, 이후 30일로 라벨 구성. 로지스틱 회귀와 그래디언트 부스팅을 무작위, 최근 판매 규칙과 비교</td><td>Precision@20% 교보 <strong>52%</strong>, 예스24 <strong>59%</strong> (판매 규칙 42%, 47%)</td></tr>
-<tr><td><strong>월 배치 자동화</strong></td><td>적재, 품질 점검, 기준일 변수, 월간 지표 저장을 Airflow DAG로 묶어 매월 1일 실행</td><td>같은 자료로 두 번 실행한 결과 파일 <strong>동일</strong></td></tr>
-<tr><td><strong>에이전트 데이터 검토</strong></td><td>오류를 일부러 넣은 자료에서 분석가 A, B, 조정자, 적대적 검토자가 정제 조치를 고름</td><td>규칙이 놓친 반품 날짜 오기 <strong>93%</strong>, 판매 중복 <strong>100%</strong> 처리</td></tr>
-<tr><td><strong>예측 개선 공정</strong></td><td>두 에이전트가 개선안을 경쟁, 토론(수정 2회)하고 적대적 검토자가 사전 채택 기준으로 최종안 선택</td><td>예스24 채택안 시험 구간 Precision@20% <strong>+1.8%p</strong>, AP <strong>+2.3%p</strong></td></tr>
-<tr><td><strong>도서 지식 에이전트</strong></td><td>제목만 보고 167종을 독립 분류, 엇갈린 29종은 판정 에이전트가 결정. 공식 시험 일정 확인</td><td>3월, 9월 재주문 쏠림을 시험이 아닌 학기 시작으로 설명</td></tr>
+<tr><td><strong>재주문 예측</strong></td><td>매월 1일을 기준으로 그 이전 기록으로 예측 변수를, 이후 30일 재주문 여부로 정답을 만듦. 예측 모델 2종(로지스틱 회귀, 그래디언트 부스팅)을 무작위 선택, 최근 판매 규칙과 비교</td><td>상위 20% 적중률 교보 <strong>52%</strong>, 예스24 <strong>59%</strong> (최근 판매 규칙 42%, 47%)</td></tr>
+<tr><td><strong>월 배치 자동화</strong></td><td>적재, 품질 점검, 변수 생성, 월간 지표 저장을 Airflow로 묶어 매월 1일 자동 실행</td><td>같은 자료로 두 번 실행해도 결과 파일 <strong>동일</strong></td></tr>
+<tr><td><strong>에이전트 데이터 검토</strong></td><td>오류를 일부러 넣은 자료에서 분석가 에이전트 2개, 조정 에이전트, 검토 에이전트가 고칠 방법을 고름</td><td>기존 규칙이 놓친 반품 날짜 오류 <strong>93%</strong>, 판매 중복 <strong>100%</strong> 처리</td></tr>
+<tr><td><strong>예측 개선 공정</strong></td><td>분석가 에이전트 2개가 개선안을 경쟁, 토론(수정 2회)하고 검토 에이전트가 미리 정한 기준으로 최종안 선택</td><td>예스24 시험 구간 상위 20% 적중률 <strong>+1.8%p</strong>, 평균 정밀도 <strong>+2.3%p</strong></td></tr>
+<tr><td><strong>도서 지식 에이전트</strong></td><td>에이전트들이 제목만 보고 도서 167종을 각자 분류, 결과가 엇갈린 29종은 판정 에이전트가 결정. 공식 시험 일정도 확인</td><td>3월, 9월 재주문 쏠림을 시험이 아닌 학기 시작으로 설명</td></tr>
 </table></div>
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>문제 정의</h2>
-<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">의사결정</div><div class="fcard-b">컴퓨터, AI 교육 도서 출판사 마린북스(온에듀)는 한정된 재고와 마케팅 자원을 어느 도서에 먼저 배분할지 판단할 근거가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">서점마다 다른 자료</div><div class="fcard-b">교보문고는 발주 이력이 없어 입하를 재주문의 대리 지표로 쓰고, 예스24는 실제 발주를 씁니다. 거래 정의와 자료 구조가 달라 공통 절차가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">없는 자료</div><div class="fcard-b">개인 구매 이력과 광고 집행 기록이 없습니다. 재주문 예측, 집계 고객 분석, 광고 효과 검증의 범위를 처음부터 구분했습니다</div></div><div class="fcard"><div class="fcard-k">목표</div><div class="fcard-b">매월 1일 기준 다음 30일 안에 서점이 재주문할 도서 상위 20%를 골라 재고 준비와 중쇄 판단을 돕는 것</div></div></div>
-<h2 class="nh1" id="sec3"><span class="sec-no">03</span>데이터 계층과 재주문 예측</h2>
-<figure class="nimg"><img src="../assets/mb_flow.png" loading="lazy" alt="전체 시스템 흐름. 서점 SCM 자료를 SQLite에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다"><figcaption>전체 시스템 흐름. 서점 SCM 자료를 SQLite에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다</figcaption></figure>
-<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">SQL 데이터 계층</div><div class="fcard-b">입하, 발주, 반품, 판매, 구매자 자료를 공통 형식으로 연결. 품질 점검 규칙 하나를 쿼리 하나로 작성하고, 정제 뷰와 에이전트용 읽기 전용 조회를 분리. SQL 결과와 pandas 결과가 같은지 테스트로 대조</div></div><div class="fcard"><div class="fcard-k">품질 점검</div><div class="fcard-b">ISO/IEC 25012의 완전성, 일관성, 추적성 관점을 참고한 자체 규칙(인증 아님). 예스24의 수량 0 발주 행 약 28%를 걸러 재주문 오집계를 막음</div></div><div class="fcard"><div class="fcard-k">정보 누출 방지</div><div class="fcard-b">변수는 기준일 이전 기록만 쓰고 이후 30일은 라벨에만 사용. 기준일 이후 값을 바꿔도 변수가 변하지 않는지 테스트</div></div><div class="fcard"><div class="fcard-k">두 번째 서점 재사용</div><div class="fcard-b">예스24는 입력 변환만 새로 쓰고 품질 점검, 예측, 평가, ROI, CRM은 교보와 같은 코드를 그대로 사용</div></div></div>
-<figure class="nimg"><img src="../assets/mb_precision.png" loading="lazy" style="width:72%" alt="시험 구간(마지막 6개월) 상위 20% 선정 정확도. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음"><figcaption>시험 구간(마지막 6개월) 상위 20% 선정 정확도. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음</figcaption></figure>
-<h4 class="nh3" id="sec3-1">Airflow 월 배치</h4>
-<p>서점 자료는 매달 새로 들어옵니다. 적재부터 월간 지표 저장까지의 처리를 사람이 매번 실행하지 않도록, 위 데이터 계층의 함수를 그대로 불러 쓰는 Airflow DAG로 묶었습니다.</p>
-<figure class="nimg"><img src="../assets/mb_airflow_dag.png" loading="lazy" alt="Airflow DAG publisher_monthly. 적재, 품질 점검, 기준일 변수, 월간 지표 저장 네 태스크가 모두 성공한 실행"><figcaption>Airflow DAG publisher_monthly. 적재, 품질 점검, 기준일 변수, 월간 지표 저장 네 태스크가 모두 성공한 실행</figcaption></figure>
-<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">DAG 구성</div><div class="fcard-b">load_to_sqlite, quality_checks, build_features, export_marts 4단계. 매월 1일 09:00(KST) 실행, 태스크별 재시도 2회, 동시 실행 1개. Docker Compose(Airflow 2.10.5) 환경에서 실행</div></div><div class="fcard"><div class="fcard-k">재실행해도 같은 결과</div><div class="fcard-b">적재할 때마다 테이블을 지우고 다시 만들고 원본 파일의 SHA-256 적재 기록을 남김. 같은 자료로 두 번 실행한 결과 파일(품질 점검표, 기준일 변수, 월간 지표)이 동일함을 확인</div></div><div class="fcard"><div class="fcard-k">기준일 계산</div><div class="fcard-b">현재 시각 대신 Airflow 실행 구간(data_interval_end)의 월 1일을 기준일로 사용해 과거 월을 다시 돌려도 그 시점의 변수가 만들어짐. 태스크 사이에는 건수만 XCom으로 전달</div></div><div class="fcard"><div class="fcard-k">진행 중 생긴 문제</div><div class="fcard-b">추가 패키지 설치 후 numpy와 pandas의 바이너리 버전이 맞지 않아 DAG가 등록되지 않음. 기본 이미지의 numpy 1.26.4에 맞춰 패키지 버전을 고정해 해결</div></div></div>
-<h2 class="nh1" id="sec4"><span class="sec-no">04</span>LLM 에이전트 데이터 검토</h2>
-<p>행 단위 규칙이 놓치는 오류(날짜 오기, 단위 오류, 판매 중복)를 자료에 일부러 넣고, 에이전트가 이를 찾아 되돌리는지 실험했습니다.</p>
-<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">에이전트가 보는 것</div><div class="fcard-b">원본 행과 ISBN은 넘기지 않고 집계 도구 7개의 결과만 제공. 결과마다 근거 ID가 붙고, 받은 근거 ID가 없는 조치는 자동으로 버림</div></div><div class="fcard"><div class="fcard-k">에이전트가 하는 것</div><div class="fcard-b">정제 조치 11종 중에서 고르고 매개변수를 정함. 실제 적용은 코드가 하고, 검토자는 조치 미리보기로 정상 행을 얼마나 건드리는지 확인</div></div><div class="fcard"><div class="fcard-k">역할</div><div class="fcard-b">분석가 A(분포, 중복, 이상값)와 분석가 B(날짜, 문서번호, 표 간 흐름)가 서로 모르게 제안하고, 조정자가 합치고, 적대적 검토자가 승인, 거부, 축소</div></div><div class="fcard"><div class="fcard-k">대조군</div><div class="fcard-b">A 점검 없음, B 기존 규칙, C 에이전트만, D 규칙과 에이전트, H 고정 휴리스틱(LLM 없음). H로 에이전트 판단이 조치 목록 자체보다 나은지 확인</div></div></div>
-<div class="ntable-wrap"><table class="ntable fit"><tr><th>규칙이 놓친 오류</th><th>B 규칙</th><th>C 에이전트만</th><th>D 규칙과 에이전트</th><th>H 휴리스틱</th></tr>
-<tr><td>반품 날짜 오기</td><td>0%</td><td>93%</td><td>93%</td><td>93%</td></tr>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">의사결정</div><div class="fcard-b">컴퓨터, AI 교육 도서 출판사 마린북스(온에듀)는 한정된 재고와 마케팅 자원을 어느 도서에 먼저 배분할지 판단할 근거가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">서점마다 다른 자료</div><div class="fcard-b">교보문고는 발주 기록이 없어 입하(서점에 책이 들어온 기록)를 재주문으로 보고, 예스24는 실제 발주 기록을 씁니다. 서점마다 거래 정의와 자료 구조가 달라 공통 절차가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">없는 자료</div><div class="fcard-b">개인 구매 이력과 광고 집행 기록이 없습니다. 재주문 예측, 집계 고객 분석, 광고 효과 검증의 범위를 처음부터 구분했습니다</div></div><div class="fcard"><div class="fcard-k">목표</div><div class="fcard-b">매월 1일 기준 다음 30일 안에 서점이 재주문할 도서 상위 20%를 골라 재고 준비와 중쇄 판단을 돕는 것</div></div></div>
+<h2 class="nh1" id="sec3"><span class="sec-no">03</span>데이터 정리와 재주문 예측</h2>
+<figure class="nimg"><img src="../assets/mb_flow.png" loading="lazy" alt="전체 시스템 흐름. 서점 거래 자료(SCM)를 SQLite DB에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다"><figcaption>전체 시스템 흐름. 서점 거래 자료(SCM)를 SQLite DB에 적재해 품질 점검과 변수 생성을 거쳐 예측하고, 에이전트 공정이 점검과 예측 사이를 오갑니다</figcaption></figure>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">자료 통합</div><div class="fcard-b">입하, 발주, 반품, 판매, 구매자 자료를 하나의 형식으로 연결. 품질 점검 규칙마다 SQL 쿼리 하나로 작성하고, 정제된 자료와 에이전트용 조회 자료를 분리. SQL 결과와 Python(pandas) 계산 결과가 같은지 테스트로 대조</div></div><div class="fcard"><div class="fcard-k">품질 점검</div><div class="fcard-b">데이터 품질 국제 표준(ISO/IEC 25012)의 완전성, 일관성, 추적성 관점을 참고해 점검 규칙을 직접 만듦. 예스24 발주 행의 약 28%인 수량 0 행을 걸러 재주문이 부풀려지지 않게 함</div></div><div class="fcard"><div class="fcard-k">미래 정보 차단</div><div class="fcard-b">예측 변수는 기준일 이전 기록만 쓰고, 이후 30일은 정답에만 사용. 기준일 이후 값을 바꿔도 변수가 변하지 않는지 테스트</div></div><div class="fcard"><div class="fcard-k">두 번째 서점 재사용</div><div class="fcard-b">예스24는 자료를 읽어 들이는 부분만 새로 쓰고, 품질 점검, 예측, 평가, 투자 대비 효과(ROI) 계산, 고객 분석(CRM)은 교보와 같은 코드를 그대로 사용</div></div></div>
+<figure class="nimg"><img src="../assets/mb_precision.png" loading="lazy" style="width:72%" alt="시험 구간(마지막 6개월)의 상위 20% 적중률. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음"><figcaption>시험 구간(마지막 6개월)의 상위 20% 적중률. 예측 모델이 최근 판매 규칙보다 교보 10%p, 예스24 12%p 높음</figcaption></figure>
+<h4 class="nh3" id="sec3-1">매월 자동 실행(Airflow)</h4>
+<p>서점 자료는 매달 새로 들어옵니다. 사람이 매번 처리하지 않도록, 자료 적재부터 월간 지표 저장까지를 작업 자동화 도구 Airflow로 묶어 매월 자동으로 실행되게 했습니다.</p>
+<figure class="nimg"><img src="../assets/mb_airflow_dag.png" loading="lazy" alt="Airflow 실행 화면. 적재, 품질 점검, 변수 생성, 월간 지표 저장 4단계가 모두 성공한 기록"><figcaption>Airflow 실행 화면. 적재, 품질 점검, 변수 생성, 월간 지표 저장 4단계가 모두 성공한 기록</figcaption></figure>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">실행 구성</div><div class="fcard-b">4단계 작업을 매월 1일 오전 9시에 실행하고, 실패하면 단계별로 2회 다시 시도. Docker 환경에서 Airflow 2.10.5로 실행</div></div><div class="fcard"><div class="fcard-k">재실행해도 같은 결과</div><div class="fcard-b">적재할 때마다 테이블을 새로 만들고 원본 파일의 고유값(SHA-256)을 기록. 같은 자료로 두 번 실행한 결과 파일(품질 점검표, 예측 변수, 월간 지표)이 모두 동일함을 확인</div></div><div class="fcard"><div class="fcard-k">지난달 다시 계산</div><div class="fcard-b">실행 시각이 아니라 처리 대상 월의 1일을 기준일로 써서, 지난달을 다시 실행해도 그 시점의 변수가 그대로 만들어짐</div></div><div class="fcard"><div class="fcard-k">진행 중 생긴 문제</div><div class="fcard-b">추가 패키지를 설치한 뒤 계산 라이브러리 numpy와 pandas의 버전이 맞지 않아 작업이 등록되지 않음. 기본 환경의 numpy 1.26.4에 맞춰 버전을 고정해 해결</div></div></div>
+<h2 class="nh1" id="sec4"><span class="sec-no">04</span>AI 에이전트의 자료 오류 검토</h2>
+<p>행 하나씩 검사하는 기존 규칙으로는 찾기 어려운 오류(날짜 오기, 단위 오류, 판매 중복)를 자료에 일부러 넣고, 에이전트가 이를 찾아 바로잡는지 실험했습니다.</p>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">에이전트가 보는 것</div><div class="fcard-b">원본 행과 도서 번호(ISBN)는 넘기지 않고 집계 도구 7개의 결과만 제공. 조회 결과마다 번호가 붙고, 받은 조회 번호를 근거로 대지 못한 조치는 자동으로 버림</div></div><div class="fcard"><div class="fcard-k">에이전트가 하는 것</div><div class="fcard-b">미리 정한 정제 방법 11종 중에서 고르고 세부 값을 정함. 실제 수정은 코드가 하고, 검토 에이전트는 수정 전에 정상 행이 얼마나 바뀌는지 미리 확인</div></div><div class="fcard"><div class="fcard-k">역할</div><div class="fcard-b">분석가 A(분포, 중복, 이상값)와 분석가 B(날짜, 문서번호, 표 사이 흐름)가 서로 모르게 제안하고, 조정 에이전트가 합친 뒤, 검토 에이전트가 승인, 거부, 축소를 결정</div></div><div class="fcard"><div class="fcard-k">비교한 방식</div><div class="fcard-b">기존 규칙만, 에이전트만, 규칙과 에이전트, LLM 없이 정해진 순서로 정제하는 고정 규칙을 비교. 고정 규칙과 비교해 에이전트의 판단이 정제 방법 목록 자체보다 나은지 확인</div></div></div>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>기존 규칙이 놓친 오류</th><th>기존 규칙</th><th>에이전트만</th><th>규칙 + 에이전트</th><th>고정 규칙(LLM 없음)</th></tr>
+<tr><td>반품 날짜 오류</td><td>0%</td><td>93%</td><td>93%</td><td>93%</td></tr>
 <tr><td>판매 중복</td><td>0%</td><td>100%</td><td>100%</td><td>100%</td></tr>
-<tr><td>이벤트 날짜 오기</td><td>0%</td><td>57%</td><td>53%</td><td>77%</td></tr>
+<tr><td>이벤트 날짜 오류</td><td>0%</td><td>57%</td><td>53%</td><td>77%</td></tr>
 <tr><td>판매 단위 오류(×10)</td><td>1%</td><td>15%</td><td>6%</td><td>56%</td></tr>
-<tr class="c-blue_bg"><td><strong>예스24 부수 피해(정상 행 변경 수)</strong></td><td>-</td><td>1~25</td><td>1~14</td><td>80~91</td></tr>
+<tr class="c-blue_bg"><td><strong>예스24 정상 행을 잘못 바꾼 수</strong></td><td>-</td><td>1~25</td><td>1~14</td><td>80~91</td></tr>
 </table></div>
-<ul class="nlist"><li>예스24에서 에이전트의 부수 피해는 휴리스틱의 10분의 1 수준</li><li>교보 입하 문서번호는 날짜가 다른 거래에 재사용되는데(문서번호와 날짜 순위상관 약 0.26, 예스24 약 0.99), 이 함정을 피하는 판단은 실행마다 달랐음. 일관되지 않은 판단으로 기록</li><li>정제 후 Precision@20% 차이는 1~2%p로 실행 간 흔들림(2~4%p)보다 작아, 데이터를 바꾼 효과와 성능 개선을 구분해 보고</li></ul>
-<h2 class="nh1" id="sec5"><span class="sec-no">05</span>경쟁, 토론, 적대적 검토 공정</h2>
-<p>정제만으로는 되찾을 수 있는 폭이 작아서, 에이전트가 예측 자체를 개선하는 안을 내고 경쟁하는 공정으로 넓혔습니다.</p>
-<figure class="nimg"><img src="../assets/mb_agent_flow.png" loading="lazy" alt="LLM 멀티 에이전트 개선 공정. 모든 단계의 입력, 중간, 최종 산출물이 서점별 공정 DB에 쌓입니다"><figcaption>LLM 멀티 에이전트 개선 공정. 모든 단계의 입력, 중간, 최종 산출물이 서점별 공정 DB에 쌓입니다</figcaption></figure>
-<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">경쟁과 토론</div><div class="fcard-b">분석가 A, B가 서로 모르게 개선안을 내고, 점수표를 본 뒤 수정안을 최대 2회 다시 제출</div></div><div class="fcard"><div class="fcard-k">채점과 검토</div><div class="fcard-b">점수는 코드가 매기고, 적대적 검토자가 사전 기준(개선 확률 0.9 이상, 2구간 이상 개선)으로 최종안 선택</div></div><div class="fcard"><div class="fcard-k">조회 제한</div><div class="fcard-b">에이전트는 시험 결과를 볼 수 없고, 시험 구간은 마지막에 한 번만 사용</div></div></div>
-<h4 class="nh3" id="sec5-1">진단 구간과 채점 구간 분리</h4>
-<p>첫 실행에서 검증 점수로 기준을 넘은 두 안을 검토자가 낙관 편향을 이유로 거부했고, 실제 시험 구간에서 두 안은 -3.5%p, -2.6%p였습니다. 진단 구간과 채점 구간을 분리하고 롤링 검증을 도입한 뒤에는 검증 최고안이 시험 구간에서도 +1.8%p로, 두 구간의 방향이 처음으로 일치했습니다.</p>
+<ul class="nlist"><li>예스24에서 에이전트가 정상 행을 잘못 바꾼 수는 고정 규칙의 10분의 1 수준</li><li>교보는 같은 입하 문서번호가 날짜가 다른 거래에 다시 쓰여(문서번호와 날짜의 순위 상관 약 0.26, 예스24 약 0.99), 에이전트가 이를 알아채는지 실행마다 따로 기록</li><li>정제 후 상위 20% 적중률 차이는 1~2%p로 실행마다 생기는 차이(2~4%p)보다 작아, 자료 정제 효과와 예측 성능 개선을 나눠서 보고</li></ul>
+<h2 class="nh1" id="sec5"><span class="sec-no">05</span>에이전트 경쟁과 검토 공정</h2>
+<p>자료 정제만으로는 높일 수 있는 성능이 작아서, 에이전트가 예측 방법 자체를 개선하는 안을 내고 경쟁하는 공정으로 넓혔습니다.</p>
+<figure class="nimg"><img src="../assets/mb_agent_flow.png" loading="lazy" alt="AI 에이전트 개선 공정. 모든 단계의 입력, 중간 결과, 최종 결과가 서점별 DB에 기록됩니다"><figcaption>AI 에이전트 개선 공정. 모든 단계의 입력, 중간 결과, 최종 결과가 서점별 DB에 기록됩니다</figcaption></figure>
+<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">경쟁과 토론</div><div class="fcard-b">분석가 A, B가 서로 모르게 개선안을 내고, 점수표를 본 뒤 수정안을 최대 2회 다시 제출</div></div><div class="fcard"><div class="fcard-k">채점과 검토</div><div class="fcard-b">점수는 코드가 계산하고, 검토 에이전트가 미리 정한 기준(기준 모델보다 나을 확률 0.9 이상, 검증 구간 2곳 이상에서 개선)으로 최종안 선택</div></div><div class="fcard"><div class="fcard-k">조회 제한</div><div class="fcard-b">에이전트는 시험 구간 결과를 볼 수 없고, 시험 구간 성적은 마지막에 한 번만 확인</div></div></div>
+<h4 class="nh3" id="sec5-1">개선안을 고르는 자료와 채점 자료 분리</h4>
+<p>첫 실행에서 검토 에이전트는 검증 점수로 기준을 넘은 두 안을 "고른 자료로 다시 채점해 점수가 부풀려졌다"는 이유로 거부했고, 실제로 두 안은 시험 구간에서 기준 모델보다 3.5%p, 2.6%p 낮았습니다. 개선안을 고르는 자료와 채점하는 자료를 나누고 기간을 옮겨 가며 검증하도록 바꾸자, 검증에서 가장 좋았던 안이 시험 구간에서도 1.8%p 높아 두 결과의 방향이 처음으로 일치했습니다.</p>
 <h2 class="nh1" id="sec6"><span class="sec-no">06</span>결과</h2>
-<figure class="nimg"><img src="../assets/mb_agent_table.png" loading="lazy" alt="단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번"><figcaption>단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번</figcaption></figure>
-<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">예측</div><div class="fcard-b">같은 상위 20%를 고를 때 재주문 적중률이 최근 판매 규칙보다 교보 약 10%p, 예스24 약 12%p 높아 재고 준비와 중쇄 우선순위의 판단 자료를 마련</div></div><div class="fcard"><div class="fcard-k">에이전트 개선</div><div class="fcard-b">예스24에서 기준을 넘은 안 7개 중 검토자가 가장 단순한 안(계절 변수 추가, 변수 6개 제거, 깊이 2 트리)을 채택. 시험 구간 Precision@20% 58.8%에서 60.5%, AP 57.7%에서 60.0%</div></div><div class="fcard"><div class="fcard-k">기준 모델 유지</div><div class="fcard-b">교보는 최고안의 개선 확률이 0.78로 기준에 못 미쳐 기준 모델 유지. 검증 최고안의 시험 결과도 기준과 같아 놓친 이득 없음</div></div><div class="fcard"><div class="fcard-k">보조 분석</div><div class="fcard-b">구매자 성별, 연령, 지역 집계로 독자층을 분석하고 비용 가정별 광고 손익분기를 산정. 광고 집행 기록이 없어 효과 추정 대신 무작위 판촉 실험을 설계</div></div></div>
-<h2 class="nh1" id="sec7"><span class="sec-no">07</span>한계와 다음 단계</h2>
-<ul class="nlist"><li>같은 공정이라도 실행마다 최종안이 달랐음. 예스24 AP는 두 실행 모두 +2.3~2.6%p로 일관됐지만 Precision@20%는 -1~+2%p로 변동</li><li>앙상블은 규칙 설계 문제로 한 번도 작동하지 않아 성과에서 제외하고 개선 과제로 남김</li><li>현재 수치는 중간 오프라인 평가 결과이며, 실제 재고 비용 절감이나 매출 증가를 확정 성과로 제시하지 않음</li><li>협력사 제공 자료와 분석 결과는 공개하지 않으며, 코드는 작은 가상 데이터로 테스트가 동작</li></ul>
-<h2 class="nh1" id="sec8"><span class="sec-no">08</span>자료</h2>
+<figure class="nimg"><img src="../assets/mb_agent_table.png" loading="lazy" alt="단계별 시험 구간 성능. 개선안 선택은 검증 구간으로만 하고 시험 구간은 마지막에 한 번만 사용"><figcaption>단계별 시험 구간 성능. 개선안 선택은 검증 구간으로만 하고 시험 구간은 마지막에 한 번만 사용</figcaption></figure>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">예측</div><div class="fcard-b">같은 상위 20%를 고를 때 재주문 적중률이 최근 판매 규칙보다 교보 약 10%p, 예스24 약 12%p 높아 재고 준비와 중쇄 우선순위의 판단 자료를 마련</div></div><div class="fcard"><div class="fcard-k">에이전트 개선</div><div class="fcard-b">예스24에서 기준을 넘은 안 7개 중 검토 에이전트가 가장 단순한 안(계절 변수 추가, 변수 6개 제거, 깊이 2의 단순한 트리 모델)을 채택. 시험 구간 상위 20% 적중률 58.8%에서 60.5%, 평균 정밀도 57.7%에서 60.0%. 같은 공정을 두 번 실행해 평균 정밀도가 두 번 모두 2.3~2.6%p 오름</div></div><div class="fcard"><div class="fcard-k">기준 모델 유지</div><div class="fcard-b">교보는 최고안이 기준 모델보다 나을 확률이 0.78로 기준(0.9)에 못 미쳐 기존 모델을 유지. 검증 최고안의 시험 결과도 기존 모델과 같아 놓친 이득 없음</div></div><div class="fcard"><div class="fcard-k">보조 분석</div><div class="fcard-b">구매자 성별, 연령, 지역 집계로 독자층을 분석하고 비용 가정별 광고 손익분기를 산정. 광고 집행 기록이 없어 효과 추정 대신 무작위 판촉 실험을 설계</div></div></div>
+
+
+<h2 class="nh1" id="sec8"><span class="sec-no">07</span>자료</h2>
 <p><a href="https://github.com/hjiyun/publisher-reorder-crm" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm</a></p>
 <p>Airflow DAG: <a href="https://github.com/hjiyun/publisher-reorder-crm/tree/main/airflow" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm/tree/main/airflow</a></p>
   </article>
