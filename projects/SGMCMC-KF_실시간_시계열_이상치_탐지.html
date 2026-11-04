@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="고려대학교 빅데이터사이언스학과 석사과정 홍지윤의 포트폴리오. Bayesian Computation과 LLM·RAG 연구, JKDAS 제1저자 논문 2편.">
-<title>SGMCMC-KF 실시간 시계열 이상치 탐지</title>
+<title>SGMCMC-KF 스트리밍 시계열 이상치 탐지</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2318181b'/%3E%3Ctext x='32' y='43' font-family='sans-serif' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3E%ED%99%8D%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>* { margin:0; padding:0; box-sizing:border-box; }
@@ -282,7 +282,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 
 <div class="top-sentinel"></div>
 <div class="topbar">
-  <div class="breadcrumb"><a href="../index.html#p-sgmcmc">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg> SGMCMC-KF 실시간 시계열 이상치 탐지</span></div>
+  <div class="breadcrumb"><a href="../index.html#p-sgmcmc">포트폴리오</a><span class="bc-sep">/</span><span class="bc-cur"><svg class="icon bc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg> SGMCMC-KF 스트리밍 시계열 이상치 탐지</span></div>
   <div class="pagenav">
   <a class="pn" href="./출판사_재주문_예측_LLM_멀티_에이전트.html"><span class="pn-ar">←</span><span class="pn-k">이전</span><span class="pn-t">출판사 재주문 예측과 LLM 멀티 에이전트 개선 공정</span></a>
   <a class="pn" href="./SAMC-CBS_초고차원_베이지안_변수선택.html"><span class="pn-k">다음</span><span class="pn-t">SAMC-CBS 초고차원 베이지안 변수선택</span><span class="pn-ar">→</span></a>
@@ -290,12 +290,12 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 </div>
 <div class="page-head">
   <div class="page-icon-svg tint-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg></div>
-  <h1 class="page-title">SGMCMC-KF 실시간 시계열 이상치 탐지</h1>
+  <h1 class="page-title">SGMCMC-KF 스트리밍 시계열 이상치 탐지</h1>
 </div>
 
 <div class="meta">
   <div class="meta-item"><div class="meta-k">기간</div><div class="meta-v">2024.12 – 2026.04</div></div>
-  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">단독 연구 (JKDAS 제1저자)</div></div>
+  <div class="meta-item"><div class="meta-k">기여도</div><div class="meta-v">개인 연구 (JKDAS 제1저자)</div></div>
   <div class="meta-item"><div class="meta-k">결과</div><div class="meta-v">JKDAS 28(2) 제1저자 · 재현율 100%</div></div>
   <div class="meta-item"><div class="meta-k">그룹</div><div class="meta-v"><span class="chip chip-purple">베이지안·SGMCMC</span></div></div>
 </div>
@@ -310,24 +310,24 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a href="#sec6"><span class="toc-n">06</span><span>자료</span></a>
   </aside>
   <article class="content">
-<div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg></div><div class="ncallout-body"><p><strong>테스트 구간 재현율 100%를 유지하며, NYC Taxi 학습 구간 배치 처리 시간을 Gibbs 170.8초에서 SGLD 31초로 줄인 베이지안 이상치 탐지.</strong> <br>Kafka 스트리밍 위에서 칼만필터와 SGMCMC를 결합 · JKDAS 28(2) 제1저자 게재 · 단독 연구</p></div></div>
+<div class="ncallout ncallout-purple_bg"><div class="ncallout-icon ico-purple"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12.5h3.5l3-7.5 4.5 14 3-6.5H21"/></svg></div><div class="ncallout-body"><p><strong>테스트 구간 재현율 100%를 유지하며, NYC Taxi 학습 구간 배치 처리 시간을 Gibbs 170.8초에서 SGLD 31초로 줄인 베이지안 이상치 탐지.</strong> <br>Kafka 스트리밍 위에서 칼만필터와 SGMCMC를 결합 · JKDAS 28(2) 제1저자 게재 · 개인 연구</p></div></div>
 <h2 class="nh1" id="sec1"><span class="sec-no">01</span>문제 정의</h2>
-<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">미탐의 비용</div><div class="fcard-b">IoT·금융처럼 데이터가 계속 흘러드는 환경에서 이상 징후를 놓치면 설비 정지와 서비스 장애로 직결</div></div><div class="fcard"><div class="fcard-k">점추정의 한계</div><div class="fcard-b">널리 쓰이는 MLE 기반 SARIMA는 점추정이라 정상·이상 경계의 미세한 전조를 놓침</div></div><div class="fcard"><div class="fcard-k">속도-정확도 트레이드오프</div><div class="fcard-b">전통 베이지안(Gibbs)은 매 반복 전체 데이터를 재계산. 배치당 <strong>170.8초</strong>로 배치 도착 간격을 초과해 실시간 불가. 정확하면 느리고 빠르면 놓치는 구조가 출발점</div></div></div>
+<div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">미탐의 비용</div><div class="fcard-b">IoT·금융처럼 데이터가 계속 흘러드는 환경에서 이상 징후를 놓치면 설비 정지와 서비스 장애로 직결</div></div><div class="fcard"><div class="fcard-k">점추정의 한계</div><div class="fcard-b">널리 쓰이는 MLE 기반 SARIMA는 파라미터를 하나의 값으로 고정하는 점추정이라 파라미터 불확실성을 반영하지 못함</div></div><div class="fcard"><div class="fcard-k">속도-정확도 트레이드오프</div><div class="fcard-b">전통 베이지안(Gibbs)은 매 반복 전체 데이터 우도를 재계산. NYC Taxi 학습 구간에서 배치당 <strong>170.8초</strong>가 걸리고 데이터가 쌓일수록 갱신 비용이 커짐. 정확하면 느리고 빠르면 놓치는 구조가 출발점</div></div></div>
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>알고리즘 설계</h2>
-<div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. MLE 기반 SARIMA 유지</td><td>가장 빠르고 구현 단순</td><td class="c-red">기각. 점추정이라 파라미터 불확실성 미반영, 경계 전조 미탐</td></tr><tr><td>2안. Gibbs 샘플링 (전통 MCMC)</td><td>사후분포를 정확히 추정</td><td class="c-red">기각. 배치당 170.8초로 도착 간격 초과. 정확해도 늦으면 틀린 답</td></tr><tr class="c-green_bg"><td><strong>3안. 칼만필터 + SGMCMC 결합 (채택)</strong></td><td>배치 단위 확률적 기울기 + 랑주뱅 노이즈로 갱신</td><td><strong>채택. 전체 우도 재계산 병목을 구조적으로 제거하면서 불확실성 표현 유지</strong></td></tr></table></div>
-<ul class="nlist"><li>SARIMA 상태공간 표현 + 칼만필터 예측오차 분해로 우도·기울기 계산 설계, 코드 작성 전 수식 유도 검증 단계를 일정에 별도 배치</li><li>비교 실험은 학습률·배치 크기·임계값·파이프라인·데이터 순서를 7종에 동일 적용하고 <strong>갱신 규칙만 변인</strong>으로 통제</li></ul>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>검토안</th><th>내용</th><th>판단</th></tr><tr><td>1안. MLE 기반 SARIMA 유지</td><td>가장 빠르고 구현 단순</td><td class="c-red">기각. 점추정이라 파라미터 불확실성을 반영하지 못함</td></tr><tr><td>2안. Gibbs 샘플링 (전통 MCMC)</td><td>사후분포를 정확히 추정</td><td class="c-red">기각. 매 반복 전체 우도 재계산으로 NYC Taxi 학습 구간 배치당 170.8초, 데이터가 쌓일수록 갱신 비용 증가</td></tr><tr class="c-green_bg"><td><strong>3안. 칼만필터 + SGMCMC 결합 (채택)</strong></td><td>배치 단위 확률적 기울기 + 랑주뱅 노이즈로 갱신</td><td><strong>채택. 전체 우도 재계산 병목을 구조적으로 제거하면서 불확실성 표현 유지</strong></td></tr></table></div>
+<ul class="nlist"><li>SARIMA 상태공간 표현 + 칼만필터 예측오차 분해로 우도·기울기 계산 설계, 코드 작성 전 수식 유도 검증 단계를 일정에 별도 배치</li><li>MLE, Gibbs를 포함해 같은 데이터와 학습률, 같은 Kafka 파이프라인과 데이터 도착 순서에서 <strong>갱신 방법 7종</strong> 비교</li></ul>
 <figure class="nimg"><img src="../assets/sgmcmc_card1.png" loading="lazy" alt=""></figure>
 <figure class="nimg"><img src="../assets/sgmcmc_card2.png" loading="lazy" alt=""></figure>
 <h2 class="nh1" id="sec3"><span class="sec-no">03</span>파이프라인</h2>
 <figure class="nimg"><img src="../assets/sgmcmc_flow.png" loading="lazy" alt=""></figure>
 <h2 class="nh1" id="sec4"><span class="sec-no">04</span>평가 설계</h2>
-<ul class="nlist"><li>검증 데이터는 NAB 실측 스트림 2종: NYC Taxi(10,320건 · 배치 215개 · 이상 5개), Machine Temperature(22,695건 · 배치 472개 · 이상 4개)</li><li>미탐 비용이 오탐 비용보다 큰 도메인 특성을 반영해 <strong>재현율을 1차 기준</strong>으로 걸고, 재현율이 같은 방법 사이에서만 오탐 비교</li></ul>
+<ul class="nlist"><li>검증 데이터는 NAB 실측 스트림 2종: NYC Taxi(10,320건 · 배치 215개 · 이상치 5개), Machine Temperature(22,695건 · 배치 472개 · 이상치 4개)</li><li>미탐 비용이 오탐 비용보다 큰 도메인 특성을 반영해 <strong>재현율을 1차 기준</strong>으로 걸고, 재현율이 같은 방법 사이에서만 오탐 비교</li></ul>
 <figure class="nimg"><img src="../assets/sgmcmc_card3.png" loading="lazy" alt=""></figure>
 <h2 class="nh1" id="sec5"><span class="sec-no">05</span>결과</h2>
-<div class="ntable-wrap"><table class="ntable"><tr><th>지표</th><th>Before</th><th>After (SGLD-KF)</th></tr><tr><td>배치당 처리 시간 (NYC Taxi 학습 구간)</td><td>170.8초 (Gibbs)</td><td><strong>31초</strong></td></tr><tr><td>미탐 (재현율)</td><td>Gibbs 33% (이상 3건 중 2건 놓침)</td><td><strong>100% · 미탐 0건</strong></td></tr><tr><td>오탐 배치</td><td>MLE 대비</td><td><strong>학습, 테스트 4개 구간 모두 감소</strong></td></tr><tr><td>F1 (NYC Taxi 테스트)</td><td>15.00% (MLE)</td><td><strong>17.14% · 재현율 100% 유지 방법 중 최고</strong></td></tr></table></div>
+<div class="ntable-wrap"><table class="ntable"><tr><th>지표</th><th>Before</th><th>After (SGLD-KF)</th></tr><tr><td>배치당 처리 시간 (NYC Taxi 학습 구간)</td><td>170.8초 (Gibbs)</td><td><strong>31초</strong></td></tr><tr><td>미탐 (재현율)</td><td>Gibbs 33% (이상치 배치 3건 중 2건 놓침)</td><td><strong>100% · 미탐 0건</strong></td></tr><tr><td>오탐 배치</td><td>MLE 대비</td><td><strong>학습, 테스트 4개 구간 모두 감소</strong></td></tr><tr><td>F1 (NYC Taxi 테스트)</td><td>15.00% (MLE)</td><td><strong>17.14% · 재현율 100% 유지 방법 중 최고</strong></td></tr></table></div>
 <h4 class="nh3" id="sec5-1">7종 방법 비교 (NYC Taxi 테스트)</h4>
 <div class="ntable-wrap"><table class="ntable"><tr><th>방법</th><th>정확도(%)</th><th>재현율(%)</th><th>F1(%)</th><th>배치당 시간(초)</th></tr><tr><td>MLE</td><td>19.05</td><td>100</td><td>15.00</td><td>9.8</td></tr><tr><td>Gibbs (전통 MCMC)</td><td>64.29</td><td>33.33</td><td>11.76</td><td><strong>83.3</strong></td></tr><tr><td>GD</td><td>21.43</td><td>100</td><td>15.38</td><td>11.1</td></tr><tr><td>SGD</td><td>19.05</td><td>100</td><td>15.00</td><td>10.9</td></tr><tr><td><strong>SGLD (제안)</strong></td><td>30.95</td><td><strong>100</strong></td><td><strong>17.14</strong></td><td>10.6</td></tr><tr><td>SGHMC</td><td>78.57</td><td>33.33</td><td>18.18</td><td>10.7</td></tr><tr><td>SGNHT</td><td>64.29</td><td>100</td><td>15.38</td><td>10.6</td></tr></table></div>
-<ul class="nlist"><li>SGHMC는 F1·정확도가 높지만 실제 이상 3건 중 2건을 놓침(재현율 33%). <strong>불균형 데이터에서 F1·정확도 상위 모델 선택이 오히려 위험</strong>함을 규명</li><li>노이즈 강도 순(GD → SGD → SGLD)으로 정밀도 단조 증가. 랑주뱅 노이즈의 확률적 탐색이 경계 이상치 판별에 기여함을 정량 확인</li><li>Machine Temperature 테스트에서도 SGLD가 7종 중 최고 F1에 재현율 100% 유지 (Gibbs는 이상 1건마저 놓쳐 재현율 0%)</li><li>놓치면 설비 정지로 이어지는 이상 신호를 전부 잡으면서 불필요한 점검 출동(오탐)만 줄인 구조. 연구 결과를 JKDAS 28(2) 제1저자로 게재</li></ul>
+<ul class="nlist"><li>SGHMC는 F1·정확도가 높지만 실제 이상치 배치 3건 중 2건을 놓침(재현율 33%). <strong>불균형 데이터에서 F1·정확도 상위 모델 선택이 오히려 위험</strong>함을 확인</li><li>NYC Taxi 학습 구간에서 노이즈 강도 순(GD → SGD → SGLD)으로 정밀도 증가(3.17%, 3.28%, 3.70%). 랑주뱅 노이즈의 확률적 탐색이 경계 이상치 판별에 기여한 것으로 해석</li><li>Machine Temperature 테스트에서도 SGLD가 7종 중 최고 F1에 재현율 100% 유지 (Gibbs는 이상치 1건을 놓쳐 재현율 0%)</li><li>MLE 대비 미탐을 늘리지 않고 네 구간 모두에서 오탐 배치 수를 줄임. 연구 결과를 JKDAS 28(2) 제1저자로 게재</li></ul>
 <h2 class="nh1" id="sec6"><span class="sec-no">06</span>자료</h2>
 <a class="nfile" href="../files/SGMCMC-KF_%EC%8B%9C%EA%B3%84%EC%97%B4_%EC%9D%B4%EC%83%81%EC%B9%98_%ED%83%90%EC%A7%80.pdf" target="_blank"><svg class="icon nfile-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19"/></svg><span class="nfile-name">SGMCMC-KF 알고리즘을 이용한 시계열 이상치 탐지 · JKDAS 28(2)</span></a>
 <p><a href="https://github.com/hjiyun/SGMCMC-KF" target="_blank" rel="noopener">github.com/hjiyun/SGMCMC-KF</a></p>
