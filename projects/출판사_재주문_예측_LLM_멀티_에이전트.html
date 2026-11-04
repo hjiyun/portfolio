@@ -310,12 +310,16 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <a href="#sec4"><span class="toc-n">04</span><span>LLM 에이전트 데이터 검토</span></a>
 <a href="#sec5"><span class="toc-n">05</span><span>에이전트 경쟁과 검토 공정</span></a>
 <a class="sub" href="#sec5-1"><span class="toc-sub-t">진단 구간과 채점 구간 분리</span></a>
-<a href="#sec6"><span class="toc-n">06</span><span>결과</span></a>
-<a href="#sec8"><span class="toc-n">07</span><span>자료</span></a>
+<a href="#sec7"><span class="toc-n">06</span><span>광고 예산 페이싱 실험</span></a>
+<a class="sub" href="#sec7-1"><span class="toc-sub-t">보고 지연 문제와 보정</span></a>
+<a class="sub" href="#sec7-2"><span class="toc-sub-t">시간대 가정과 전환 수</span></a>
+<a class="sub" href="#sec7-3"><span class="toc-sub-t">상황별 적용 판단</span></a>
+<a href="#sec6"><span class="toc-n">07</span><span>결과</span></a>
+<a href="#sec8"><span class="toc-n">08</span><span>자료</span></a>
 
   </aside>
   <article class="content">
-<div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 10.8 16M15.7 7.2 13.2 16M8.5 6h7"/></svg></div><div class="ncallout-body"><p><strong>출판사가 재고와 마케팅 자원을 먼저 쓸 도서를 정하도록, 다음 30일 안에 재주문될 도서 상위 20%를 예측한 산학 프로젝트.</strong> 교보문고와 예스24 SCM 자료로 만든 예측 모델은 Precision@20% 교보 52%, 예스24 59%로 최근 판매 규칙(42%, 47%)보다 10~12%p 높았습니다. 이어서 LLM 멀티 에이전트가 개선안을 내고 토론한 뒤 적대적 검토자가 최종안을 고르는 공정을 만들어, 예스24 시험 구간 Precision@20%를 58.8%에서 60.5%로, 평균 정밀도(AP)를 57.7%에서 60.0%로 높였습니다. 에이전트는 원본 행 없이 읽기 전용 SQL로 집계 결과만 보고, 모든 제안과 점수와 판정은 DB에 남습니다.</p></div></div>
+<div class="ncallout ncallout-blue_bg"><div class="ncallout-icon ico-blue"><svg class="icon " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 10.8 16M15.7 7.2 13.2 16M8.5 6h7"/></svg></div><div class="ncallout-body"><p><strong>출판사가 재고와 마케팅 자원을 먼저 쓸 도서를 정하도록, 다음 30일 안에 재주문될 도서 상위 20%를 예측한 산학 프로젝트.</strong> 교보문고와 예스24 SCM 자료로 만든 예측 모델은 Precision@20% 교보 52%, 예스24 59%로 최근 판매 규칙(42%, 47%)보다 10~12%p 높았습니다. 이어서 LLM 멀티 에이전트가 개선안을 내고 토론한 뒤 적대적 검토자가 최종안을 고르는 공정을 만들어, 예스24 시험 구간 Precision@20%를 58.8%에서 60.5%로, 평균 정밀도(AP)를 57.7%에서 60.0%로 높였습니다. 에이전트는 원본 행 없이 읽기 전용 SQL로 집계 결과만 보고, 모든 제안과 점수와 판정은 DB에 남습니다. 재주문 예측과 별도로 하루 광고 예산 페이싱 정책을 가상 환경에서 비교해, 보고 지연 보정 방법과 예산 규모별 적용 판단을 정리했습니다.</p></div></div>
 <h2 class="nh1" id="sec1"><span class="sec-no">01</span>개요</h2>
 <div class="ntable-wrap"><table class="ntable fit"><tr><th>단계</th><th>접근</th><th>핵심 결과</th></tr>
 <tr><td><strong>재주문 예측</strong></td><td>매월 1일 기준 이전 기록으로 변수, 이후 30일로 라벨 구성. 로지스틱 회귀와 그래디언트 부스팅을 무작위, 최근 판매 규칙과 비교</td><td>Precision@20% 교보 <strong>52%</strong>, 예스24 <strong>59%</strong><br>(판매 규칙 42%, 47%)</td></tr>
@@ -323,6 +327,7 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <tr><td><strong>에이전트 데이터 검토</strong></td><td>오류를 일부러 넣은 자료에서 분석가 A, B, 조정자, 적대적 검토자가 정제 조치를 고름</td><td>규칙이 놓친 반품 날짜 오기 <strong>93%</strong>, 판매 중복 <strong>100%</strong> 처리</td></tr>
 <tr><td><strong>예측 개선 공정</strong></td><td>두 에이전트가 개선안을 경쟁, 토론(수정 2회)하고 적대적 검토자가 사전 채택 기준으로 최종안 선택</td><td>예스24 채택안 시험 구간 Precision@20% <strong>+1.8%p</strong>, 평균 정밀도(AP) <strong>+2.3%p</strong></td></tr>
 <tr><td><strong>도서 지식 에이전트</strong></td><td>제목만 보고 167종을 독립 분류, 엇갈린 29종은 판정 에이전트가 결정. 공식 시험 일정 확인</td><td>3월, 9월 재주문 쏠림을 시험이 아닌 학기 시작으로 설명</td></tr>
+<tr><td><strong>광고 예산 페이싱</strong></td><td>15분 단위 가상 환경에서 하루 예산 정책 4종을 비교하고, 튜닝과 최종 평가의 시나리오와 시드를 분리</td><td>보고 2시간 지연과 트래픽 급증 시 지연 보정으로 목표 곡선 오차 <strong>8.2% → 2.1%</strong>, 전환 수는 차이 없음</td></tr>
 </table></div>
 <h2 class="nh1" id="sec2"><span class="sec-no">02</span>문제 정의</h2>
 <div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">의사결정</div><div class="fcard-b">컴퓨터, AI 교육 도서 출판사 마린북스(온에듀)는 한정된 재고와 마케팅 자원을 어느 도서에 먼저 배분할지 판단할 근거가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">서점마다 다른 자료</div><div class="fcard-b">교보문고는 발주 이력이 없어 입하를 재주문의 대리 지표로 쓰고, 예스24는 실제 발주를 씁니다. 거래 정의와 자료 구조가 달라 공통 절차가 필요했습니다</div></div><div class="fcard"><div class="fcard-k">없는 자료</div><div class="fcard-b">개인 구매 이력과 광고 집행 기록이 없습니다. 재주문 예측, 집계 고객 분석, 광고 효과 검증의 범위를 처음부터 구분했습니다</div></div><div class="fcard"><div class="fcard-k">목표</div><div class="fcard-b">매월 1일 기준 다음 30일 안에 서점이 재주문할 도서 상위 20%를 골라 재고 준비와 중쇄 판단을 돕는 것</div></div></div>
@@ -351,14 +356,56 @@ a:focus-visible { outline:2px solid var(--acc, #2081a8); }
 <div class="fgrid fgrid-3"><div class="fcard"><div class="fcard-k">경쟁과 토론</div><div class="fcard-b">분석가 A, B가 서로 모르게 개선안을 내고, 점수표를 본 뒤 수정안을 최대 2회 다시 제출</div></div><div class="fcard"><div class="fcard-k">채점과 검토</div><div class="fcard-b">점수는 코드가 매기고, 적대적 검토자가 사전 기준(개선 확률 0.9 이상, 2구간 이상 개선)으로 최종안 선택</div></div><div class="fcard"><div class="fcard-k">조회 제한</div><div class="fcard-b">에이전트는 시험 결과를 볼 수 없고, 시험 구간은 마지막에 한 번만 사용</div></div></div>
 <h4 class="nh3" id="sec5-1">진단 구간과 채점 구간 분리</h4>
 <p>첫 실행에서 검증 점수로 기준을 넘은 두 안을 검토자가 낙관 편향을 이유로 거부했고, 실제 시험 구간에서 두 안은 -3.5%p, -2.6%p였습니다. 진단 구간과 채점 구간을 분리하고 롤링 검증을 도입한 뒤에는 검증 최고안이 시험 구간에서도 +1.8%p로, 두 구간의 방향이 처음으로 일치했습니다.</p>
-<h2 class="nh1" id="sec6"><span class="sec-no">06</span>결과</h2>
+<h2 class="nh1" id="sec7"><span class="sec-no">06</span>광고 예산 페이싱 실험 (가상 환경)</h2>
+<p>재주문 예측과 별도로, 하루 광고 예산을 언제 쓸지 정하는 정책을 가상 환경에서 비교했습니다. 광고 집행 기록이 없어 유입, 가격, 전환율은 가정값으로 두고, 출판사 분석에서는 권당 공헌이익 4,600원과 시리즈 월 10만원 광고비만 기준값으로 가져왔습니다.</p>
+<figure class="nimg"><img src="../assets/mb_pacing_control.png" loading="lazy" alt="제어 구조. 집행 결과가 지연되어 보고되면, 미보고 지출을 추정해 목표 곡선과 비교하고 다음 구간의 참여 확률을 조정합니다"><figcaption>제어 구조. 집행 결과가 지연되어 보고되면, 미보고 지출을 추정해 목표 곡선과 비교하고 다음 구간의 참여 확률을 조정합니다</figcaption></figure>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>정책</th><th>동작</th></tr>
+<tr><td><strong>소진까지 집행</strong></td><td>예산이 떨어질 때까지 모든 기회에 참여</td></tr>
+<tr><td><strong>시간대별 동일 할당</strong></td><td>하루 예산을 24시간에 똑같이 나누고, 남은 시간 예산은 넘기지 않음</td></tr>
+<tr><td><strong>목표 곡선 추종</strong></td><td>목표 누적 지출과 보고된 지출의 차이로 참여 확률 조정 (Kp 8, Ki 0)</td></tr>
+<tr><td><strong>추종 + 지연 보정</strong></td><td>아직 보고되지 않은 지출을 참여 확률과 예측 곡선으로 추정해 더함 (Kp 16, Ki 0.5)</td></tr>
+</table></div>
+<figure class="nimg"><img src="../assets/mb_pacing_curves.png" loading="lazy" alt="정책별 누적 지출. 소진까지 집행은 14시 전후에 예산 대부분을 쓰고, 추종 정책은 목표 곡선을 따라갑니다"><figcaption>정책별 누적 지출. 소진까지 집행은 14시 전후에 예산 대부분을 쓰고, 추종 정책은 목표 곡선을 따라갑니다</figcaption></figure>
+<div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">가상 환경</div><div class="fcard-b">하루를 15분 구간 96개로 나누고 구간마다 광고 기회가 포아송 분포로 도착. 같은 시드는 같은 기회와 난수를 써서 정책 차이만 비교</div></div><div class="fcard"><div class="fcard-k">튜닝과 평가 분리</div><div class="fcard-b">튜닝 4개 시나리오(시드 40개)와 최종 평가 10개 시나리오(시드 200개, 작은 예산 2,000개)를 분리. 제어 강도 선택 기준은 실행 전에 고정하고 최종 평가 후 설정을 바꾸지 않음</div></div><div class="fcard"><div class="fcard-k">예산 규모</div><div class="fcard-b">정책 차이를 보기 위한 하루 100만원과, 시리즈 월 10만원 광고에 해당하는 하루 3,333원을 따로 평가</div></div><div class="fcard"><div class="fcard-k">평가 지표</div><div class="fcard-b">소진율, 목표 곡선 오차, 전환 수, CPA, 95% 소진 시각, 참여 확률 변동, 포화 구간(참여 확률이 0 또는 1인 비율), 복구 시간</div></div></div>
+<h4 class="nh3" id="sec7-1">보고 지연 문제와 보정</h4>
+<p>보고 지연 15분에서 고른 제어 강도(Kp 8)는 지연이 2시간이 되면 목표 곡선 오차가 1.2%에서 8.0%로 늘었습니다. 현재 목표와 2시간 전 지출을 그대로 비교해, 늘 뒤처진 것으로 보고 참여를 올렸다가 뒤늦게 보고가 들어오면 참여를 0까지 내리기 때문입니다.</p>
+<figure class="nimg"><img src="../assets/mb_pacing_failure.png" loading="lazy" alt="보고 2시간 지연과 트래픽 급증이 겹친 하루. 보정 전에는 참여 확률이 0과 1 사이를 크게 오가고, 보정 후에는 오차 폭이 줄어듭니다"><figcaption>보고 2시간 지연과 트래픽 급증이 겹친 하루. 보정 전에는 참여 확률이 0과 1 사이를 크게 오가고, 보정 후에는 오차 폭이 줄어듭니다</figcaption></figure>
+<figure class="nimg"><img src="../assets/mb_pacing_lag.png" loading="lazy" alt="보고 지연과 제어 강도별 목표 곡선 오차. 보정이 없으면 2시간 지연에서 강도를 높일수록 오차가 커지고, 미보고 지출을 추정하면 강도를 높여도 오차가 줄어듭니다"><figcaption>보고 지연과 제어 강도별 목표 곡선 오차. 보정이 없으면 2시간 지연에서 강도를 높일수록 오차가 커지고, 미보고 지출을 추정하면 강도를 높여도 오차가 줄어듭니다</figcaption></figure>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>방법 (Kp 8, 2시간 지연)</th><th>목표 곡선 오차</th><th>포화 구간</th><th>판단</th></tr>
+<tr><td>보정 없음</td><td>8.0%</td><td>28.1%</td><td>기각</td></tr>
+<tr><td>1안. 목표 곡선만 과거로 이동</td><td>2.5%</td><td>12.5%</td><td>기각</td></tr>
+<tr><td><strong>2안. 미보고 지출 추정</strong></td><td><strong>1.7%</strong></td><td><strong>0.4%</strong></td><td><strong>채택</strong></td></tr>
+</table></div>
+<p>같은 제어 강도에서 2안을 고른 뒤, 실행 전에 정한 같은 선택 기준으로 제어 강도를 다시 골라 Kp 16, Ki 0.5로 정했습니다. 아래는 이 설정의 최종 평가 결과입니다.</p>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>최종 평가 (급증 + 보고 2시간 지연)</th><th>목표 곡선 추종</th><th>추종 + 지연 보정</th></tr>
+<tr><td>목표 곡선 오차</td><td>8.2%</td><td><strong>2.1%</strong></td></tr>
+<tr><td>최대 오차</td><td>26.9%</td><td><strong>13.4%</strong></td></tr>
+<tr><td>포화 구간</td><td>28.6%</td><td><strong>8.2%</strong></td></tr>
+<tr><td>95% 소진 시각</td><td>19.9시</td><td><strong>22.7시</strong></td></tr>
+<tr><td>소진율</td><td>100.0%</td><td>99.2%</td></tr>
+<tr><td>전환 수(일)</td><td>91.0건</td><td>90.8건</td></tr>
+</table></div>
+<h4 class="nh3" id="sec7-2">시간대 가정과 전환 수</h4>
+<p>지연 보정은 목표 곡선 오차를 줄였지만 전환 수를 늘리지는 않았습니다. 전환 수 차이는 제어 방식보다 전환이 몰리는 시간대 가정에 따라 달라졌습니다.</p>
+<figure class="nimg"><img src="../assets/mb_pacing_lift.png" loading="lazy" alt="소진까지 집행과 비교한 전환 수 차이. 저녁 전환 우세 가정에서 약 +29%, 오전 전환 우세 가정에서 약 -21%, 시간대 차이가 없는 대조군에서는 95% 구간이 0을 포함합니다"><figcaption>소진까지 집행과 비교한 전환 수 차이. 저녁 전환 우세 가정에서 약 +29%, 오전 전환 우세 가정에서 약 -21%, 시간대 차이가 없는 대조군에서는 95% 구간이 0을 포함합니다</figcaption></figure>
+<h4 class="nh3" id="sec7-3">상황별 적용 판단</h4>
+<div class="ntable-wrap"><table class="ntable fit"><tr><th>상황</th><th>판단</th><th>이유</th></tr>
+<tr><td>보고 지연 1시간 이상, 큰 예산</td><td>지연 보정 사용</td><td>목표 곡선 오차와 포화 구간이 크게 줄고 전환 손해가 없음</td></tr>
+<tr><td>보고 지연 15분 이내</td><td>단순 추종</td><td>전환 차이가 없고, 지연 보정을 넣으면 참여 확률 변동이 0.014에서 0.025로 커짐</td></tr>
+<tr><td>공급이 빠듯하거나 유입이 예측보다 크게 적은 날</td><td>추종 강도를 낮추거나 적분항 사용</td><td>비례 제어만 쓰면 뒤처진 채 하루가 끝남</td></tr>
+<tr><td>시간 예산이 기회 가격보다 작은 소액</td><td>제어를 쓰지 않음</td><td>전환 10% 차이 검출에 정책당 약 4,900일(하루 3,333원)이 필요하고, 하루 100만원 규모는 약 18일</td></tr>
+<tr><td>시간대별 동일 할당(이월 없음)</td><td>쓰지 않음</td><td>유입이 적은 밤에 예산을 못 써 큰 예산에서도 소진율 84%, 전환 13% 적음</td></tr>
+</table></div>
+<p>페이싱을 적용하기 전에 시간대별 전환 자료를 먼저 수집해야 목표 곡선의 방향을 정할 수 있다고 판단했습니다.</p>
+<h2 class="nh1" id="sec6"><span class="sec-no">07</span>결과</h2>
 <figure class="nimg"><img src="../assets/mb_agent_table.png" loading="lazy" alt="단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번"><figcaption>단계별 시험 구간 성능(롤링 검증 실행). 선택은 검증 구간으로만 하고 시험은 마지막에 한 번</figcaption></figure>
 <div class="fgrid fgrid-2"><div class="fcard"><div class="fcard-k">예측</div><div class="fcard-b">같은 상위 20%를 고를 때 재주문 적중률이 최근 판매 규칙보다 교보 약 10%p, 예스24 약 12%p 높아 재고 준비와 중쇄 우선순위의 판단 자료를 마련</div></div><div class="fcard"><div class="fcard-k">에이전트 개선</div><div class="fcard-b">예스24에서 기준을 넘은 안 7개 중 검토자가 가장 단순한 안(계절 변수 추가, 변수 6개 제거, 깊이 2 트리)을 채택. 시험 구간 Precision@20% 58.8%에서 60.5%, 평균 정밀도(AP) 57.7%에서 60.0%</div></div><div class="fcard"><div class="fcard-k">기준 모델 유지</div><div class="fcard-b">교보는 최고안의 개선 확률이 0.78로 기준에 못 미쳐 기준 모델 유지. 검증 최고안의 시험 결과도 기준과 같아 놓친 이득 없음</div></div><div class="fcard"><div class="fcard-k">보조 분석</div><div class="fcard-b">구매자 성별, 연령, 지역 집계로 독자층을 분석하고 비용 가정별 광고 손익분기를 산정. 광고 집행 기록이 없어 효과 추정 대신 무작위 판촉 실험을 설계</div></div></div>
 
 
-<h2 class="nh1" id="sec8"><span class="sec-no">07</span>자료</h2>
+<h2 class="nh1" id="sec8"><span class="sec-no">08</span>자료</h2>
 <p><a href="https://github.com/hjiyun/publisher-reorder-crm" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm</a></p>
 <p>Airflow DAG: <a href="https://github.com/hjiyun/publisher-reorder-crm/tree/main/airflow" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm/tree/main/airflow</a></p>
+<p>광고 예산 페이싱: <a href="https://github.com/hjiyun/publisher-reorder-crm/tree/main/광고페이싱" target="_blank" rel="noopener">https://github.com/hjiyun/publisher-reorder-crm/tree/main/광고페이싱</a></p>
   </article>
 </div>
 
